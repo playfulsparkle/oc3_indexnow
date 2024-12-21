@@ -66,7 +66,7 @@
 
 							<ul class="nav nav-tabs">
 								{% for indexnow_service in indexnow_services %}
-								<li{% if loop.first %} class="active"{% endif %}><a href="#tab-service-{{ indexnow_service.service_id }}" data-toggle="tab">{{ indexnow_service.service_name }}</a></li>
+								<li{% if loop.first %} class="active"{% endif %}><a href="#tab-service-{{ indexnow_service.service_id }}" id="tab-link-service-{{ indexnow_service.service_id }}" data-toggle="tab"><i class="service-status-icon fa {% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}fa-play text-success{% else %}fa-stop text-danger{% endif %}"></i> {{ indexnow_service.service_name }}</a></li>
 								{% endfor %}
 							</ul>
 
@@ -75,10 +75,12 @@
 								{% for indexnow_service in indexnow_services %}
 								<div class="tab-pane{% if loop.first %} active{% endif %}" id="tab-service-{{ indexnow_service.service_id }}">
 
+									<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ indexnow_service.service_help }}</div>
+
 									<div class="form-group">
 										<label for="input-service-status-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_status }}</label>
 										<div class="col-sm-10">
-											<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" class="form-control">
+											<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" data-controls="tab-link-service-{{ indexnow_service.service_id }}" class="form-control">
 												{% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}
 												<option value="1" selected="selected">{{ text_enabled }}</option>
 												<option value="0">{{ text_disabled }}</option>
@@ -93,7 +95,7 @@
 									<div class="form-group">
 										<label for="input-service-key-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key }}</label>
 										<div class="col-sm-10">
-											<input type="text" name="feed_ps_service_key[{{ indexnow_service.service_id }}]" value="{{ feed_ps_service_key[indexnow_service.service_id] }}" placeholder="{{ entry_service_key }}" id="input-service-key-{{ indexnow_service.service_id }}" class="form-control">
+											<input type="text" name="feed_ps_indexnow_service_key[{{ indexnow_service.service_id }}]" value="{{ feed_ps_indexnow_service_key[indexnow_service.service_id] }}" placeholder="{{ entry_service_key }}" id="input-service-key-{{ indexnow_service.service_id }}" class="form-control">
 											{% if error_input_service_key[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_key[indexnow_service.service_id] }}</div>{% endif %}
 											<div class="help-block text-muted">{{ help_service_key }}</div>
 										</div>
@@ -102,7 +104,7 @@
 									<div class="form-group">
 										<label for="input-service-key-location-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key_location }}</label>
 										<div class="col-sm-10">
-											<input type="text" name="feed_ps_service_key_location[{{ indexnow_service.service_id }}]" value="{{ feed_ps_service_key_location[indexnow_service.service_id] }}" placeholder="{{ entry_service_key_location }}" id="input-service-key-location-{{ indexnow_service.service_id }}" class="form-control">
+											<input type="text" name="feed_ps_indexnow_service_key_location[{{ indexnow_service.service_id }}]" value="{{ feed_ps_indexnow_service_key_location[indexnow_service.service_id] }}" placeholder="{{ entry_service_key_location }}" id="input-service-key-location-{{ indexnow_service.service_id }}" class="form-control">
 											{% if error_input_service_keylocation[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_keylocation[indexnow_service.service_id] }}</div>{% endif %}
 											<div class="help-block text-muted">{{ help_service_key_location }}</div>
 										</div>
@@ -151,6 +153,21 @@
   </div>
 </div>
 <script>
+	$('select[data-controls]').on('change', function () {
+		var target = $(this).data('controls');
+		var icon = $('#' + target).find('.service-status-icon');
+
+		if ($(this).val() == '1') {
+			icon.removeClass('fa-stop text-danger').addClass('fa-play text-success');
+		} else {
+			icon.removeClass('fa-play text-success').addClass('fa-stop text-danger');
+		}
+	});
+
+	$('#input-store').on('change', function () {
+		window.location = $(this).val();
+	});
+
 	$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
 
 	$('#queue-content').delegate('.pagination a', 'click', function(e) {

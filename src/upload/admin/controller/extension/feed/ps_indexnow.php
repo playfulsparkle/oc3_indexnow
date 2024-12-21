@@ -79,6 +79,42 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['feed_ps_indexnow_status'] = (bool) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_status', $store_id);
         }
 
+        if (isset($this->request->post['feed_ps_indexnow_service_status'])) {
+            $data['feed_ps_indexnow_service_status'] = (array) $this->request->post['feed_ps_indexnow_service_status'];
+        } else {
+            $service_status = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+
+            if (!is_array($service_status)) {
+                $service_status = (array) json_decode((string) $service_status, true);
+            }
+
+            $data['feed_ps_indexnow_service_status'] = $service_status;
+        }
+
+        if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
+            $data['feed_ps_indexnow_service_key'] = (array) $this->request->post['feed_ps_indexnow_service_key'];
+        } else {
+            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+
+            if (!is_array($service_key)) {
+                $service_key = (array) json_decode((string) $service_key, true);
+            }
+
+            $data['feed_ps_indexnow_service_key'] = $service_key;
+        }
+
+        if (isset($this->request->post['feed_ps_indexnow_service_key_location'])) {
+            $data['feed_ps_indexnow_service_key_location'] = (array) $this->request->post['feed_ps_indexnow_service_key_location'];
+        } else {
+            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+
+            if (!is_array($service_key_location)) {
+                $service_key_location = (array) json_decode((string) $service_key_location, true);
+            }
+
+            $data['feed_ps_indexnow_service_key_location'] = $service_key_location;
+        }
+
         $this->load->model('localisation/language');
 
         $data['languages'] = $this->model_localisation_language->getLanguages();
@@ -107,7 +143,17 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $this->load->model('extension/feed/ps_indexnow');
 
-        $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
+        $indexnow_services = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
+
+        $data['indexnow_services'] = array();
+
+        foreach ($indexnow_services as $service) {
+            $data['indexnow_services'][] = array(
+                'service_id' => $service['service_id'],
+                'service_name' => $service['service_name'],
+                'service_help' => $this->language->get('help_service_' . $service['service_id']),
+            );
+        }
 
         $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
 

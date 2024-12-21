@@ -74,6 +74,7 @@ $_['entry_status']                        = 'Status';
 $_['entry_service_status']                = 'Service Status';
 $_['entry_service_key']                   = 'Service Key';
 $_['entry_service_key_location']          = 'Service Key URL';
+$_['entry_active_store']                  = 'Active Store';
 
 // Button
 $_['button_run_queue']                    = 'Run Queue';
@@ -81,6 +82,12 @@ $_['button_run_queue']                    = 'Run Queue';
 // Help
 $_['help_service_key']                    = 'Your key should have a minimum of 8 and a maximum of 128 hexadecimal characters. The key can contain only the following characters: lowercase characters (a-z), uppercase characters (A-Z), numbers (0-9), and dashes (-).';
 $_['help_service_key_location']           = 'Enter the full URL where the service key is accessible. This is needed if the key is stored in a custom location or subdirectory, not directly at the root of the server.';
+$_['help_service_1']                      = 'To obtain your Microsoft Bing service key, visit <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener noreferrer">Bing Webmaster Tools</a>.';
+$_['help_service_2']                      = 'To obtain your Naver service key, visit <a href="https://searchadvisor.naver.com" target="_blank" rel="noopener noreferrer">Naver Search Advisor</a>.';
+$_['help_service_3']                      = 'To obtain your Seznam.cz service key, visit <a href="https://search.seznam.cz" target="_blank" rel="noopener noreferrer">Seznam.cz Webmaster Tools</a>.';
+$_['help_service_4']                      = 'To obtain your Yandex service key, visit <a href="https://webmaster.yandex.com" target="_blank" rel="noopener noreferrer">Yandex Webmaster</a>.';
+$_['help_service_5']                      = 'To obtain your Yep service key, visit <a href="https://yep.com" target="_blank" rel="noopener noreferrer">Yep Webmaster Tools</a>.';
+$_['help_service_6']                      = 'To obtain your Internet Archive service key, visit <a href="https://archive.org" target="_blank" rel="noopener noreferrer">Internet Archive</a>.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';
