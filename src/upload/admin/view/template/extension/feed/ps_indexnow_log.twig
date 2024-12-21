@@ -1,0 +1,32 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td class="text-right">{{ column_log_id }}</td>
+      <td class="text-left">{{ column_log_url }}</td>
+      <td class="text-left">{{ column_log_service_name }}</td>
+      <td class="text-right">{{ column_log_status_code }}</td>
+      <td class="text-right">{{ column_log_date_added }}</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% if indexnow_logs %}
+    {% for indexnow_log in indexnow_logs %}
+    <tr>
+      <td class="text-right">{{ indexnow_log.log_id }}</td>
+      <td class="text-left">{{ indexnow_log.url }}</td>
+			<td class="text-start">{{ indexnow_log.service_name }}</td>
+      <td class="text-right">{{ indexnow_log.status_code }}</td>
+      <td class="text-right">{{ indexnow_log.date_added }}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+      <td class="text-center" colspan="5">{{ text_log_no_results }}</td>
+    </tr>
+    {% endif %}
+  </tbody>
+</table>
+<div class="row">
+  <div class="col-sm-6 text-left">{{ pagination }}</div>
+  <div class="col-sm-6 text-right">{{ results }}</div>
+</div>

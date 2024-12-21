@@ -105,6 +105,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             );
         }
 
+        $this->load->model('extension/feed/ps_indexnow');
+
+        $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
+
         $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
 
         $data['header'] = $this->load->controller('common/header');
@@ -134,10 +138,124 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $data = array();
 
         $this->model_setting_setting->editSetting('feed_ps_indexnow', $data);
+
+        $this->load->model('extension/feed/ps_indexnow');
+
+        $this->model_extension_feed_ps_indexnow->install();
     }
 
     public function uninstall()
     {
+        $this->load->model('extension/feed/ps_indexnow');
 
+        $this->model_extension_feed_ps_indexnow->uninstall();
+    }
+
+    public function queue()
+    {
+        $this->load->language('extension/feed/ps_indexnow');
+
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
+        if (isset($this->request->get['page'])) {
+            $page = (int) $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        $limit = 10;
+
+        $filter_data = array(
+            'store_id' => $store_id,
+            'start' => ($page - 1) * $limit,
+            'limit' => $limit
+        );
+
+        $this->load->model('extension/feed/ps_indexnow');
+
+        $results = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
+
+        $data['indexnow_queues'] = array();
+
+        foreach ($results as $result) {
+            $data['indexnow_queues'][] = array(
+                'queue_id' => $result['queue_id'],
+                'url' => $result['url'],
+                'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added']))
+            );
+        }
+
+        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalQueue();
+
+        $pagination = new Pagination();
+        $pagination->total = $queue_total;
+        $pagination->page = $page;
+        $pagination->limit = $limit;
+        $pagination->url = $this->url->link('extension/feed/ps_indexnow/queue', 'store_id= ' . $store_id . '&user_token=' . $this->session->data['user_token'] . '&page={page}', true);
+
+        $data['pagination'] = $pagination->render();
+
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($queue_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($queue_total - $limit)) ? $queue_total : ((($page - 1) * $limit) + $limit), $queue_total, ceil($queue_total / $limit));
+
+        $this->response->setOutput($this->load->view('extension/feed/ps_indexnow_queue', $data));
+    }
+
+    public function log()
+    {
+        $this->load->language('extension/feed/ps_indexnow');
+
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
+        if (isset($this->request->get['page'])) {
+            $page = (int) $this->request->get['page'];
+        } else {
+            $page = 1;
+        }
+
+        $limit = 10;
+
+        $filter_data = array(
+            'store_id' => $store_id,
+            'start' => ($page - 1) * $limit,
+            'limit' => $limit
+        );
+
+        $this->load->model('extension/feed/ps_indexnow');
+
+        $results = $this->model_extension_feed_ps_indexnow->getLog($filter_data);
+
+        $data['indexnow_logs'] = array();
+
+        foreach ($results as $result) {
+            $data['indexnow_logs'][] = array(
+                'log_id' => $result['log_id'],
+                'service_name' => $result['service_name'],
+                'url' => $result['url'],
+                'status_code' => $result['status_code'],
+                'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added']))
+            );
+        }
+
+        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalLog();
+
+        $pagination = new Pagination();
+        $pagination->total = $queue_total;
+        $pagination->page = $page;
+        $pagination->limit = $limit;
+        $pagination->url = $this->url->link('extension/feed/ps_indexnow/log', 'store_id= ' . $store_id . '&user_token=' . $this->session->data['user_token'] . '&page={page}', true);
+
+        $data['pagination'] = $pagination->render();
+
+        $data['results'] = sprintf($this->language->get('text_pagination'), ($queue_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($queue_total - $limit)) ? $queue_total : ((($page - 1) * $limit) + $limit), $queue_total, ceil($queue_total / $limit));
+
+        $this->response->setOutput($this->load->view('extension/feed/ps_indexnow_log', $data));
     }
 }

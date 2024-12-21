@@ -13,7 +13,7 @@
 							{% endfor %}
 						</select>
 					</div>
-					<button type="button" id="ps-patch-htaccess" data-toggle="tooltip" title="{{ button_patch_htaccess }}" class="btn btn-warning"><i class="fa fa-save"></i> {{ button_patch_htaccess }}</button>
+					<button type="button" id="run-queue" data-toggle="tooltip" title="{{ button_run_queue }}" class="btn btn-success"><i class="fa fa-play"></i> {{ button_run_queue }}</button>
 					<button type="submit" form="form-feed" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
 					<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
 				</div>
@@ -41,6 +41,8 @@
 
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+            <li><a href="#tab-queue" data-toggle="tab">{{ tab_queue }}</a></li>
+            <li><a href="#tab-log" data-toggle="tab">{{ tab_log }}</a></li>
             <li><a href="#tab-support" data-toggle="tab">{{ tab_help_and_support }}</a></li>
           </ul>
 
@@ -62,7 +64,66 @@
 								</div>
 							</div>
 
+							<ul class="nav nav-tabs">
+								{% for indexnow_service in indexnow_services %}
+								<li{% if loop.first %} class="active"{% endif %}><a href="#tab-service-{{ indexnow_service.service_id }}" data-toggle="tab">{{ indexnow_service.service_name }}</a></li>
+								{% endfor %}
+							</ul>
+
+							<div class="tab-content">
+
+								{% for indexnow_service in indexnow_services %}
+								<div class="tab-pane{% if loop.first %} active{% endif %}" id="tab-service-{{ indexnow_service.service_id }}">
+
+									<div class="form-group">
+										<label for="input-service-status-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_status }}</label>
+										<div class="col-sm-10">
+											<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" class="form-control">
+												{% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}
+												<option value="1" selected="selected">{{ text_enabled }}</option>
+												<option value="0">{{ text_disabled }}</option>
+												{% else %}
+												<option value="1">{{ text_enabled }}</option>
+												<option value="0" selected="selected">{{ text_disabled }}</option>
+												{% endif %}
+											</select>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="input-service-key-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key }}</label>
+										<div class="col-sm-10">
+											<input type="text" name="feed_ps_service_key[{{ indexnow_service.service_id }}]" value="{{ feed_ps_service_key[indexnow_service.service_id] }}" placeholder="{{ entry_service_key }}" id="input-service-key-{{ indexnow_service.service_id }}" class="form-control">
+											{% if error_input_service_key[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_key[indexnow_service.service_id] }}</div>{% endif %}
+											<div class="help-block text-muted">{{ help_service_key }}</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="input-service-key-location-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key_location }}</label>
+										<div class="col-sm-10">
+											<input type="text" name="feed_ps_service_key_location[{{ indexnow_service.service_id }}]" value="{{ feed_ps_service_key_location[indexnow_service.service_id] }}" placeholder="{{ entry_service_key_location }}" id="input-service-key-location-{{ indexnow_service.service_id }}" class="form-control">
+											{% if error_input_service_keylocation[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_keylocation[indexnow_service.service_id] }}</div>{% endif %}
+											<div class="help-block text-muted">{{ help_service_key_location }}</div>
+										</div>
+									</div>
+
+								</div>
+								{% endfor %}
+
+							</div>
+
             </div>
+            <div class="tab-pane" id="tab-queue">
+
+							<div id="queue-content"></div>
+
+						</div>
+            <div class="tab-pane" id="tab-log">
+
+							<div id="log-content"></div>
+
+						</div>
             <div class="tab-pane" id="tab-support">
 
 							<h3>{{ heading_getting_started }}</h3>
@@ -89,4 +150,56 @@
     </div>
   </div>
 </div>
+<script>
+	$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+
+	$('#queue-content').delegate('.pagination a', 'click', function(e) {
+		e.preventDefault();
+
+		$('#queue-content').load(this.href);
+	});
+
+	$('#queue-content').delegate('.btn-danger', 'click', function() {
+		var node = this;
+
+		$.ajax({
+			url: 'index.php?route=extension/feed/ps_indexnow/remove_queue&store_id={{ store_id }}&user_token={{ user_token }}',
+			type: 'post',
+			data: 'store_id=' + $('input[name=\'store_id\']').val() + '&queue_id=' + encodeURIComponent(this.value),
+			dataType: 'json',
+			crossDomain: true,
+			beforeSend: function() {
+				$(node).button('loading');
+			},
+			complete: function() {
+				$(node).button('reset');
+			},
+			success: function(json) {
+				$('.alert-dismissible').remove();
+
+				// Check for errors
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+
+	$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
+
+	$('#log-content').delegate('.pagination a', 'click', function(e) {
+		e.preventDefault();
+
+		$('#log-content').load(this.href);
+	});
+</script>
 {{ footer }}
