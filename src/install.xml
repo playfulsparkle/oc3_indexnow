@@ -10,4 +10,36 @@ code package and also available on the project page: https://github.com/playfuls
     <version>1.0.0</version>
     <author>Playful Sparkle</author>
     <link>https://github.com/playfulsparkle/oc3_indexnow.git</link>
+    <file path="admin/controller/catalog/category.php">
+        <operation>
+            <search position="replace"><![CDATA[$this->model_catalog_category->addCategory($this->request->post);]]></search>
+            <add><![CDATA[
+                $category_id = $this->model_catalog_category->addCategory($this->request->post);
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                $this->ps_indexnow->addCategory($category_id, (array) $this->request->post['category_store']);
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/category.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_category->editCategory]]></search>
+            <add position="before"><![CDATA[
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+			    $this->ps_indexnow->editCategory($this->request->get['category_id'], (array) $this->request->post['category_store']);
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/category.php">
+        <operation>
+            <search><![CDATA[$this->ps_indexnow->deleteCategory]]></search>
+            <add position="before"><![CDATA[
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+			    $this->ps_indexnow->deleteCategory($this->request->post['selected']);
+            ]]></add>
+        </operation>
+    </file>
 </modification>

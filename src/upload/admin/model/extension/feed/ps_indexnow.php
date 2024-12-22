@@ -71,6 +71,39 @@ class ModelExtensionFeedPsIndexNow extends Model
         return [];
     }
 
+    public function getSeoUrlByKeyValue(string $key, string $value, int $store_id, int $language_id): array
+    {
+        $query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int) $store_id . "' AND `language_id` = '" . (int) $language_id . "'");
+
+        return $query->row;
+    }
+
+    public function addQueue(array $data): void
+    {
+        if ($data['action'] === 'update') {
+            $query = $this->db->query("
+                SELECT `date_added`
+                FROM `" . DB_PREFIX . "ps_indexnow_queue`
+                WHERE `url` = '" . $this->db->escape($data['url']) . "'
+                AND `action` = 'update'
+                AND `store_id` = '" . (int) $data['store_id'] . "'
+                AND `language_id` = '" . (int) $data['language_id'] . "'
+                AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+                ORDER BY `date_added` DESC
+                LIMIT 1
+            ");
+
+            if ($query->num_rows) {
+                return;
+            }
+        }
+
+        $this->db->query("
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_category`, `action`, `store_id`, `language_id`, `date_added`)
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_category']) . "', '" . $this->db->escape($data['action']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
+        ");
+    }
+
     public function getQueue($data = [])
     {
         $sql = "SELECT
