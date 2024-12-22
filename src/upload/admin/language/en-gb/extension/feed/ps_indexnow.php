@@ -6,10 +6,12 @@ $_['heading_setup']                       = 'Setting Up IndexNow';
 $_['heading_troubleshot']                 = 'Common Troubleshooting';
 $_['heading_faq']                         = 'FAQ';
 $_['heading_contact']                     = 'Contact Support';
+$_['heading_services']                    = 'IndexNow Services';
 
 // Text
 $_['text_extension']                      = 'Extensions';
 $_['text_success']                        = 'Success: You have modified IndexNow feed!';
+$_['text_success_generate_service_key']   = 'Success: Successfully generated a new service key!';
 $_['text_edit']                           = 'Edit IndexNow';
 $_['text_getting_started']                = '<p><strong>Overview:</strong> The Playful Sparkle - IndexNow extension enables OpenCart users to easily notify supported search engines when URLs on their website have been added, updated, or deleted. Using IndexNow, search engines are informed instantly, allowing them to prioritize crawling these URLs and quickly reflect changes in search results.</p><p><strong>Requirements:</strong> OpenCart 4.x+, PHP 7.4+ or higher.</p>';
 $_['text_setup']                          = '<ul>
@@ -49,8 +51,13 @@ $_['text_faq']                            = '<details><summary>What happens afte
 <details><summary>Do I need IndexNow if I have a sitemap?</summary>Yes, IndexNow allows immediate notification of changes, unlike sitemaps.</details>
 <details><summary>What if I have more questions about IndexNow?</summary>Refer to the documentation from each search engine.</details>';
 $_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
-$_['text_log_no_results']                 = 'No log results found.';
-$_['text_queue_no_results']               = 'No queue results found.';
+$_['text_log_no_results']                 = 'No log entries available at this time.';
+$_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
+$_['text_categories']                     = 'Categories on your site are added, updated, or deleted';
+$_['text_products']                       = 'Products on your site are added, updated, or deleted';
+$_['text_manufacturers']                  = 'Manufacturers on your site are added, updated, or deleted';
+$_['text_information']                    = 'Information Pages on your site are added, updated, or deleted';
+$_['text_articles']                       = 'Articles on your site are added, updated, or deleted';
 
 // Column
 $_['column_log_id']                       = 'Log ID';
@@ -71,23 +78,23 @@ $_['tab_help_and_support']                = 'Help &amp; Support';
 
 // Entry
 $_['entry_status']                        = 'Status';
-$_['entry_service_status']                = 'Service Status';
 $_['entry_service_key']                   = 'Service Key';
 $_['entry_service_key_location']          = 'Service Key URL';
 $_['entry_active_store']                  = 'Active Store';
+$_['entry_notify_search_engines']         = 'Notify Search Engines';
 
 // Button
 $_['button_run_queue']                    = 'Run Queue';
+$_['button_change_key']                   = 'Change Key';
+$_['button_check_key']                    = 'Check Key';
 
 // Help
-$_['help_service_key']                    = 'Your key should have a minimum of 8 and a maximum of 128 hexadecimal characters. The key can contain only the following characters: lowercase characters (a-z), uppercase characters (A-Z), numbers (0-9), and dashes (-).';
-$_['help_service_key_location']           = 'Enter the full URL where the service key is accessible. This is needed if the key is stored in a custom location or subdirectory, not directly at the root of the server.';
-$_['help_service_1']                      = 'To obtain your Microsoft Bing service key, visit <a href="https://www.bing.com/webmasters" target="_blank" rel="noopener noreferrer">Bing Webmaster Tools</a>.';
-$_['help_service_2']                      = 'To obtain your Naver service key, visit <a href="https://searchadvisor.naver.com" target="_blank" rel="noopener noreferrer">Naver Search Advisor</a>.';
-$_['help_service_3']                      = 'To obtain your Seznam.cz service key, visit <a href="https://search.seznam.cz" target="_blank" rel="noopener noreferrer">Seznam.cz Webmaster Tools</a>.';
-$_['help_service_4']                      = 'To obtain your Yandex service key, visit <a href="https://webmaster.yandex.com" target="_blank" rel="noopener noreferrer">Yandex Webmaster</a>.';
-$_['help_service_5']                      = 'To obtain your Yep service key, visit <a href="https://yep.com" target="_blank" rel="noopener noreferrer">Yep Webmaster Tools</a>.';
-$_['help_service_6']                      = 'To obtain your Internet Archive service key, visit <a href="https://archive.org" target="_blank" rel="noopener noreferrer">Internet Archive</a>.';
+$_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
+$_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
+$_['help_services']                       = 'Enable or disable the IndexNow services to notify search engines of your website URL changes.';
+$_['help_services']                       = 'IndexNow is a protocol that allows webmasters to notify search engines about changes to their websites, such as new content, updates, or deletions. By enabling IndexNow services like Bing and Yandex, you ensure that these search engines are promptly informed of changes, leading to faster indexing and more up-to-date search results. This can improve your website’s visibility and ranking on search engines, ultimately driving more traffic to your site.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';
+$_['error_generate_service_key']          = 'Warning: Unable to generate a new service key!';
+$_['error_service_key']                   = 'The Service Key is invalid. Please provide a valid Service Key.';

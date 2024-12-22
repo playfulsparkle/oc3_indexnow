@@ -64,55 +64,76 @@
 								</div>
 							</div>
 
-							<ul class="nav nav-tabs">
-								{% for indexnow_service in indexnow_services %}
-								<li{% if loop.first %} class="active"{% endif %}><a href="#tab-service-{{ indexnow_service.service_id }}" id="tab-link-service-{{ indexnow_service.service_id }}" data-toggle="tab"><i class="service-status-icon fa {% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}fa-play text-success{% else %}fa-stop text-danger{% endif %}"></i> {{ indexnow_service.service_name }}</a></li>
-								{% endfor %}
-							</ul>
-
-							<div class="tab-content">
+							<fieldset style="padding: 1em; margin-bottom: 1em;">
+								<legend>{{ heading_services }}</legend>
 
 								{% for indexnow_service in indexnow_services %}
-								<div class="tab-pane{% if loop.first %} active{% endif %}" id="tab-service-{{ indexnow_service.service_id }}">
-
-									<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ indexnow_service.service_help }}</div>
-
-									<div class="form-group">
-										<label for="input-service-status-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_status }}</label>
-										<div class="col-sm-10">
-											<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" data-controls="tab-link-service-{{ indexnow_service.service_id }}" class="form-control">
-												{% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}
-												<option value="1" selected="selected">{{ text_enabled }}</option>
-												<option value="0">{{ text_disabled }}</option>
-												{% else %}
-												<option value="1">{{ text_enabled }}</option>
-												<option value="0" selected="selected">{{ text_disabled }}</option>
-												{% endif %}
-											</select>
-										</div>
+								<div class="form-group">
+									<label for="input-service-status-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ indexnow_service.service_name }}</label>
+									<div class="col-sm-10">
+										<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" data-controls="tab-link-service-{{ indexnow_service.service_id }}" class="form-control">
+											{% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}
+											<option value="1" selected="selected">{{ text_enabled }}</option>
+											<option value="0">{{ text_disabled }}</option>
+											{% else %}
+											<option value="1">{{ text_enabled }}</option>
+											<option value="0" selected="selected">{{ text_disabled }}</option>
+											{% endif %}
+										</select>
 									</div>
-
-									<div class="form-group">
-										<label for="input-service-key-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key }}</label>
-										<div class="col-sm-10">
-											<input type="text" name="feed_ps_indexnow_service_key[{{ indexnow_service.service_id }}]" value="{{ feed_ps_indexnow_service_key[indexnow_service.service_id] }}" placeholder="{{ entry_service_key }}" id="input-service-key-{{ indexnow_service.service_id }}" class="form-control">
-											{% if error_input_service_key[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_key[indexnow_service.service_id] }}</div>{% endif %}
-											<div class="help-block text-muted">{{ help_service_key }}</div>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label for="input-service-key-location-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ entry_service_key_location }}</label>
-										<div class="col-sm-10">
-											<input type="text" name="feed_ps_indexnow_service_key_location[{{ indexnow_service.service_id }}]" value="{{ feed_ps_indexnow_service_key_location[indexnow_service.service_id] }}" placeholder="{{ entry_service_key_location }}" id="input-service-key-location-{{ indexnow_service.service_id }}" class="form-control">
-											{% if error_input_service_keylocation[indexnow_service.service_id] %}<div class="text-danger">{{ error_input_service_keylocation[indexnow_service.service_id] }}</div>{% endif %}
-											<div class="help-block text-muted">{{ help_service_key_location }}</div>
-										</div>
-									</div>
-
 								</div>
 								{% endfor %}
 
+								<p>{{ help_services }}</p>
+
+							</fieldset>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ entry_notify_search_engines }}</label>
+								<div class="col-sm-10">
+									<div class="well well-sm" style="height: 150px; overflow: auto;">
+										{% for key, value in content_categories %}
+										<div class="checkbox">
+											<label>
+												{% if key in feed_ps_indexnow_content_category %}
+												<input type="checkbox" name="feed_ps_indexnow_content_category[]" value="{{ key }}" checked="checked" />
+												{{ value }}
+												{% else %}
+												<input type="checkbox" name="feed_ps_indexnow_content_category[]" value="{{ key }}" />
+												{{ value }}
+												{% endif %}
+											</label>
+										</div>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="input-service-key" class="col-sm-2 control-label">{{ entry_service_key }}</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<input type="text" name="feed_ps_indexnow_service_key" value="{{ feed_ps_indexnow_service_key }}" placeholder="{{ entry_service_key }}" id="input-service-key" class="form-control" readonly>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-success btn-generate-service-key" data-toggle="tooltip" title="{{ button_change_key }}"><i class="fa fa-refresh"></i> {{ button_change_key }}</button>
+										</span>
+									</div>
+									{% if error_service_key %}<div class="text-danger">{{ error_service_key }}</div>{% endif %}
+									<div class="help-block text-muted">{{ help_service_key }}</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="input-service-key-location" class="col-sm-2 control-label">{{ entry_service_key_location }}</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<input type="text" name="feed_ps_indexnow_service_key_location" value="{{ feed_ps_indexnow_service_key_location }}" data-service-key-url="{{ feed_ps_indexnow_service_key_url }}" placeholder="{{ entry_service_key_location }}" id="input-service-key-location" class="form-control" readonly>
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-warning btn-open-service-key" data-toggle="tooltip" title="{{ button_check_key }}"><i class="fa fa-key"></i> {{ button_check_key }}</button>
+										</span>
+									</div>
+									<div class="help-block text-muted">{{ help_service_key_location }}</div>
+								</div>
 							</div>
 
             </div>
@@ -153,14 +174,44 @@
   </div>
 </div>
 <script>
-	$('select[data-controls]').on('change', function () {
-		var target = $(this).data('controls');
-		var icon = $('#' + target).find('.service-status-icon');
+	$('.btn-generate-service-key').on('click', function () {
+		var node = this;
 
-		if ($(this).val() == '1') {
-			icon.removeClass('fa-stop text-danger').addClass('fa-play text-success');
-		} else {
-			icon.removeClass('fa-play text-success').addClass('fa-stop text-danger');
+		$.ajax({
+			url: 'index.php?route=extension/feed/ps_indexnow/generate_service_key&store_id={{ store_id }}&user_token={{ user_token }}',
+			dataType: 'json',
+			beforeSend: function() {
+				$(node).button('loading');
+			},
+			complete: function() {
+				$(node).button('reset');
+			},
+			success: function(json) {
+				$('.alert-dismissible').remove();
+
+				// Check for errors
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#input-service-key').val(json['service_key']);
+					$('#input-service-key-location').val(json['service_key_location']).attr('data-service-key-url', json['service_key_url']);
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+
+	$('.btn-open-service-key').on('click', function () {
+		var serviceKeyUrl = $('#input-service-key-location').data('service-key-url');
+
+		if (serviceKeyUrl.length) {
+				window.open(serviceKeyUrl, '_blank');
 		}
 	});
 

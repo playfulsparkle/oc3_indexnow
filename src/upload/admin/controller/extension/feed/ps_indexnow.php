@@ -44,6 +44,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['error_warning'] = '';
         }
 
+        if (isset($this->error['service_key'])) {
+            $data['error_service_key'] = $this->error['service_key'];
+        } else {
+            $data['error_service_key'] = '';
+        }
+
         if (isset($this->request->get['store_id'])) {
             $store_id = (int) $this->request->get['store_id'];
         } else {
@@ -92,28 +98,51 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
-            $data['feed_ps_indexnow_service_key'] = (array) $this->request->post['feed_ps_indexnow_service_key'];
+            $data['feed_ps_indexnow_service_key'] = $this->request->post['feed_ps_indexnow_service_key'];
         } else {
-            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
-
-            if (!is_array($service_key)) {
-                $service_key = (array) json_decode((string) $service_key, true);
-            }
-
-            $data['feed_ps_indexnow_service_key'] = $service_key;
+            $data['feed_ps_indexnow_service_key'] = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key_location'])) {
-            $data['feed_ps_indexnow_service_key_location'] = (array) $this->request->post['feed_ps_indexnow_service_key_location'];
+            $data['feed_ps_indexnow_service_key_location'] = $this->request->post['feed_ps_indexnow_service_key_location'];
         } else {
-            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+            $data['feed_ps_indexnow_service_key_location'] = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+        }
 
-            if (!is_array($service_key_location)) {
-                $service_key_location = (array) json_decode((string) $service_key_location, true);
+        if ($data['feed_ps_indexnow_service_key_location']) {
+            if ($this->request->server['HTTPS']) {
+                $server = HTTPS_CATALOG;
+            } else {
+                $server = HTTP_CATALOG;
             }
 
-            $data['feed_ps_indexnow_service_key_location'] = $service_key_location;
+            if (isset($this->request->get['store_id']) && (int) $this->request->get['store_id'] > 0) {
+                $this->load->model('setting/store');
+
+                $store = $this->model_setting_store->getStore((int) $this->request->get['store_id']);
+
+                if ($store) {
+                    $server = $store['url'];
+                }
+            }
+
+            $data['feed_ps_indexnow_service_key_url'] = $server . $data['feed_ps_indexnow_service_key_location'];
+        } else {
+            $data['feed_ps_indexnow_service_key_url'] = '';
         }
+
+        if (isset($this->request->post['feed_ps_indexnow_content_category'])) {
+            $data['feed_ps_indexnow_content_category'] = (array) $this->request->post['feed_ps_indexnow_content_category'];
+        } else {
+            $content_category = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
+
+            if (!is_array($content_category)) {
+                $content_category = (array) json_decode((string) $content_category, true);
+            }
+
+            $data['feed_ps_indexnow_content_category'] = $content_category;
+        }
+
 
         $this->load->model('localisation/language');
 
@@ -143,17 +172,14 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $this->load->model('extension/feed/ps_indexnow');
 
-        $indexnow_services = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
+        $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
 
-        $data['indexnow_services'] = array();
-
-        foreach ($indexnow_services as $service) {
-            $data['indexnow_services'][] = array(
-                'service_id' => $service['service_id'],
-                'service_name' => $service['service_name'],
-                'service_help' => $this->language->get('help_service_' . $service['service_id']),
-            );
-        }
+        $data['content_categories'] = array(
+            'categories' => $this->language->get('text_categories'),
+            'products' => $this->language->get('text_products'),
+            'manufacturers' => $this->language->get('text_manufacturers'),
+            'information' => $this->language->get('text_information'),
+        );
 
         $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
 
@@ -174,20 +200,51 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $this->error['warning'] = $this->language->get('error_store_id');
         }
 
+        if (!$this->error) {
+            $required_keys = array('feed_ps_indexnow_service_key');
+
+            foreach ($required_keys as $value) {
+                if (!isset($this->request->post[$value])) {
+                    $this->request->post[$value] = '';
+                }
+            }
+
+            if (empty($this->request->post['feed_ps_indexnow_service_key'])) {
+                $this->error['service_key'] = $this->language->get('error_service_key');
+            }
+        }
+
         return !$this->error;
     }
 
     public function install()
     {
-        $this->load->model('setting/setting');
+        $service_key = $this->generateServiceKey();
 
-        $data = array();
+        if (is_writable(DIR_OPENCART)) {
+            $filename = DIR_OPENCART . $service_key . '.txt';
+            $handle = fopen($filename, 'w');
 
-        $this->model_setting_setting->editSetting('feed_ps_indexnow', $data);
+            if ($handle) {
+                fwrite($handle, $service_key);
+
+                fclose($handle);
+
+                $this->load->model('setting/setting');
+
+                $data = array(
+                    'feed_ps_indexnow_service_key' => $service_key,
+                    'feed_ps_indexnow_service_key_location' => $service_key . '.txt',
+                );
+
+                $this->model_setting_setting->editSetting('feed_ps_indexnow', $data);
+            }
+        }
 
         $this->load->model('extension/feed/ps_indexnow');
 
         $this->model_extension_feed_ps_indexnow->install();
+
     }
 
     public function uninstall()
@@ -195,6 +252,62 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->load->model('extension/feed/ps_indexnow');
 
         $this->model_extension_feed_ps_indexnow->uninstall();
+    }
+
+    public function generate_service_key()
+    {
+        $this->load->language('extension/feed/ps_indexnow');
+
+        $json = [];
+
+        if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
+
+        if (!$json) {
+            $service_key = $this->generateServiceKey();
+
+            $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';
+
+            if (is_writable(dirname(DIR_APPLICATION))) {
+                $handle = fopen($filename, 'w');
+
+                if ($handle) {
+                    fwrite($handle, $service_key);
+
+                    fclose($handle);
+
+                    if ($this->request->server['HTTPS']) {
+                        $server = HTTPS_CATALOG;
+                    } else {
+                        $server = HTTP_CATALOG;
+                    }
+
+                    if (isset($this->request->get['store_id']) && (int) $this->request->get['store_id'] > 0) {
+                        $this->load->model('setting/store');
+
+                        $store = $this->model_setting_store->getStore((int) $this->request->get['store_id']);
+
+                        if ($store) {
+                            $server = $store['url'];
+                        }
+                    }
+
+                    $json['service_key'] = $service_key;
+                    $json['service_key_location'] = $service_key . '.txt';
+                    $json['service_key_url'] = $server . $service_key . '.txt';
+
+                    $json['success'] = $this->language->get('text_success_generate_service_key');
+                } else {
+                    $json['error'] = $this->language->get('error_generate_service_key');
+                }
+            } else {
+                $json['error'] = $this->language->get('error_generate_service_key');
+            }
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
     }
 
     public function queue()
@@ -304,4 +417,51 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $this->response->setOutput($this->load->view('extension/feed/ps_indexnow_log', $data));
     }
+
+    private function generateServiceKey()
+    {
+        $length = 32;
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
+        $charactersLength = strlen($characters);
+        $randomKey = '';
+
+        // Try different secure random number generators in order of preference
+        if (function_exists('random_bytes')) {
+            try {
+                for ($i = 0; $i < $length; $i++) {
+                    $randomKey .= $characters[ord(random_bytes(1)) % $charactersLength];
+                }
+                return $randomKey;
+            } catch (Exception $e) {
+                // Fall through to next method
+            }
+        }
+
+        if (function_exists('openssl_random_pseudo_bytes')) {
+            try {
+                for ($i = 0; $i < $length; $i++) {
+                    $randomKey .= $characters[ord(openssl_random_pseudo_bytes(1)) % $charactersLength];
+                }
+                return $randomKey;
+            } catch (Exception $e) {
+                // Fall through to next method
+            }
+        }
+
+        // Fallback to random_int if available
+        if (function_exists('random_int')) {
+            for ($i = 0; $i < $length; $i++) {
+                $randomKey .= $characters[random_int(0, $charactersLength - 1)];
+            }
+            return $randomKey;
+        }
+
+        // Last resort fallback to mt_rand
+        for ($i = 0; $i < $length; $i++) {
+            $randomKey .= $characters[mt_rand(0, $charactersLength - 1)];
+        }
+
+        return $randomKey;
+    }
 }
+
