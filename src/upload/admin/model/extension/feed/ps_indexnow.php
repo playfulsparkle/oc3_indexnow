@@ -6,12 +6,13 @@ class ModelExtensionFeedPsIndexNow extends Model
         $this->db->query("
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_queue` (
             `queue_id` INT NOT NULL AUTO_INCREMENT,
-            `store_id` SMALLINT NOT NULL DEFAULT 0,
             `url` VARCHAR(2048) NOT NULL,
+            `content_category` ENUM('category', 'product', 'manufacturer', 'information') DEFAULT NULL,
+            `action` enum('add', 'update', 'delete') DEFAULT NULL,
+            `store_id` INT NOT NULL DEFAULT 0,
+            `language_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`queue_id`),
-            UNIQUE KEY `url_unique_index` (`url`(255)) USING BTREE,
-            KEY `store_id_index` (`store_id`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
@@ -41,13 +42,11 @@ class ModelExtensionFeedPsIndexNow extends Model
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_logs` (
             `log_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
             `service_id` SMALLINT UNSIGNED NOT NULL,
-            `store_id` SMALLINT NOT NULL DEFAULT 0,
             `url` VARCHAR(2048) NOT NULL,
             `status_code` SMALLINT UNSIGNED NOT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`log_id`),
             KEY `service_id_index` (`service_id`),
-            KEY `store_id_index` (`store_id`),
             KEY `url_index` (`url`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

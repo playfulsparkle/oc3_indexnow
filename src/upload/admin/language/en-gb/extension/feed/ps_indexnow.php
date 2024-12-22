@@ -91,8 +91,6 @@ $_['button_check_key']                    = 'Check Key';
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
-$_['help_services']                       = 'Enable or disable the IndexNow services to notify search engines of your website URL changes.';
-$_['help_services']                       = 'IndexNow is a protocol that allows webmasters to notify search engines about changes to their websites, such as new content, updates, or deletions. By enabling IndexNow services like Bing and Yandex, you ensure that these search engines are promptly informed of changes, leading to faster indexing and more up-to-date search results. This can improve your website’s visibility and ranking on search engines, ultimately driving more traffic to your site.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';

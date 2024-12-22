@@ -219,10 +219,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     public function install()
     {
-        $service_key = $this->generateServiceKey();
+        if (is_writable(dirname(DIR_APPLICATION))) {
+            $service_key = $this->generateServiceKey();
 
-        if (is_writable(DIR_OPENCART)) {
-            $filename = DIR_OPENCART . $service_key . '.txt';
+            $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';
+
             $handle = fopen($filename, 'w');
 
             if ($handle) {
