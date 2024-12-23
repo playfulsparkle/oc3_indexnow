@@ -28,7 +28,7 @@ class ps_indexnow
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = md5(json_encode($this->request->post));
+        $content_hash = 'ae' . md5(json_encode($this->request->post));
 
         $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
     }
@@ -40,7 +40,7 @@ class ps_indexnow
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = md5(json_encode($this->request->post));
+        $content_hash = 'ae' . md5(json_encode($this->request->post));
 
         $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
     }
@@ -53,7 +53,7 @@ class ps_indexnow
 
         $item_stores = $this->model_setting_store->getStores();
         $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = md5(json_encode($this->request->post));
+        $content_hash = 'd' . md5(json_encode($this->request->post));
 
         foreach ($item_id_list as $item_id) {
             $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
