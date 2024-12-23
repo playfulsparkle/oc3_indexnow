@@ -311,6 +311,34 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    public function remove_queue()
+    {
+        $this->load->language('extension/feed/ps_indexnow');
+
+        $json = [];
+
+        if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
+
+        if (isset($this->request->post['queue_id'])) {
+            $queue_id = (int) $this->request->post['queue_id'];
+        } else {
+            $queue_id = 0;
+        }
+
+        $this->load->model('extension/feed/ps_indexnow');
+
+        if ($this->model_extension_feed_ps_indexnow->removeQueue($queue_id)) {
+            $json['success'] = $this->language->get('text_success_remove_queue');
+        } else {
+            $json['error'] = $this->language->get('error_remove_queue');
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function queue()
     {
         $this->load->language('extension/feed/ps_indexnow');

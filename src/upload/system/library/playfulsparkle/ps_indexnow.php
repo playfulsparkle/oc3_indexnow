@@ -21,7 +21,7 @@ class ps_indexnow
         $this->registry->set($name, $value);
     }
 
-    public function addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages)
+    public function addToQueueItemData($item_link, $item_stores, $content_hash, $languages)
     {
         if ($this->request->server['HTTPS']) {
             $stores = array(0 => HTTPS_CATALOG);

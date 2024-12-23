@@ -13,7 +13,6 @@ class ModelExtensionFeedPsIndexNow extends Model
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`queue_id`),
             UNIQUE KEY `unique_url_content_hash_store_id` (`url`, `content_hash`, `store_id`),
-            KEY `content_hash_index` (`content_hash`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
@@ -45,10 +44,11 @@ class ModelExtensionFeedPsIndexNow extends Model
             `service_id` SMALLINT UNSIGNED NOT NULL,
             `url` VARCHAR(2048) NOT NULL,
             `status_code` SMALLINT UNSIGNED NOT NULL,
+            `store_id` INT NOT NULL DEFAULT 0,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`log_id`),
             KEY `service_id_index` (`service_id`),
-            KEY `url_index` (`url`),
+            KEY `store_id_index` (`store_id`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
@@ -92,6 +92,13 @@ class ModelExtensionFeedPsIndexNow extends Model
 
         $this->db->query("INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
             VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW());");
+    }
+
+    public function removeQueue($queue_id)
+    {
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `queue_id` = '" . (int) $queue_id . "'");
+
+        return $this->db->countAffected();
     }
 
     public function getQueue($data = [])

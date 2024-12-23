@@ -12,6 +12,7 @@ $_['heading_services']                    = 'IndexNow Services';
 $_['text_extension']                      = 'Extensions';
 $_['text_success']                        = 'Success: You have modified IndexNow feed!';
 $_['text_success_generate_service_key']   = 'Success: Successfully generated a new service key!';
+$_['text_success_remove_queue']           = 'Success: Queued URL has been successfully removed!';
 $_['text_edit']                           = 'Edit IndexNow';
 $_['text_getting_started']                = '<p><strong>Overview:</strong> The Playful Sparkle - IndexNow extension enables OpenCart users to easily notify supported search engines when URLs on their website have been added, updated, or deleted. Using IndexNow, search engines are informed instantly, allowing them to prioritize crawling these URLs and quickly reflect changes in search results.</p><p><strong>Requirements:</strong> OpenCart 4.x+, PHP 7.4+ or higher.</p>';
 $_['text_setup']                          = '<ul>
@@ -72,6 +73,7 @@ $_['column_queue_action']                 = 'Action';
 
 // Tab
 $_['tab_general']                         = 'General';
+$_['tab_manual_submit']                   = 'Manual Submit';
 $_['tab_queue']                           = 'Queue';
 $_['tab_log']                             = 'Log';
 $_['tab_help_and_support']                = 'Help &amp; Support';
@@ -84,9 +86,14 @@ $_['entry_active_store']                  = 'Active Store';
 $_['entry_notify_search_engines']         = 'Notify Search Engines';
 
 // Button
-$_['button_run_queue']                    = 'Run Queue';
 $_['button_change_key']                   = 'Change Key';
 $_['button_check_key']                    = 'Check Key';
+$_['button_submit_url']                   = 'Submit URL';
+$_['button_submit_queue']                 = 'Submit Queued URLs';
+$_['button_clear_queue']                  = 'Clear Queued URLs';
+$_['button_clear_log']                    = 'Clear Log';
+$_['button_submit_url_list']              = 'Submit URL List';
+$_['button_clear_url_list']               = 'Clear URL List';
 
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
@@ -95,4 +102,5 @@ $_['help_service_key_location']           = 'Click the Check Key button to ensur
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';
 $_['error_generate_service_key']          = 'Warning: Unable to generate a new service key!';
+$_['error_remove_queue']                  = 'Warning: Unable to remove queued URLs!';
 $_['error_service_key']                   = 'The Service Key is invalid. Please provide a valid Service Key.';
