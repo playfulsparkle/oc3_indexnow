@@ -426,38 +426,46 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $charactersLength = strlen($characters);
         $randomKey = '';
 
-        // Try different secure random number generators in order of preference
+        // Preferred: Use random_bytes for secure key generation
         if (function_exists('random_bytes')) {
             try {
+                $bytes = random_bytes($length);
+
                 for ($i = 0; $i < $length; $i++) {
-                    $randomKey .= $characters[ord(random_bytes(1)) % $charactersLength];
+                    $randomKey .= $characters[ord($bytes[$i]) % $charactersLength];
                 }
+
                 return $randomKey;
             } catch (Exception $e) {
-                // Fall through to next method
+                // Fallback to the next method
             }
         }
 
+        // Fallback: Use openssl_random_pseudo_bytes if random_bytes is unavailable
         if (function_exists('openssl_random_pseudo_bytes')) {
             try {
+                $bytes = openssl_random_pseudo_bytes($length);
+
                 for ($i = 0; $i < $length; $i++) {
-                    $randomKey .= $characters[ord(openssl_random_pseudo_bytes(1)) % $charactersLength];
+                    $randomKey .= $characters[ord($bytes[$i]) % $charactersLength];
                 }
+
                 return $randomKey;
             } catch (Exception $e) {
-                // Fall through to next method
+                // Fallback to the next method
             }
         }
 
-        // Fallback to random_int if available
+        // Fallback: Use random_int for cryptographic randomness
         if (function_exists('random_int')) {
             for ($i = 0; $i < $length; $i++) {
                 $randomKey .= $characters[random_int(0, $charactersLength - 1)];
             }
+
             return $randomKey;
         }
 
-        // Last resort fallback to mt_rand
+        // Last Resort: Use mt_rand (not cryptographically secure)
         for ($i = 0; $i < $length; $i++) {
             $randomKey .= $characters[mt_rand(0, $charactersLength - 1)];
         }

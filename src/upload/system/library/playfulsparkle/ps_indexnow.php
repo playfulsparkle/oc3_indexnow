@@ -28,8 +28,9 @@ class ps_indexnow
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
+        $content_hash = md5(json_encode($this->request->post));
 
-        $this->processCategory($category_id, $category_stores, $languages);
+        $this->processCategory($category_id, $category_stores, $content_hash, $languages);
     }
 
     public function editCategory($category_id, $category_stores)
@@ -39,8 +40,9 @@ class ps_indexnow
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
+        $content_hash = md5(json_encode($this->request->post));
 
-        $this->processCategory($category_id, $category_stores, $languages);
+        $this->processCategory($category_id, $category_stores, $content_hash, $languages);
     }
 
     public function deleteCategory($categories)
@@ -51,21 +53,20 @@ class ps_indexnow
 
         $category_stores = $this->model_setting_store->getStores();
         $languages = $this->model_localisation_language->getLanguages();
+        $content_hash = md5(json_encode($this->request->post));
 
         foreach ($categories as $category_id) {
-            $this->processCategory($category_id, $category_stores, $languages);
+            $this->processCategory($category_id, $category_stores, $content_hash, $languages);
         }
     }
 
-    private function processCategory($category_id, $category_stores, $languages)
+    private function processCategory($category_id, $category_stores, $content_hash, $languages)
     {
         if ($this->request->server['HTTPS']) {
-            $server = HTTPS_CATALOG;
+            $stores = array(0 => HTTPS_CATALOG);
         } else {
-            $server = HTTP_CATALOG;
+            $stores = array(0 => HTTP_CATALOG);
         }
-
-        $stores = array(0 => $server);
 
         foreach ($category_stores as $store_info) {
             if (is_array($store_info)) {
@@ -77,7 +78,7 @@ class ps_indexnow
 
         foreach ($stores as $store_id => $store_url) {
             foreach ($languages as $language) {
-                $link = $stores[$store_id] . 'index.php?route=product/category&language=' . $language['code'] . '&path=' . $category_id;
+                $link = $store_url . 'index.php?route=product/category&language=' . $language['code'] . '&path=' . $category_id;
 
                 if ($this->config->get('config_seo_url')) {
                     $link = $this->rewrite($link, $store_id, $language['language_id']);
@@ -86,7 +87,7 @@ class ps_indexnow
                 $data = [
                     'url' => $link,
                     'content_category' => 'category',
-                    'content_hash' => md5(json_encode($this->request->post)),
+                    'content_hash' => $content_hash,
                     'store_id' => $store_id,
                     'language_id' => $language['language_id'],
                 ];
