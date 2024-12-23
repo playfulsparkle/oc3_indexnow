@@ -98,7 +98,7 @@ class ps_indexnow
 
     private function rewrite($link, $store_id, $language_id)
     {
-        $url_info = parse_url(str_replace('&amp;', '&', $link));
+        $url_info = parse_url($link);
 
         $url = '';
 
