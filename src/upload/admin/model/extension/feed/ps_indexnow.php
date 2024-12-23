@@ -7,7 +7,6 @@ class ModelExtensionFeedPsIndexNow extends Model
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_queue` (
             `queue_id` INT NOT NULL AUTO_INCREMENT,
             `url` VARCHAR(2048) NOT NULL,
-            `content_category` ENUM('category', 'product', 'manufacturer', 'information') DEFAULT NULL,
             `content_hash` CHAR(32) NOT NULL,
             `store_id` INT NOT NULL DEFAULT 0,
             `language_id` INT DEFAULT NULL,
@@ -98,8 +97,8 @@ class ModelExtensionFeedPsIndexNow extends Model
         }
 
         $this->db->query("
-            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_category`, `content_hash`, `store_id`, `language_id`, `date_added`)
-            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_category']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
         ");
     }
 

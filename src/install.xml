@@ -17,9 +17,9 @@ code package and also available on the project page: https://github.com/playfuls
                     $this->config->get('feed_ps_indexnow_status') &&
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
-                $category_id = $this->model_catalog_category->addCategory($this->request->post);
+                $ps_item_id = $this->model_catalog_category->addCategory($this->request->post);
                 $this->load->library('playfulsparkle/ps_indexnow');
-                $this->ps_indexnow->addCategory($category_id, (array) $this->request->post['category_store']);
+                $this->ps_indexnow->addCategory($ps_item_id, (array) $this->request->post['category_store']);
             }]]></add>
         </operation>
     </file>
