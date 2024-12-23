@@ -18,8 +18,10 @@ code package and also available on the project page: https://github.com/playfuls
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
                 $ps_item_id = $this->model_catalog_category->addCategory($this->request->post);
+
                 $this->load->library('playfulsparkle/ps_indexnow');
-                $this->ps_indexnow->addCategory($ps_item_id, (array) $this->request->post['category_store']);
+
+                $this->ps_indexnow->queueEventAdd('index.php?route=product/category&path=%s', $ps_item_id, (array) $this->request->post['category_store']);
             }]]></add>
         </operation>
     </file>
@@ -31,7 +33,8 @@ code package and also available on the project page: https://github.com/playfuls
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
                 $this->load->library('playfulsparkle/ps_indexnow');
-                $this->ps_indexnow->editCategory($this->request->get['category_id'], (array) $this->request->post['category_store']);
+
+                $this->ps_indexnow->queueEventEdit('index.php?route=product/category&path=%s', $this->request->get['category_id'], (array) $this->request->post['category_store']);
             }]]></add>
         </operation>
     </file>
@@ -43,7 +46,8 @@ code package and also available on the project page: https://github.com/playfuls
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
                 $this->load->library('playfulsparkle/ps_indexnow');
-                $this->ps_indexnow->deleteCategory((array) $this->request->post['selected']);
+
+                $this->ps_indexnow->queueEventDelete('index.php?route=product/category&path=%s', (array) $this->request->post['selected']);
             }]]></add>
         </operation>
     </file>

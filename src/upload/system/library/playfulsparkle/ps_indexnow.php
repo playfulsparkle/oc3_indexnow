@@ -21,7 +21,7 @@ class ps_indexnow
         $this->registry->set($name, $value);
     }
 
-    public function addCategory($item_id, $item_stores)
+    public function queueEventAdd($item_link, $item_id, $item_stores)
     {
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
@@ -30,10 +30,10 @@ class ps_indexnow
         $languages = $this->model_localisation_language->getLanguages();
         $content_hash = md5(json_encode($this->request->post));
 
-        $this->processCategory($item_id, $item_stores, $content_hash, $languages);
+        $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
     }
 
-    public function editCategory($item_id, $item_stores)
+    public function queueEventEdit($item_link, $item_id, $item_stores)
     {
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
@@ -42,10 +42,10 @@ class ps_indexnow
         $languages = $this->model_localisation_language->getLanguages();
         $content_hash = md5(json_encode($this->request->post));
 
-        $this->processCategory($item_id, $item_stores, $content_hash, $languages);
+        $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
     }
 
-    public function deleteCategory($categories)
+    public function queueEventDelete($item_link, $item_id_list)
     {
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
@@ -55,12 +55,12 @@ class ps_indexnow
         $languages = $this->model_localisation_language->getLanguages();
         $content_hash = md5(json_encode($this->request->post));
 
-        foreach ($categories as $item_id) {
-            $this->processCategory($item_id, $item_stores, $content_hash, $languages);
+        foreach ($item_id_list as $item_id) {
+            $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
         }
     }
 
-    private function processCategory($item_id, $item_stores, $content_hash, $languages)
+    private function addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages)
     {
         if ($this->request->server['HTTPS']) {
             $stores = array(0 => HTTPS_CATALOG);
@@ -78,14 +78,14 @@ class ps_indexnow
 
         foreach ($stores as $store_id => $store_url) {
             foreach ($languages as $language) {
-                $link = $store_url . 'index.php?route=product/category&language=' . $language['code'] . '&path=' . $item_id;
+                $url = $store_url . sprintf($item_link, $item_id);
 
                 if ($this->config->get('config_seo_url')) {
-                    $link = $this->rewrite($link, $store_id, $language['language_id']);
+                    $url = $this->rewrite($url, $store_id, $language['language_id']);
                 }
 
                 $data = [
-                    'url' => $link,
+                    'url' => $url,
                     'content_hash' => $content_hash,
                     'store_id' => $store_id,
                     'language_id' => $language['language_id'],
@@ -98,73 +98,63 @@ class ps_indexnow
 
     private function rewrite($link, $store_id, $language_id)
     {
-        $url_info = parse_url($link);
+        $url_info = parse_url(str_replace('&amp;', '&', $link));
 
-        // Build the url
         $url = '';
 
-        if (isset($url_info['scheme'])) {
-            $url .= $url_info['scheme'];
-        }
+        $data = array();
 
-        $url .= '://';
+        parse_str($url_info['query'], $data);
 
-        if (isset($url_info['host'])) {
-            $url .= $url_info['host'];
-        }
+        foreach ($data as $key => $value) {
+            if (isset($data['route'])) {
+                if (($data['route'] == 'product/product' && $key == 'product_id') || (($data['route'] == 'product/manufacturer/info' || $data['route'] == 'product/product') && $key == 'manufacturer_id') || ($data['route'] == 'information/information' && $key == 'information_id')) {
+                    $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = '" . $this->db->escape($key . '=' . (int) $value) . "' AND store_id = '" . (int) $store_id . "' AND language_id = '" . (int) $language_id . "'");
 
-        if (isset($url_info['port'])) {
-            $url .= ':' . $url_info['port'];
-        }
+                    if ($query->num_rows && $query->row['keyword']) {
+                        $url .= '/' . $query->row['keyword'];
 
-        parse_str($url_info['query'], $query);
+                        unset($data[$key]);
+                    }
+                } elseif ($key == 'path') {
+                    $categories = explode('_', $value);
 
-        // Start changing the URL query into a path
-        $paths = [];
+                    foreach ($categories as $category) {
+                        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = 'category_id=" . (int) $category . "' AND store_id = '" . (int) $store_id . "' AND language_id = '" . (int) $language_id . "'");
 
-        // Parse the query into its separate parts
-        $parts = explode('&', $url_info['query']);
+                        if ($query->num_rows && $query->row['keyword']) {
+                            $url .= '/' . $query->row['keyword'];
+                        } else {
+                            $url = '';
 
-        foreach ($parts as $part) {
-            $pair = explode('=', $part);
+                            break;
+                        }
+                    }
 
-            $key = isset($pair[0]) ? (string) $pair[0] : '';
-            $value = isset($pair[1]) ? (string) $pair[1] : '';
-
-            $index = md5($key . '-' . $value . '-' . $store_id . '-' . $language_id);
-
-            if (!isset($this->seo_url_values[$index])) {
-                $this->seo_url_values[$index] = $this->model_extension_feed_ps_indexnow->getSeoUrlByKeyValue($key, $value, $store_id, $language_id);
-            }
-
-            if ($this->seo_url_values[$index]) {
-                $paths[] = $this->seo_url_values[$index];
-
-                unset($query[$key]);
+                    unset($data[$key]);
+                }
             }
         }
 
-        $sort_order = array();
+        if ($url) {
+            unset($data['route']);
 
-        foreach ($paths as $key => $value) {
-            $sort_order[$key] = $value['sort_order'];
+            $query = '';
+
+            if ($data) {
+                foreach ($data as $key => $value) {
+                    $query .= '&' . rawurlencode((string) $key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string) $value));
+                }
+
+                if ($query) {
+                    $query = '?' . str_replace('&', '&amp;', trim($query, '&'));
+                }
+            }
+
+            return $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query;
+        } else {
+            return $link;
         }
-
-        array_multisort($sort_order, SORT_ASC, $paths);
-
-        // Build the path
-        $url .= str_replace('/index.php', '', $url_info['path']);
-
-        foreach ($paths as $result) {
-            $url .= '/' . $result['keyword'];
-        }
-
-        // Rebuild the URL query
-        if ($query) {
-            $url .= '?' . str_replace(['%2F'], ['/'], http_build_query($query));
-        }
-
-        return $url;
     }
 }
 
