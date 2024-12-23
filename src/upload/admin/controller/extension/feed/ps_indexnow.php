@@ -175,9 +175,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
 
         $data['content_categories'] = array(
-            'categories' => $this->language->get('text_categories'),
-            'products' => $this->language->get('text_products'),
-            'manufacturers' => $this->language->get('text_manufacturers'),
+            'category' => $this->language->get('text_categories'),
+            'product' => $this->language->get('text_products'),
+            'manufacturer' => $this->language->get('text_manufacturers'),
             'information' => $this->language->get('text_information'),
         );
 

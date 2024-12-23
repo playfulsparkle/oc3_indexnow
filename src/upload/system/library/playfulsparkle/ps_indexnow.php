@@ -21,7 +21,7 @@ class ps_indexnow
         $this->registry->set($name, $value);
     }
 
-    public function addCategory($category_id, $category_store)
+    public function addCategory($category_id, $category_stores)
     {
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
@@ -29,10 +29,10 @@ class ps_indexnow
 
         $languages = $this->model_localisation_language->getLanguages();
 
-        $this->processCategory($category_id, $category_store, $languages);
+        $this->processCategory($category_id, $category_stores, $languages);
     }
 
-    public function editCategory($category_id, $category_store)
+    public function editCategory($category_id, $category_stores)
     {
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
@@ -40,7 +40,7 @@ class ps_indexnow
 
         $languages = $this->model_localisation_language->getLanguages();
 
-        $this->processCategory($category_id, $category_store, $languages);
+        $this->processCategory($category_id, $category_stores, $languages);
     }
 
     public function deleteCategory($categories)
@@ -49,29 +49,29 @@ class ps_indexnow
         $this->load->model('localisation/language');
         $this->load->model('setting/store');
 
-        $category_store = $this->model_setting_store->getStores();
+        $category_stores = $this->model_setting_store->getStores();
         $languages = $this->model_localisation_language->getLanguages();
 
         foreach ($categories as $category_id) {
-            $this->processCategory($category_id, $category_store, $languages);
+            $this->processCategory($category_id, $category_stores, $languages);
         }
     }
 
-    private function processCategory($category_id, $category_store, $languages)
+    private function processCategory($category_id, $category_stores, $languages)
     {
-        $stores = [0 => HTTP_CATALOG];
+        if ($this->request->server['HTTPS']) {
+            $server = HTTPS_CATALOG;
+        } else {
+            $server = HTTP_CATALOG;
+        }
 
-        foreach ($category_store as $store_id) {
-            if ($store_id === 0) {
-                continue;
-            }
+        $stores = array(0 => $server);
 
-            $store_info = isset($this->store_info[$store_id]) ? $this->store_info[$store_id] : $this->model_setting_store->getStore($store_id);
-
-            $this->store_info[$store_id] = $store_info;
-
-            if ($store_info) {
+        foreach ($category_stores as $store_info) {
+            if (is_array($store_info)) {
                 $stores[$store_info['store_id']] = $store_info['url'];
+            } else if ($store_info > 0 && $store_data = $this->model_setting_store->getStore($store_info)) {
+                $stores[$store_data['store_id']] = $store_data['url'];
             }
         }
 

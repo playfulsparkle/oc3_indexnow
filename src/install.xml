@@ -13,33 +13,38 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_category->addCategory($this->request->post);]]></search>
-            <add><![CDATA[
+            <add><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
                 $category_id = $this->model_catalog_category->addCategory($this->request->post);
-
                 $this->load->library('playfulsparkle/ps_indexnow');
-
                 $this->ps_indexnow->addCategory($category_id, (array) $this->request->post['category_store']);
-            ]]></add>
+            }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->model_catalog_category->editCategory]]></search>
-            <add position="before"><![CDATA[
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
                 $this->load->library('playfulsparkle/ps_indexnow');
-
-			    $this->ps_indexnow->editCategory($this->request->get['category_id'], (array) $this->request->post['category_store']);
-            ]]></add>
+                $this->ps_indexnow->editCategory($this->request->get['category_id'], (array) $this->request->post['category_store']);
+            }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->ps_indexnow->deleteCategory]]></search>
-            <add position="before"><![CDATA[
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
                 $this->load->library('playfulsparkle/ps_indexnow');
-
-			    $this->ps_indexnow->deleteCategory($this->request->post['selected']);
-            ]]></add>
+                $this->ps_indexnow->deleteCategory((array) $this->request->post['selected']);
+            }]]></add>
         </operation>
     </file>
 </modification>
