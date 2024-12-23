@@ -72,13 +72,6 @@ class ModelExtensionFeedPsIndexNow extends Model
         return [];
     }
 
-    public function getSeoUrlByKeyValue(string $key, string $value, int $store_id, int $language_id): array
-    {
-        $query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int) $store_id . "' AND `language_id` = '" . (int) $language_id . "'");
-
-        return $query->row;
-    }
-
     public function addQueue(array $data): void
     {
         $query = $this->db->query("
