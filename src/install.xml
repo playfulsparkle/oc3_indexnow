@@ -17,7 +17,7 @@ code package and also available on the project page: https://github.com/playfuls
                     $this->config->get('feed_ps_indexnow_status') &&
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
-                $ps_item_id = $this->model_catalog_category->addCategory($this->request->post);
+                $ps_category_id = $this->model_catalog_category->addCategory($this->request->post);
 
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
@@ -34,7 +34,7 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $ps_item_id, $category_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $ps_category_id, $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
@@ -60,7 +60,7 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $this->request->get['category_id'], $category_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $this->request->get['category_id'], $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
@@ -86,8 +86,8 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                foreach ((array) $this->request->post['selected'] as $item_id) {
-                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $item_id, $category_store, $content_hash, $languages);
+                foreach ((array) $this->request->post['selected'] as $category_id) {
+                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $category_id, $category_store, $content_hash, $languages);
                 }
             }]]></add>
         </operation>
