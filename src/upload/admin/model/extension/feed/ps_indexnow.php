@@ -100,13 +100,9 @@ class ModelExtensionFeedPsIndexNow extends Model
             `queue_id`,
             `url`,
             `date_added`
-        FROM `" . DB_PREFIX . "ps_indexnow_queue`";
-
-        if (!empty($data['store_id'])) {
-            $sql .= " WHERE `store_id` = '" . (int) $data['store_id'] . "'";
-        }
-
-        $sql .= " ORDER BY `date_added` DESC";
+        FROM `" . DB_PREFIX . "ps_indexnow_queue`
+        WHERE `store_id` = '" . (int) $data['store_id'] . "'
+        ORDER BY `date_added` DESC";
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
@@ -141,13 +137,9 @@ class ModelExtensionFeedPsIndexNow extends Model
             l.`status_code`,
             l.`date_added`
         FROM `" . DB_PREFIX . "ps_indexnow_logs` l
-        LEFT JOIN `" . DB_PREFIX . "ps_indexnow_services` s ON (l.`service_id` = s.`service_id`)";
-
-        if (!empty($data['store_id'])) {
-            $sql .= " WHERE l.`store_id` = '" . (int) $data['store_id'] . "'";
-        }
-
-        $sql .= " ORDER BY l.`date_added` DESC";
+        LEFT JOIN `" . DB_PREFIX . "ps_indexnow_services` s ON (l.`service_id` = s.`service_id`)
+        WHERE l.`store_id` = '" . (int) $data['store_id'] . "'
+        ORDER BY l.`date_added` DESC";
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
