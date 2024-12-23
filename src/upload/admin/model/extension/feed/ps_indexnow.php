@@ -7,12 +7,12 @@ class ModelExtensionFeedPsIndexNow extends Model
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_queue` (
             `queue_id` INT NOT NULL AUTO_INCREMENT,
             `url` VARCHAR(2048) NOT NULL,
-            `content_hash` CHAR(32) NOT NULL,
+            `content_hash` CHAR(34) NOT NULL,
             `store_id` INT NOT NULL DEFAULT 0,
             `language_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`queue_id`),
-            UNIQUE KEY `url_store_unique` (`url`, `store_id`),
+            UNIQUE KEY `unique_url_content_hash_store_id` (`url`, `content_hash`, `store_id`),
             KEY `content_hash_index` (`content_hash`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -72,7 +72,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return [];
     }
 
-    public function addQueue(array $data): void
+    public function addQueue($data)
     {
         $query = $this->db->query("
             SELECT `date_added`
@@ -90,12 +90,9 @@ class ModelExtensionFeedPsIndexNow extends Model
             return;
         }
 
-        $this->db->query("
-            INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
-            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
-        ");
+        $this->db->query("INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW());");
     }
-
 
     public function getQueue($data = [])
     {

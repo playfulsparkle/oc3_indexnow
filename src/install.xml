@@ -19,9 +19,22 @@ code package and also available on the project page: https://github.com/playfuls
             ) {
                 $ps_item_id = $this->model_catalog_category->addCategory($this->request->post);
 
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $category_store = (array) $this->request->post['category_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['category_store']);
+
+                $content_hash = 'ae' . md5(json_encode($post_data));
+
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->queueEventAdd('index.php?route=product/category&path=%s', $ps_item_id, (array) $this->request->post['category_store']);
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $ps_item_id, $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
@@ -32,22 +45,50 @@ code package and also available on the project page: https://github.com/playfuls
                     $this->config->get('feed_ps_indexnow_status') &&
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $category_store = (array) $this->request->post['category_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['category_store']);
+
+                $content_hash = 'ae' . md5(json_encode($post_data));
+
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->queueEventEdit('index.php?route=product/category&path=%s', $this->request->get['category_id'], (array) $this->request->post['category_store']);
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $this->request->get['category_id'], $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
-            <search><![CDATA[$this->ps_indexnow->deleteCategory]]></search>
+            <search><![CDATA[$this->model_catalog_category->deleteCategory]]></search>
             <add position="before"><![CDATA[if (
                     $this->config->get('feed_ps_indexnow_status') &&
                     in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
             ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+                $category_store = $this->model_setting_store->getStores();
+
+                $post_data = $this->request->post;
+
+                unset($post_data['category_store']);
+
+                $content_hash = 'd' . md5(json_encode($post_data));
+
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->queueEventDelete('index.php?route=product/category&path=%s', (array) $this->request->post['selected']);
+                foreach ((array) $this->request->post['selected'] as $item_id) {
+                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=%s', $item_id, $category_store, $content_hash, $languages);
+                }
             }]]></add>
         </operation>
     </file>

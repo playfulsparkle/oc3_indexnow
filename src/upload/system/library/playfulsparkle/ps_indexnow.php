@@ -21,46 +21,7 @@ class ps_indexnow
         $this->registry->set($name, $value);
     }
 
-    public function queueEventAdd($item_link, $item_id, $item_stores)
-    {
-        $this->load->model('extension/feed/ps_indexnow');
-        $this->load->model('localisation/language');
-        $this->load->model('setting/store');
-
-        $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = 'ae' . md5(json_encode($this->request->post));
-
-        $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
-    }
-
-    public function queueEventEdit($item_link, $item_id, $item_stores)
-    {
-        $this->load->model('extension/feed/ps_indexnow');
-        $this->load->model('localisation/language');
-        $this->load->model('setting/store');
-
-        $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = 'ae' . md5(json_encode($this->request->post));
-
-        $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
-    }
-
-    public function queueEventDelete($item_link, $item_id_list)
-    {
-        $this->load->model('extension/feed/ps_indexnow');
-        $this->load->model('localisation/language');
-        $this->load->model('setting/store');
-
-        $item_stores = $this->model_setting_store->getStores();
-        $languages = $this->model_localisation_language->getLanguages();
-        $content_hash = 'd' . md5(json_encode($this->request->post));
-
-        foreach ($item_id_list as $item_id) {
-            $this->addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages);
-        }
-    }
-
-    private function addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages)
+    public function addToQueueItemData($item_link, $item_id, $item_stores, $content_hash, $languages)
     {
         if ($this->request->server['HTTPS']) {
             $stores = array(0 => HTTPS_CATALOG);
