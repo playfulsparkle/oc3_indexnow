@@ -8,11 +8,12 @@ class ModelExtensionFeedPsIndexNow extends Model
             `queue_id` INT NOT NULL AUTO_INCREMENT,
             `url` VARCHAR(2048) NOT NULL,
             `content_category` ENUM('category', 'product', 'manufacturer', 'information') DEFAULT NULL,
-            `action` enum('add', 'update', 'delete') DEFAULT NULL,
+            `content_hash` CHAR(32) NOT NULL,
             `store_id` INT NOT NULL DEFAULT 0,
             `language_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`queue_id`),
+            KEY `content_hash_index` (`content_hash`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
@@ -80,29 +81,28 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function addQueue(array $data): void
     {
-        if ($data['action'] === 'update') {
-            $query = $this->db->query("
-                SELECT `date_added`
-                FROM `" . DB_PREFIX . "ps_indexnow_queue`
-                WHERE `url` = '" . $this->db->escape($data['url']) . "'
-                AND `action` = 'update'
-                AND `store_id` = '" . (int) $data['store_id'] . "'
-                AND `language_id` = '" . (int) $data['language_id'] . "'
-                AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
-                ORDER BY `date_added` DESC
-                LIMIT 1
-            ");
+        $query = $this->db->query("
+            SELECT `date_added`
+            FROM `" . DB_PREFIX . "ps_indexnow_queue`
+            WHERE `url` = '" . $this->db->escape($data['url']) . "'
+            AND `content_hash` = '" . $this->db->escape($data['content_hash']) . "'
+            AND `store_id` = '" . (int) $data['store_id'] . "'
+            AND `language_id` = '" . (int) $data['language_id'] . "'
+            AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            ORDER BY `date_added` DESC
+            LIMIT 1
+        ");
 
-            if ($query->num_rows) {
-                return;
-            }
+        if ($query->num_rows) {
+            return;
         }
 
         $this->db->query("
-            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_category`, `action`, `store_id`, `language_id`, `date_added`)
-            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_category']) . "', '" . $this->db->escape($data['action']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_category`, `content_hash`, `store_id`, `language_id`, `date_added`)
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_category']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
         ");
     }
+
 
     public function getQueue($data = [])
     {

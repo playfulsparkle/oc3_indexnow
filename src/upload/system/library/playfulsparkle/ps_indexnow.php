@@ -2,7 +2,7 @@
 namespace playfulsparkle;
 class ps_indexnow
 {
-    private $data = [];
+    private $seo_url_values = array();
 
     private $registry;
 
@@ -23,29 +23,29 @@ class ps_indexnow
 
     public function addCategory($category_id, $category_store)
     {
-        $this->load->model('extension/ps_indexnow/feed/ps_indexnow');
+        $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
 
-        $this->processCategory($category_id, $category_store, $languages, 'add');
+        $this->processCategory($category_id, $category_store, $languages);
     }
 
     public function editCategory($category_id, $category_store)
     {
-        $this->load->model('extension/ps_indexnow/feed/ps_indexnow');
+        $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
         $this->load->model('setting/store');
 
         $languages = $this->model_localisation_language->getLanguages();
 
-        $this->processCategory($category_id, $category_store, $languages, 'update');
+        $this->processCategory($category_id, $category_store, $languages);
     }
 
     public function deleteCategory($categories)
     {
-        $this->load->model('extension/ps_indexnow/feed/ps_indexnow');
+        $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('localisation/language');
         $this->load->model('setting/store');
 
@@ -53,11 +53,11 @@ class ps_indexnow
         $languages = $this->model_localisation_language->getLanguages();
 
         foreach ($categories as $category_id) {
-            $this->processCategory($category_id, $category_store, $languages, 'delete');
+            $this->processCategory($category_id, $category_store, $languages);
         }
     }
 
-    private function processCategory($category_id, $category_store, $languages, $action)
+    private function processCategory($category_id, $category_store, $languages)
     {
         $stores = [0 => HTTP_CATALOG];
 
@@ -67,7 +67,7 @@ class ps_indexnow
             }
 
             $store_info = isset($this->store_info[$store_id]) ? $this->store_info[$store_id] : $this->model_setting_store->getStore($store_id);
-            
+
             $this->store_info[$store_id] = $store_info;
 
             if ($store_info) {
@@ -86,30 +86,30 @@ class ps_indexnow
                 $data = [
                     'url' => $link,
                     'content_category' => 'category',
-                    'action' => $action,
+                    'content_hash' => md5(json_encode($this->request->post)),
                     'store_id' => $store_id,
                     'language_id' => $language['language_id'],
                 ];
 
-                $this->model_extension_ps_indexnow_feed_ps_indexnow->addQueue($data);
+                $this->model_extension_feed_ps_indexnow->addQueue($data);
             }
         }
     }
 
-    private function rewrite(string $link, int $store_id, int $language_id): string
+    private function rewrite($link, $store_id, $language_id)
     {
         $url_info = parse_url($link);
 
         // Build the url
         $url = '';
 
-        if ($url_info['scheme']) {
+        if (isset($url_info['scheme'])) {
             $url .= $url_info['scheme'];
         }
 
         $url .= '://';
 
-        if ($url_info['host']) {
+        if (isset($url_info['host'])) {
             $url .= $url_info['host'];
         }
 
@@ -128,30 +128,23 @@ class ps_indexnow
         foreach ($parts as $part) {
             $pair = explode('=', $part);
 
-            if (isset($pair[0])) {
-                $key = (string) $pair[0];
+            $key = isset($pair[0]) ? (string) $pair[0] : '';
+            $value = isset($pair[1]) ? (string) $pair[1] : '';
+
+            $index = md5($key . '-' . $value . '-' . $store_id . '-' . $language_id);
+
+            if (!isset($this->seo_url_values[$index])) {
+                $this->seo_url_values[$index] = $this->model_extension_feed_ps_indexnow->getSeoUrlByKeyValue($key, $value, $store_id, $language_id);
             }
 
-            if (isset($pair[1])) {
-                $value = (string) $pair[1];
-            } else {
-                $value = '';
-            }
-
-            $index = md5($key . '-' . $value . '-store_id-' . $store_id . '-language_id-' . $language_id);
-
-            if (!isset($this->data[$index])) {
-                $this->data[$index] = $this->model_extension_feed_ps_indexnow->getSeoUrlByKeyValue((string) $key, (string) $value, $store_id, $language_id);
-            }
-
-            if ($this->data[$index]) {
-                $paths[] = $this->data[$index];
+            if ($this->seo_url_values[$index]) {
+                $paths[] = $this->seo_url_values[$index];
 
                 unset($query[$key]);
             }
         }
 
-        $sort_order = [];
+        $sort_order = array();
 
         foreach ($paths as $key => $value) {
             $sort_order[$key] = $value['sort_order'];
