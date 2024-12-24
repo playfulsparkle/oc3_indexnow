@@ -6,8 +6,8 @@ class ModelExtensionFeedPsIndexNow extends Model
         $this->db->query("
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_queue` (
             `queue_id` INT NOT NULL AUTO_INCREMENT,
-            `url` VARCHAR(2048) NOT NULL,
-            `content_hash` CHAR(34) NOT NULL,
+            `url` VARCHAR(2083) NOT NULL,
+            `content_hash` CHAR(32) NOT NULL,
             `store_id` INT NOT NULL DEFAULT 0,
             `language_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
@@ -21,7 +21,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_services` (
             `service_id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
             `service_name` VARCHAR(255) NOT NULL,
-            `endpoint_url` VARCHAR(2048) NOT NULL,
+            `endpoint_url` VARCHAR(2083) NOT NULL,
             PRIMARY KEY (`service_id`),
             UNIQUE KEY `service_name_unique` (`service_name`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -42,7 +42,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_logs` (
             `log_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
             `service_id` SMALLINT UNSIGNED NOT NULL,
-            `url` VARCHAR(2048) NOT NULL,
+            `url` VARCHAR(2083) NOT NULL,
             `status_code` SMALLINT UNSIGNED NOT NULL,
             `store_id` INT NOT NULL DEFAULT 0,
             `date_added` DATETIME NOT NULL,
@@ -70,6 +70,10 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function addQueue($data)
     {
+        if (strpos($data['url'], 'index.php?') !== false) {
+            $data['language_id'] = 0;
+        }
+
         $this->db->query("
             INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
             VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int)$data['store_id'] . "', '" . (int)$data['language_id'] . "', NOW())

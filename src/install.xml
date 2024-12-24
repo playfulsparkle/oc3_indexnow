@@ -30,7 +30,7 @@ code package and also available on the project page: https://github.com/playfuls
 
                 unset($post_data['category_store']);
 
-                $content_hash = 'ae' . md5(json_encode($post_data));
+                $content_hash = md5(json_encode($post_data));
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
@@ -56,7 +56,7 @@ code package and also available on the project page: https://github.com/playfuls
 
                 unset($post_data['category_store']);
 
-                $content_hash = 'ae' . md5(json_encode($post_data));
+                $content_hash = md5(json_encode($post_data));
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
@@ -82,7 +82,7 @@ code package and also available on the project page: https://github.com/playfuls
 
                 unset($post_data['category_store']);
 
-                $content_hash = 'd' . md5(json_encode($post_data));
+                $content_hash = md5(json_encode($post_data));
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
