@@ -39,7 +39,7 @@ class ps_indexnow
 
         foreach ($stores as $store_id => $store_url) {
             foreach ($languages as $language) {
-                $url = $store_url . sprintf($item_link, $item_id);
+                $url = $store_url . $item_link;
 
                 if ($this->config->get('config_seo_url')) {
                     $url = $this->rewrite($url, $store_id, $language['language_id']);
