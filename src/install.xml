@@ -10,7 +10,8 @@ code package and also available on the project page: https://github.com/playfuls
     <version>1.0.0</version>
     <author>Playful Sparkle</author>
     <link>https://github.com/playfulsparkle/oc3_indexnow.git</link>
-    <file path="admin/controller/catalog/category.php">
+    <!-- Category start -->
+<file path="admin/controller/catalog/category.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_category->addCategory($this->request->post);]]></search>
             <add><![CDATA[if (
@@ -92,4 +93,175 @@ code package and also available on the project page: https://github.com/playfuls
             }]]></add>
         </operation>
     </file>
+    <!-- Category end -->
+
+    <!-- Product start -->
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search position="replace"><![CDATA[$this->model_catalog_product->addProduct($this->request->post);]]></search>
+            <add><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $ps_product_id = $this->model_catalog_product->addProduct($this->request->post);
+
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $product_store = (array) $this->request->post['product_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['product_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $ps_product_id, $product_store, $content_hash, $languages);
+            }]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_product->editProduct]]></search>
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $product_store = (array) $this->request->post['product_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['product_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $this->request->get['product_id'], $product_store, $content_hash, $languages);
+            }]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_product->deleteProduct]]></search>
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+                $product_store = $this->model_setting_store->getStores();
+
+                $post_data = $this->request->post;
+
+                unset($post_data['product_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                foreach ((array) $this->request->post['selected'] as $product_id) {
+                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $product_id, $product_store, $content_hash, $languages);
+                }
+            }]]></add>
+        </operation>
+    </file>
+    <!-- Product end -->
+
+    <!-- Manufacturer start -->
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search position="replace"><![CDATA[$this->model_catalog_manufacturer->addManufacturer($this->request->post);]]></search>
+            <add><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $ps_manufacturer_id = $this->model_catalog_manufacturer->addManufacturer($this->request->post);
+
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $manufacturer_store = (array) $this->request->post['manufacturer_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['manufacturer_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $ps_manufacturer_id, $manufacturer_store, $content_hash, $languages);
+            }]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_manufacturer->editManufacturer]]></search>
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+
+                $manufacturer_store = (array) $this->request->post['manufacturer_store'];
+                $post_data = $this->request->post;
+
+                unset($post_data['manufacturer_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $this->request->get['manufacturer_id'], $manufacturer_store, $content_hash, $languages);
+            }]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->model_catalog_manufacturer->deleteManufacturer]]></search>
+            <add position="before"><![CDATA[if (
+                    $this->config->get('feed_ps_indexnow_status') &&
+                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
+            ) {
+                $this->load->model('extension/feed/ps_indexnow');
+                $this->load->model('localisation/language');
+                $this->load->model('setting/store');
+
+                $languages = $this->model_localisation_language->getLanguages();
+                $manufacturer_store = $this->model_setting_store->getStores();
+
+                $post_data = $this->request->post;
+
+                unset($post_data['manufacturer_store']);
+
+                $content_hash = md5(json_encode($post_data));
+
+                $this->load->library('playfulsparkle/ps_indexnow');
+
+                foreach ((array) $this->request->post['selected'] as $manufacturer_id) {
+                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $manufacturer_id, $manufacturer_store, $content_hash, $languages);
+                }
+            }]]></add>
+        </operation>
+    </file>
+    <!-- Manufacturer end -->
 </modification>
