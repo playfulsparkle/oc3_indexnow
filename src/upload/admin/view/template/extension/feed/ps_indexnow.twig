@@ -159,10 +159,27 @@
 
 							<div id="queue-content"></div>
 
+							<div class="form-group">
+								<div class="col-sm-6">
+									<button type="button" style="width: 100%;" id="button-submit-queue" data-toggle="tooltip" title="{{ button_submit_queue }}" class="btn btn-success"><i class="fa fa-send"></i> {{ button_submit_queue }}</button>
+								</div>
+								<div class="col-sm-6">
+									<button type="button" style="width: 100%;" id="button-clear-queue" data-toggle="tooltip" title="{{ button_clear_queue }}" class="btn btn-danger"><i class="fa fa-trash"></i> {{ button_clear_queue }}</button>
+								</div>
+							</div>
+
 						</div>
             <div class="tab-pane" id="tab-log">
 
 							<div id="log-content"></div>
+
+							<div class="form-group">
+								<div class="col-sm-6 col-sm-offset-6">
+									<button type="button" style="width: 100%;" id="button-clear-log" data-toggle="tooltip" title="{{ button_clear_log }}" class="btn btn-danger">
+										<i class="fa fa-trash"></i> {{ button_clear_log }}
+									</button>
+								</div>
+							</div>
 
 						</div>
             <div class="tab-pane" id="tab-support">
@@ -286,6 +303,38 @@
 		e.preventDefault();
 
 		$('#log-content').load(this.href);
+	});
+
+	$('#button-clear-log').on('click', function () {
+		var node = this;
+
+		$.ajax({
+			url: 'index.php?route=extension/feed/ps_indexnow/clear_log&store_id={{ store_id }}&user_token={{ user_token }}',
+			dataType: 'json',
+			beforeSend: function() {
+				$(node).button('loading');
+			},
+			complete: function() {
+				$(node).button('reset');
+			},
+			success: function(json) {
+				$('.alert-dismissible').remove();
+
+				// Check for errors
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
+				}
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
 	});
 </script>
 {{ footer }}

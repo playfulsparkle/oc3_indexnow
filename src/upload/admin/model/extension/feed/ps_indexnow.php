@@ -87,9 +87,9 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $this->db->countAffected();
     }
 
-    public function clearQueue()
+    public function clearQueue(int $store_id)
     {
-        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_queue`");
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $store_id . "'");
 
         return $this->db->countAffected();
     }
@@ -182,7 +182,7 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function clearLog(int $store_id)
     {
-        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
 
         return $this->db->countAffected();
     }
