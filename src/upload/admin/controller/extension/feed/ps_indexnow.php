@@ -29,6 +29,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->document->setTitle($this->language->get('heading_title'));
 
         $this->load->model('setting/setting');
+        $this->load->model('setting/store');
+        $this->load->model('localisation/language');
+        $this->load->model('extension/feed/ps_indexnow');
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
             $this->model_setting_setting->editSetting('feed_ps_indexnow', $this->request->post, $this->request->get['store_id']);
@@ -116,10 +119,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $server = HTTP_CATALOG;
             }
 
-            if (isset($this->request->get['store_id']) && (int) $this->request->get['store_id'] > 0) {
-                $this->load->model('setting/store');
+            if ($store_id > 0) {
 
-                $store = $this->model_setting_store->getStore((int) $this->request->get['store_id']);
+                $store = $this->model_setting_store->getStore($store_id);
 
                 if ($store) {
                     $server = $store['url'];
@@ -143,9 +145,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['feed_ps_indexnow_content_category'] = $content_category;
         }
 
-
-        $this->load->model('localisation/language');
-
         $data['languages'] = $this->model_localisation_language->getLanguages();
 
         $data['store_id'] = $store_id;
@@ -158,8 +157,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             'href' => $this->url->link('extension/feed/ps_indexnow', 'user_token=' . $this->session->data['user_token'] . '&store_id=0'),
         );
 
-        $this->load->model('setting/store');
-
         $stores = $this->model_setting_store->getStores();
 
         foreach ($stores as $store) {
@@ -169,8 +166,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 'href' => $this->url->link('extension/feed/ps_indexnow', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $store['store_id']),
             );
         }
-
-        $this->load->model('extension/feed/ps_indexnow');
 
         $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
 

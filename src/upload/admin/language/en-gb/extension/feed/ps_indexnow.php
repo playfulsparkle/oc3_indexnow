@@ -84,6 +84,7 @@ $_['entry_service_key']                   = 'Service Key';
 $_['entry_service_key_location']          = 'Service Key URL';
 $_['entry_active_store']                  = 'Active Store';
 $_['entry_notify_search_engines']         = 'Notify Search Engines';
+$_['entry_url_list']                      = 'URL List';
 
 // Button
 $_['button_change_key']                   = 'Change Key';
@@ -98,6 +99,7 @@ $_['button_clear_url_list']               = 'Clear URL List';
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
+$_['help_url_list']                       = 'Enter a list of URLs separated by a new line. Click the Submit URL List button to submit these URLs to the search engines.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';

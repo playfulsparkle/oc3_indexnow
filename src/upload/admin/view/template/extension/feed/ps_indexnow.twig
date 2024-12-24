@@ -137,13 +137,19 @@
             </div>
             <div class="tab-pane" id="tab-manual-submit">
 
-							<textarea name="url_list" id="url-list" wrap="off" rows="15" id="input-error-log" class="form-control"></textarea>
-              <br/>
 							<div class="form-group">
-								<div class="col-sm-6">
-									<button type="button" style="width: 100%;" id="button-submit-url-list" data-toggle="tooltip" title="{{ button_submit_url_list }}" class="btn btn-success"><i class="fa fa-play"></i> {{ button_submit_url_list }}</button>
+								<label class="col-sm-2 control-label" for="input-url-list">{{ entry_url_list }}</label>
+								<div class="col-sm-10">
+									<textarea wrap="off" rows="15" id="input-url-list" class="form-control"></textarea>
+									<div class="help-block text-muted">{{ help_url_list }}</div>
 								</div>
-								<div class="col-sm-6">
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-5 col-sm-offset-2">
+									<button type="button" style="width: 100%;" id="button-submit-url-list" data-toggle="tooltip" title="{{ button_submit_url_list }}" class="btn btn-success"><i class="fa fa-send"></i> {{ button_submit_url_list }}</button>
+								</div>
+								<div class="col-sm-5">
 									<button type="button" style="width: 100%;" id="button-clear-url-list" data-toggle="tooltip" title="{{ button_clear_url_list }}" class="btn btn-danger"><i class="fa fa-trash"></i> {{ button_clear_url_list }}</button>
 								</div>
 							</div>
