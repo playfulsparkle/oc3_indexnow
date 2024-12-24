@@ -12,7 +12,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             `language_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`queue_id`),
-            UNIQUE KEY `unique_url_content_hash_store_id` (`url`, `content_hash`, `store_id`),
+            UNIQUE KEY `unique_index` (`url`, `content_hash`, `store_id`, `language_id`),
             KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
