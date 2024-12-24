@@ -372,7 +372,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             );
         }
 
-        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalQueue();
+        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalQueue($store_id);
 
         $pagination = new Pagination();
         $pagination->total = $queue_total;
@@ -427,7 +427,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             );
         }
 
-        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalLog();
+        $queue_total = $this->model_extension_feed_ps_indexnow->getTotalLog($store_id);
 
         $pagination = new Pagination();
         $pagination->total = $queue_total;

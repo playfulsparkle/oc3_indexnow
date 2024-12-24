@@ -128,9 +128,9 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function getTotalQueue()
+    public function getTotalQueue(int $store_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_queue`");
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $store_id . "'");
 
         return $query->row['total'];
     }
@@ -165,9 +165,9 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function getTotalLog()
+    public function getTotalLog($store_id)
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_logs`");
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
 
         return $query->row['total'];
     }
@@ -180,9 +180,9 @@ class ModelExtensionFeedPsIndexNow extends Model
         ");
     }
 
-    public function clearLog()
+    public function clearLog(int $store_id)
     {
-        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_logs`");
+        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
 
         return $this->db->countAffected();
     }
