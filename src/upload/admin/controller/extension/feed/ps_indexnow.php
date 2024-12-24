@@ -397,21 +397,37 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_permission');
         }
 
+        $this->load->model('extension/feed/ps_indexnow');
+        $this->load->model('setting/setting');
+
+        if (isset($this->request->post['store_id'])) {
+            $store_id = (int) $this->request->post['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
+        if (isset($this->request->post['queue_id'])) {
+            $queue_id = (int) $this->request->post['queue_id'];
+        } else {
+            $queue_id = 0;
+        }
+
+
+        $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+
+        if (!is_array($services)) {
+            $services = (array) json_decode((string) $services, true);
+        }
+
+        $services = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services);
+        $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+        $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+
+        if (!$json && (!$services || empty($service_key) || empty($service_key_location))) {
+            $json['error'] = $this->language->get('error_not_configured');
+        }
+
         if (!$json) {
-            $this->load->model('extension/feed/ps_indexnow');
-
-            if (isset($this->request->post['store_id'])) {
-                $store_id = (int) $this->request->post['store_id'];
-            } else {
-                $store_id = 0;
-            }
-
-            if (isset($this->request->post['queue_id'])) {
-                $queue_id = (int) $this->request->post['queue_id'];
-            } else {
-                $queue_id = 0;
-            }
-
             $filter_data = [
                 'store_id' => $store_id,
                 'queue_id' => $queue_id,
@@ -419,6 +435,68 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             ];
 
             $url_list = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
+
+            if (!$url_list) {
+                $json['error'] = $this->language->get('error_empty_queue');
+            }
+        }
+
+        if (!$json) {
+            if ($this->request->server['HTTPS']) {
+                $server = HTTPS_CATALOG;
+            } else {
+                $server = HTTP_CATALOG;
+            }
+
+            if ($store_id > 0) {
+
+                $store = $this->model_setting_store->getStore($store_id);
+
+                if ($store) {
+                    $server = $store['url'];
+                }
+            }
+
+            $host = parse_url($server, PHP_URL_HOST);
+
+            $service_key_location = $server . $service_key_location;
+
+
+            foreach ($services as $service) {
+                $url_list_results = $this->submitUrls($service['endpoint_url'] . 'no', $host, $service_key, $service_key_location, array_column($url_list, 'url'));
+
+                foreach ($url_list_results as $url_list_result) {
+                    $log_data = array(
+                        'service_id' => $service['service_id'],
+                        'url' => $url_list_result['url'],
+                        'status_code' => $url_list_result['status_code'],
+                        'store_id' => $store_id,
+                    );
+
+                    $this->model_extension_feed_ps_indexnow->addLog($log_data);
+                }
+            }
+
+            $queue_id_list = array_column($url_list, 'queue_id');
+
+            if ($queue_id_list) {
+                $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
+            }
+
+            $all_success = true;
+
+            foreach ($url_list_results as $url_list_result) {
+                if ($url_list_result['status_code'] != 200) {
+                    $all_success = false;
+                    break;
+                }
+            }
+
+            if ($all_success) {
+                $json['success'] = $this->language->get('text_success_submit_queue');
+            } else {
+                $json['error'] = $this->language->get('error_submit_queue');
+            }
         }
 
         $this->response->addHeader('Content-Type: application/json');
@@ -538,6 +616,49 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
+    }
+
+    private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list): array
+    {
+        $post_data = json_encode(array(
+            'host' => $host,
+            'key' => $service_key,
+            'keyLocation' => $service_key_location,
+            'urlList' => $url_list,
+        ));
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $service_endpoint);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length: ' . strlen($post_data)
+            ]);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            $response = curl_exec($ch);
+
+            if ($response !== false) {
+                $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            }
+
+            curl_close($ch);
+
+            $result = [];
+
+            foreach ($url_list as $url) {
+                $result[] = [
+                    'url' => $url,
+                    'status_code' => $http_status_code,
+                ];
+            }
+
+            return $result;
+        }
+
+        return false;
     }
 
     private function generateServiceKey()
