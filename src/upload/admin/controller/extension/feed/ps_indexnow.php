@@ -427,16 +427,25 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_not_configured');
         }
 
-        if (!$json) {
+        $queued_url_list = false;
+
+        if (isset($this->request->post['url_list'])) {
+            $url_list = array_filter(explode("\n", (string) $this->request->post['url_list']));
+
+            if (!$json && !$url_list) {
+                $json['error'] = $this->language->get('error_empty_url_list');
+            }
+        } else {
             $filter_data = [
                 'store_id' => $store_id,
                 'queue_id' => $queue_id,
                 'order' => 'ASC',
             ];
 
-            $url_list = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
+            $queued_url_list = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
+            $url_list = array_column($queued_url_list, 'url');
 
-            if (!$url_list) {
+            if (!$json && !$queued_url_list) {
                 $json['error'] = $this->language->get('error_empty_queue');
             }
         }
@@ -463,21 +472,21 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
 
             foreach ($services as $service) {
-                $url_list_results = $this->submitUrls($service['endpoint_url'] . 'no', $host, $service_key, $service_key_location, array_column($url_list, 'url'));
+                $url_list_results = $this->submitUrls($service['endpoint_url'] . 'no', $host, $service_key, $service_key_location, $url_list);
 
                 foreach ($url_list_results as $url_list_result) {
                     $log_data = array(
                         'service_id' => $service['service_id'],
                         'url' => $url_list_result['url'],
                         'status_code' => $url_list_result['status_code'],
-                        'store_id' => $store_id,
+                        'store_id' => $queued_url_list ? $store_id : null,
                     );
 
                     $this->model_extension_feed_ps_indexnow->addLog($log_data);
                 }
             }
 
-            $queue_id_list = array_column($url_list, 'queue_id');
+            $queue_id_list = $queued_url_list ? array_column($url_list, 'queue_id') : [];
 
             if ($queue_id_list) {
                 $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);

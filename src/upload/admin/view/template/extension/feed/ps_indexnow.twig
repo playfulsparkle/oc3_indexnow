@@ -9,7 +9,7 @@
 						{{ entry_active_store }}
 						<select name="store" id="input-store" class="form-select">
 							{% for store in stores %}&nbsp;&nbsp;
-							<option value="{{ store.href }}" {% if store.store_id == store_id %} selected{% endif %}>{{ store.name }}</option>
+							<option value="{{ store.href }}" {% if store.store_id==store_id %} selected{% endif %}>{{ store.name }}</option>
 							{% endfor %}
 						</select>
 					</div>
@@ -25,29 +25,29 @@
 			</ul>
 		</div>
 	</div>
-  <div class="container-fluid">
-    {% if error_warning %}
-    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    {% endif %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
-      </div>
-      <div class="panel-body">
-        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-feed" class="form-horizontal">
+	<div class="container-fluid">
+		{% if error_warning %}
+		<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+		</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+			</div>
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-feed" class="form-horizontal">
 
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
-            <li><a href="#tab-manual-submit" data-toggle="tab">{{ tab_manual_submit }}</a></li>
-            <li><a href="#tab-queue" data-toggle="tab">{{ tab_queue }}</a></li>
-            <li><a href="#tab-log" data-toggle="tab">{{ tab_log }}</a></li>
-            <li><a href="#tab-support" data-toggle="tab">{{ tab_help_and_support }}</a></li>
-          </ul>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
+						<li><a href="#tab-manual-submit" data-toggle="tab">{{ tab_manual_submit }}</a></li>
+						<li><a href="#tab-queue" data-toggle="tab">{{ tab_queue }}</a></li>
+						<li><a href="#tab-log" data-toggle="tab">{{ tab_log }}</a></li>
+						<li><a href="#tab-support" data-toggle="tab">{{ tab_help_and_support }}</a></li>
+					</ul>
 
-          <div class="tab-content">
-            <div class="tab-pane active" id="tab-general">
+					<div class="tab-content">
+						<div class="tab-pane active" id="tab-general">
 
 							<div class="form-group">
 								<label for="input-status" class="col-sm-2 control-label">{{ entry_status }}</label>
@@ -134,8 +134,8 @@
 								</div>
 							</div>
 
-            </div>
-            <div class="tab-pane" id="tab-manual-submit">
+						</div>
+						<div class="tab-pane" id="tab-manual-submit">
 
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-url-list">{{ entry_url_list }}</label>
@@ -155,7 +155,7 @@
 							</div>
 
 						</div>
-            <div class="tab-pane" id="tab-queue">
+						<div class="tab-pane" id="tab-queue">
 
 							<div id="queue-content"></div>
 
@@ -169,7 +169,7 @@
 							</div>
 
 						</div>
-            <div class="tab-pane" id="tab-log">
+						<div class="tab-pane" id="tab-log">
 
 							<div id="log-content"></div>
 
@@ -182,7 +182,7 @@
 							</div>
 
 						</div>
-            <div class="tab-pane" id="tab-support">
+						<div class="tab-pane" id="tab-support">
 
 							<h3>{{ heading_getting_started }}</h3>
 							{{ text_getting_started }}
@@ -199,14 +199,14 @@
 							<h3>{{ heading_contact }}</h3>
 							{{ text_contact }}
 
-            </div>
+						</div>
 					</div>
 
 					<input type="hidden" name="store_id" value="{{ store_id }}">
-        </form>
-      </div>
-    </div>
-  </div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 	$('.btn-generate-service-key').on('click', function () {
@@ -215,13 +215,13 @@
 		$.ajax({
 			url: 'index.php?route=extension/feed/ps_indexnow/generate_service_key&store_id={{ store_id }}&user_token={{ user_token }}',
 			dataType: 'json',
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -236,7 +236,7 @@
 					$('#input-service-key-location').val(json['service_key_location']).attr('data-service-key-url', json['service_key_url']);
 				}
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
@@ -246,7 +246,7 @@
 		var serviceKeyUrl = $('#input-service-key-location').data('service-key-url');
 
 		if (serviceKeyUrl.length) {
-				window.open(serviceKeyUrl, '_blank');
+			window.open(serviceKeyUrl, '_blank');
 		}
 	});
 
@@ -256,13 +256,13 @@
 
 	$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
 
-	$('#queue-content').delegate('.pagination a', 'click', function(e) {
+	$('#queue-content').delegate('.pagination a', 'click', function (e) {
 		e.preventDefault();
 
 		$('#queue-content').load(this.href);
 	});
 
-	$('#queue-content').delegate('.btn-remove-item', 'click', function() {
+	$('#queue-content').delegate('.btn-remove-item', 'click', function () {
 		var node = this;
 
 		$.ajax({
@@ -271,13 +271,13 @@
 			data: 'queue_id=' + encodeURIComponent(this.value),
 			dataType: 'json',
 			crossDomain: true,
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -291,13 +291,13 @@
 					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
 				}
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
 	});
 
-	$('#queue-content').delegate('.btn-submit-item', 'click', function() {
+	$('#queue-content').delegate('.btn-submit-item', 'click', function () {
 		var node = this;
 
 		$.ajax({
@@ -306,13 +306,13 @@
 			data: 'queue_id=' + encodeURIComponent(this.value),
 			dataType: 'json',
 			crossDomain: true,
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -328,10 +328,53 @@
 
 				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
+	});
+
+	$('#button-submit-url-list').on('click', function () {
+		var node = this;
+		var urlListObj = $('#input-url-list');
+
+		$.ajax({
+			url: 'index.php?route=extension/feed/ps_indexnow/submit_queue&store_id={{ store_id }}&user_token={{ user_token }}',
+			type: 'post',
+			data: 'url_list=' + encodeURIComponent(urlListObj.val()),
+			dataType: 'json',
+			beforeSend: function () {
+				$(node).button('loading');
+			},
+			complete: function () {
+				$(node).button('reset');
+			},
+			success: function (json) {
+				$('.alert-dismissible').remove();
+
+				// Check for errors
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+
+				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
+
+				urlListObj.val('');
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+
+	$('#button-clear-url-list').on('click', function () {
+		$('#input-url-list').val('');
 	});
 
 	$('#button-submit-queue').on('click', function () {
@@ -340,13 +383,13 @@
 		$.ajax({
 			url: 'index.php?route=extension/feed/ps_indexnow/submit_queue&store_id={{ store_id }}&user_token={{ user_token }}',
 			dataType: 'json',
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -362,7 +405,7 @@
 
 				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
@@ -374,13 +417,13 @@
 		$.ajax({
 			url: 'index.php?route=extension/feed/ps_indexnow/clear_queue&store_id={{ store_id }}&user_token={{ user_token }}',
 			dataType: 'json',
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -394,7 +437,7 @@
 					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
 				}
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});
@@ -402,7 +445,7 @@
 
 	$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 
-	$('#log-content').delegate('.pagination a', 'click', function(e) {
+	$('#log-content').delegate('.pagination a', 'click', function (e) {
 		e.preventDefault();
 
 		$('#log-content').load(this.href);
@@ -414,13 +457,13 @@
 		$.ajax({
 			url: 'index.php?route=extension/feed/ps_indexnow/clear_log&store_id={{ store_id }}&user_token={{ user_token }}',
 			dataType: 'json',
-			beforeSend: function() {
+			beforeSend: function () {
 				$(node).button('loading');
 			},
-			complete: function() {
+			complete: function () {
 				$(node).button('reset');
 			},
-			success: function(json) {
+			success: function (json) {
 				$('.alert-dismissible').remove();
 
 				// Check for errors
@@ -434,7 +477,7 @@
 					$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 				}
 			},
-			error: function(xhr, ajaxOptions, thrownError) {
+			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 			}
 		});

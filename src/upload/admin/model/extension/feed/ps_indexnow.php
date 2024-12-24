@@ -44,7 +44,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             `service_id` SMALLINT UNSIGNED NOT NULL,
             `url` VARCHAR(2083) NOT NULL,
             `status_code` SMALLINT UNSIGNED NOT NULL,
-            `store_id` INT NOT NULL DEFAULT 0,
+            `store_id` INT DEFAULT NULL,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`log_id`),
             KEY `service_id_index` (`service_id`),
@@ -87,7 +87,7 @@ class ModelExtensionFeedPsIndexNow extends Model
 
         $this->db->query("
             INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
-            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int)$data['store_id'] . "', '" . (int)$data['language_id'] . "', NOW())
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
         ");
     }
 
@@ -170,7 +170,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             l.`date_added`
         FROM `" . DB_PREFIX . "ps_indexnow_logs` l
         LEFT JOIN `" . DB_PREFIX . "ps_indexnow_services` s ON (l.`service_id` = s.`service_id`)
-        WHERE l.`store_id` = '" . (int) $data['store_id'] . "'
+        WHERE (l.`store_id` = '" . (int) $data['store_id'] . "' OR l.`store_id` IS NULL)
         ORDER BY l.`date_added` DESC";
 
         if (isset($data['start']) || isset($data['limit'])) {
@@ -199,10 +199,17 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function addLog(array $data): void
     {
-        $this->db->query("
-            INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
-            VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', '" . (int) $data['store_id'] . "', NOW())
-        ");
+        if (is_null($data['store_id'])) {
+            $this->db->query(
+                "INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
+                VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', NULL, NOW())"
+            );
+        } else {
+            $this->db->query(
+                "INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
+                VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', '" . (int) $data['store_id'] . "', NOW())"
+            );
+        }
     }
 
     public function clearLog(int $store_id)

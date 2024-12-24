@@ -112,5 +112,6 @@ $_['error_clear_log']                     = 'Warning: Log is either empty or cou
 $_['error_clear_queue']                   = 'Warning: Queue is either empty or could not be cleared!';
 $_['error_not_configured']                = 'Warning: IndexNow extension is not configured!';
 $_['error_submit_queue']                  = 'Warning: There was a problem submitting the queued URLs!';
-$_['error_empty_queue']                    = 'Warning: The queue is empty!';
+$_['error_empty_queue']                   = 'Warning: The queue is empty!';
+$_['error_empty_url_list']                = 'Warning: The URL list is empty!';
 $_['error_service_key']                   = 'The Service Key is invalid. Please provide a valid Service Key.';
