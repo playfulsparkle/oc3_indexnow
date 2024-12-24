@@ -65,38 +65,40 @@ class ModelExtensionFeedPsIndexNow extends Model
     {
         $query = $this->db->query("SELECT `service_id`, `service_name` FROM `" . DB_PREFIX . "ps_indexnow_services`");
 
-        if ($query->num_rows) {
-            return $query->rows;
-        }
-
-        return [];
+        return $query->rows;
     }
 
     public function addQueue($data)
     {
-        $query = $this->db->query("
-            SELECT `date_added`
-            FROM `" . DB_PREFIX . "ps_indexnow_queue`
-            WHERE `url` = '" . $this->db->escape($data['url']) . "'
-            AND `content_hash` = '" . $this->db->escape($data['content_hash']) . "'
-            AND `store_id` = '" . (int) $data['store_id'] . "'
-            AND `language_id` = '" . (int) $data['language_id'] . "'
-            AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
-            ORDER BY `date_added` DESC
-            LIMIT 1
+        $this->db->query("
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
+            SELECT '" . $this->db->escape($data['url']) . "',
+                '" . $this->db->escape($data['content_hash']) . "',
+                '" . (int) $data['store_id'] . "',
+                '" . (int) $data['language_id'] . "',
+                NOW()
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM `" . DB_PREFIX . "ps_indexnow_queue`
+                WHERE `url` = '" . $this->db->escape($data['url']) . "'
+                AND `content_hash` = '" . $this->db->escape($data['content_hash']) . "'
+                AND `store_id` = '" . (int) $data['store_id'] . "'
+                AND `language_id` = '" . (int) $data['language_id'] . "'
+                AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            )
         ");
-
-        if ($query->num_rows) {
-            return;
-        }
-
-        $this->db->query("INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
-            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW());");
     }
 
     public function removeQueue($queue_id)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `queue_id` = '" . (int) $queue_id . "'");
+
+        return $this->db->countAffected();
+    }
+
+    public function clearQueue()
+    {
+        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_queue`");
 
         return $this->db->countAffected();
     }
@@ -124,6 +126,13 @@ class ModelExtensionFeedPsIndexNow extends Model
         }
 
         $query = $this->db->query($sql);
+
+        return $query->rows;
+    }
+
+    public function getQueuedUrls($limit = 100)
+    {
+        $query = $this->db->query("SELECT `queue_id`, `url`, `store_id` FROM `" . DB_PREFIX . "ps_indexnow_queue` ORDER BY `date_added` ASC LIMIT " . (int) $limit);
 
         return $query->rows;
     }
@@ -170,5 +179,20 @@ class ModelExtensionFeedPsIndexNow extends Model
         $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_logs`");
 
         return $query->row['total'];
+    }
+
+    public function addLog(array $data): void
+    {
+        $this->db->query("
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
+            VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', '" . (int) $data['store_id'] . "', NOW())
+        ");
+    }
+
+    public function clearLog()
+    {
+        $this->db->query("TRUNCATE TABLE `" . DB_PREFIX . "ps_indexnow_logs`");
+
+        return $this->db->countAffected();
     }
 }
