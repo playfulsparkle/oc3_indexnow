@@ -71,21 +71,8 @@ class ModelExtensionFeedPsIndexNow extends Model
     public function addQueue($data)
     {
         $this->db->query("
-            INSERT INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
-            SELECT '" . $this->db->escape($data['url']) . "',
-                '" . $this->db->escape($data['content_hash']) . "',
-                '" . (int) $data['store_id'] . "',
-                '" . (int) $data['language_id'] . "',
-                NOW()
-            WHERE NOT EXISTS (
-                SELECT 1
-                FROM `" . DB_PREFIX . "ps_indexnow_queue`
-                WHERE `url` = '" . $this->db->escape($data['url']) . "'
-                AND `content_hash` = '" . $this->db->escape($data['content_hash']) . "'
-                AND `store_id` = '" . (int) $data['store_id'] . "'
-                AND `language_id` = '" . (int) $data['language_id'] . "'
-                AND `date_added` > DATE_SUB(NOW(), INTERVAL 1 HOUR)
-            )
+            INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
+            VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int)$data['store_id'] . "', '" . (int)$data['language_id'] . "', NOW())
         ");
     }
 
