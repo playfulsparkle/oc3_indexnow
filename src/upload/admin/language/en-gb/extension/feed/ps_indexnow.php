@@ -20,12 +20,12 @@ $_['text_success_submit_url_list']        = 'Success: URL list has been successf
 $_['text_edit']                           = 'Edit IndexNow';
 $_['text_getting_started']                = '<p><strong>Overview:</strong> The Playful Sparkle - IndexNow extension enables OpenCart users to easily notify supported search engines when URLs on their website have been added, updated, or deleted. Using IndexNow, search engines are informed instantly, allowing them to prioritize crawling these URLs and quickly reflect changes in search results.</p><p><strong>Requirements:</strong> OpenCart 4.x+, PHP 7.4+ or higher.</p>';
 $_['text_setup']                          = '<ul>
-    <li>Enable the extension in your OpenCart admin panel.</li>
-    <li>For each supported IndexNow service, enable the service individually.</li>
-    <li>Configure the Service Key for each enabled service. If the key is not accessible from the server root, specify the Service Key URL where it can be accessed.</li>
-    <li>Add the IndexNow endpoint to your cron job list to ensure the URL queue is processed periodically. Alternatively, you can run the endpoint manually to process the queue.</li>
-</ul>
-<p>The URL queue is automatically filled when you add, update, or delete products, categories, manufacturers, or information pages. This ensures that any changes made on your site will be promptly submitted to the search engines configured with IndexNow.</p>';
+<li>Click the "Edit" button next to "Playful Sparkle - IndexNow" and set the status to "Enabled".</li>
+<li>In the extension settings, locate the "IndexNow Services" section and enable the services you want to notify about URL changes.</li>
+<li>Scroll down to the "Notify Search Engines" section and enable the areas you want to monitor for changes, such as Categories, Products, Manufacturers, Information Pages.</li>
+<li>If necessary, regenerate the service key by clicking the "Generate New Key" button. This will create a new key and update the service key URL.</li>
+<li>Once all settings are configured, click the "Save" button to apply the changes.</li>
+</ul>';
 $_['text_troubleshot']                    = '<ul>
 <li><strong>URL Not Indexed:</strong> IndexNow informs search engines of changes, but indexing is not guaranteed and may take time.</li>
 <li><strong>HTTP 429 Response:</strong> Slow down or retry later as you are sending too many requests.</li>
