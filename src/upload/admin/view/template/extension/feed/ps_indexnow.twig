@@ -301,7 +301,7 @@
 		var node = this;
 
 		$.ajax({
-			url: 'index.php?route=extension/feed/ps_indexnow/submit_queue&user_token={{ user_token }}',
+			url: 'index.php?route=extension/feed/ps_indexnow/submit_queue&store_id={{ store_id }}&user_token={{ user_token }}',
 			type: 'post',
 			data: 'queue_id=' + encodeURIComponent(this.value),
 			dataType: 'json',

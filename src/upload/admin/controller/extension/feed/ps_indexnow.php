@@ -113,20 +113,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if ($data['feed_ps_indexnow_service_key_location']) {
-            if ($this->request->server['HTTPS']) {
-                $server = HTTPS_CATALOG;
-            } else {
-                $server = HTTP_CATALOG;
-            }
-
-            if ($store_id > 0) {
-
-                $store = $this->model_setting_store->getStore($store_id);
-
-                if ($store) {
-                    $server = $store['url'];
-                }
-            }
+            $server = $this->get_store_url($store_id);
 
             $data['feed_ps_indexnow_service_key_url'] = $server . $data['feed_ps_indexnow_service_key_location'];
         } else {
@@ -214,27 +201,16 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     public function install()
     {
-        if (is_writable(dirname(DIR_APPLICATION))) {
-            $service_key = $this->generateServiceKey();
+        $this->load->model('setting/store');
+        $this->load->model('setting/setting');
 
-            $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';
+        $stores = array_merge(array(0), array_column($this->model_setting_store->getStores(), 'store_id'));
 
-            $handle = fopen($filename, 'w');
+        foreach ($stores as $store_id) {
+            $service_key = $this->save_service_key();
 
-            if ($handle) {
-                fwrite($handle, $service_key);
-
-                fclose($handle);
-
-                $this->load->model('setting/setting');
-
-                $data = array(
-                    'feed_ps_indexnow_service_key' => $service_key,
-                    'feed_ps_indexnow_service_key_location' => $service_key . '.txt',
-                );
-
-                $this->model_setting_setting->editSetting('feed_ps_indexnow', $data);
-            }
+            $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key', $service_key, $store_id);
+            $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key_location', $service_key . '.txt', $store_id);
         }
 
         $this->load->model('extension/feed/ps_indexnow');
@@ -254,12 +230,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        if (isset($this->request->get['store_id'])) {
-            $store_id = (int) $this->request->get['store_id'];
-        } else {
-            $store_id = 0;
-        }
-
         $json = [];
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
@@ -267,47 +237,28 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$json) {
-            $service_key = $this->generateServiceKey();
+            $this->load->model('setting/setting');
+            $this->load->model('setting/store');
 
-            $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';
+            if (isset($this->request->get['store_id'])) {
+                $store_id = (int) $this->request->get['store_id'];
+            } else {
+                $store_id = 0;
+            }
 
-            if (is_writable(dirname(DIR_APPLICATION))) {
-                $handle = fopen($filename, 'w');
+            $service_key = $this->save_service_key();
 
-                if ($handle) {
-                    fwrite($handle, $service_key);
+            if ($service_key) {
+                $server = $this->get_store_url($store_id);
 
-                    fclose($handle);
+                $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key', $service_key, $store_id);
+                $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key_location', $service_key . '.txt', $store_id);
 
-                    if ($this->request->server['HTTPS']) {
-                        $server = HTTPS_CATALOG;
-                    } else {
-                        $server = HTTP_CATALOG;
-                    }
+                $json['service_key'] = $service_key;
+                $json['service_key_location'] = $service_key . '.txt';
+                $json['service_key_url'] = $server . $service_key . '.txt';
 
-                    if (isset($this->request->get['store_id']) && $store_id > 0) {
-                        $this->load->model('setting/store');
-
-                        $store = $this->model_setting_store->getStore($store_id);
-
-                        if ($store) {
-                            $server = $store['url'];
-                        }
-                    }
-
-                    $this->load->model('setting/setting');
-
-                    $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key', $service_key, $store_id);
-                    $this->model_setting_setting->editSettingValue('feed_ps_indexnow', 'feed_ps_indexnow_service_key_location', $service_key . '.txt', $store_id);
-
-                    $json['service_key'] = $service_key;
-                    $json['service_key_location'] = $service_key . '.txt';
-                    $json['service_key_url'] = $server . $service_key . '.txt';
-
-                    $json['success'] = $this->language->get('text_success_generate_service_key');
-                } else {
-                    $json['error'] = $this->language->get('error_generate_service_key');
-                }
+                $json['success'] = $this->language->get('text_success_generate_service_key');
             } else {
                 $json['error'] = $this->language->get('error_generate_service_key');
             }
@@ -410,9 +361,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('setting/setting');
+        $this->load->model('setting/store');
 
-        if (isset($this->request->post['store_id'])) {
-            $store_id = (int) $this->request->post['store_id'];
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
         } else {
             $store_id = 0;
         }
@@ -462,28 +414,16 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$json) {
-            if ($this->request->server['HTTPS']) {
-                $server = HTTPS_CATALOG;
-            } else {
-                $server = HTTP_CATALOG;
-            }
-
-            if ($store_id > 0) {
-
-                $store = $this->model_setting_store->getStore($store_id);
-
-                if ($store) {
-                    $server = $store['url'];
-                }
-            }
-
-            $host = parse_url($server, PHP_URL_HOST);
-
-            $service_key_location = $server . $service_key_location;
-
+            $server = $this->get_store_url($store_id);
 
             foreach ($services as $service) {
-                $url_list_results = $this->submitUrls($service['endpoint_url'] . 'no', $host, $service_key, $service_key_location, $url_list);
+                $url_list_results = $this->submitUrls(
+                    $service['endpoint_url'] . 'no',
+                    parse_url($server, PHP_URL_HOST),
+                    $service_key,
+                    $server . $service_key_location,
+                    $url_list
+                );
 
                 foreach ($url_list_results as $url_list_result) {
                     $log_data = array(
@@ -679,6 +619,46 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         return false;
+    }
+
+    private function get_store_url($store_id)
+    {
+        if ($this->request->server['HTTPS']) {
+            $server = HTTPS_CATALOG;
+        } else {
+            $server = HTTP_CATALOG;
+        }
+
+        if ($store_id > 0 && $store = $this->model_setting_store->getStore($store_id)) {
+            $server = $store['url'];
+        }
+
+        return $server;
+    }
+
+    private function save_service_key()
+    {
+        if (!is_writable(dirname(DIR_APPLICATION))) {
+            return false;
+        }
+
+        try {
+            $service_key = $this->generateServiceKey();
+
+            $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';
+
+            $handle = fopen($filename, 'w');
+
+            if ($handle) {
+                fwrite($handle, $service_key);
+
+                fclose($handle);
+
+                return $service_key;
+            }
+        } catch (\Exception $th) {
+            return false;
+        }
     }
 
     private function generateServiceKey()
