@@ -439,6 +439,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
             $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
 
+            $all_success = true;
+
             foreach ($services as $service) {
                 $url_list_results = $this->submitUrls(
                     $service['endpoint_url'] . 'no',
@@ -457,15 +459,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                     );
 
                     $this->model_extension_feed_ps_indexnow->addLog($log_data);
-                }
-            }
 
-            $all_success = true;
-
-            foreach ($url_list_results as $url_list_result) {
-                if ($url_list_result['status_code'] !== 200) {
-                    $all_success = false;
-                    break;
+                    if ($all_success && $url_list_result['status_code'] !== 200) {
+                        $all_success = false;
+                    }
                 }
             }
 
