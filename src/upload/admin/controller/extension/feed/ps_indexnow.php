@@ -490,7 +490,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                         'service_id' => $service['service_id'],
                         'url' => $url_list_result['url'],
                         'status_code' => $url_list_result['status_code'],
-                        'store_id' => $queued_url_list ? $store_id : null,
+                        'store_id' => $store_id,
                     );
 
                     $this->model_extension_feed_ps_indexnow->addLog($log_data);

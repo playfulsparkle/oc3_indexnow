@@ -44,7 +44,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             `service_id` SMALLINT UNSIGNED NOT NULL,
             `url` VARCHAR(2083) NOT NULL,
             `status_code` SMALLINT UNSIGNED NOT NULL,
-            `store_id` INT DEFAULT NULL,
+            `store_id` INT NOT NULL DEFAULT 0,
             `date_added` DATETIME NOT NULL,
             PRIMARY KEY (`log_id`),
             KEY `service_id_index` (`service_id`),
@@ -199,17 +199,10 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function addLog(array $data): void
     {
-        if (is_null($data['store_id'])) {
-            $this->db->query(
-                "INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
-                VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', NULL, NOW())"
-            );
-        } else {
-            $this->db->query(
-                "INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
-                VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', '" . (int) $data['store_id'] . "', NOW())"
-            );
-        }
+        $this->db->query(
+            "INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`)
+            VALUES ('" . (int) $data['service_id'] . "', '" . $this->db->escape($data['url']) . "', '" . (int) $data['status_code'] . "', '" . (int) $data['store_id'] . "', NOW())"
+        );
     }
 
     public function clearLog(int $store_id)
