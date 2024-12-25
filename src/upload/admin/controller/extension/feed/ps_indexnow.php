@@ -453,20 +453,25 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                         $batch
                     );
 
+                    $log_data = array();
+
                     foreach ($url_list_results as $url_list_result) {
-                        $log_data = [
+                        $log_data[] = array(
                             'service_id' => $service['service_id'],
                             'url' => $url_list_result['url'],
                             'status_code' => $url_list_result['status_code'],
                             'store_id' => $store_id,
-                        ];
+                        );
 
                         if ($all_success && $url_list_result['status_code'] !== 200) {
                             $all_success = false;
                         }
-
-                        $this->model_extension_feed_ps_indexnow->addLog($log_data);
                     }
+
+                    $this->model_extension_feed_ps_indexnow->addLog($log_data);
+
+                    // Add a delay between batches to avoid overwhelming the service
+                    sleep(2); // Delay for 2 second
                 }
             }
 
