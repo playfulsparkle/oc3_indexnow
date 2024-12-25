@@ -89,6 +89,7 @@ $_['entry_service_key_location']          = 'Service Key URL';
 $_['entry_active_store']                  = 'Active Store';
 $_['entry_notify_search_engines']         = 'Notify Search Engines';
 $_['entry_url_list']                      = 'URL List';
+$_['entry_load_sitemap']                  = 'Load Sitemap';
 
 // Button
 $_['button_change_key']                   = 'Change Key';
@@ -99,6 +100,8 @@ $_['button_clear_queue']                  = 'Clear Queued URLs';
 $_['button_clear_log']                    = 'Clear Log';
 $_['button_submit_url_list']              = 'Submit URL List';
 $_['button_clear_url_list']               = 'Clear URL List';
+$_['button_upload_sitemap']               = 'Upload Sitemap URLs';
+$_['button_import_sitemap']               = 'Import Sitemap URLs';
 
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';

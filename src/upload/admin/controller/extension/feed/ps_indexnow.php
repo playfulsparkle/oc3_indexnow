@@ -268,6 +268,20 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
+    public function load_sitemap()
+    {
+        $this->load->language('extension/feed/ps_indexnow');
+
+        $json = [];
+
+        if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
+
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
+
     public function remove_queue()
     {
         $this->load->language('extension/feed/ps_indexnow');

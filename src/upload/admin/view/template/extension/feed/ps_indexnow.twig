@@ -146,6 +146,20 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-sm-2 control-label" for="input-load-sitemap">{{ entry_load_sitemap }}</label>
+								<div class="col-sm-10">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fa fa-globe"></i></span>
+										<input type="text" value="" placeholder="{{ entry_load_sitemap }}" id="input-load-sitemap" class="form-control">
+										<span class="input-group-btn">
+											<button type="button" class="btn btn-secondary" id="button-import-sitemap" data-toggle="tooltip" title="{{ button_import_sitemap }}"><i class="fa fa-send"></i></button>
+											<button type="button" class="btn btn-secondary" id="button-upload-sitemap" data-toggle="tooltip" title="{{ button_upload_sitemap }}"><i class="fa fa-upload"></i></button>
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
 								<div class="col-sm-5 col-sm-offset-2">
 									<button type="button" style="width: 100%;" id="button-submit-url-list" data-toggle="tooltip" title="{{ button_submit_url_list }}" class="btn btn-success"><i class="fa fa-send"></i> {{ button_submit_url_list }}</button>
 								</div>
@@ -209,6 +223,92 @@
 	</div>
 </div>
 <script>
+	$('#button-import-sitemap').on('click', function () {
+		var node = this;
+		var sitemapInput = $('#input-load-sitemap');
+
+		$.ajax({
+			url: 'index.php?route=extension/feed/ps_indexnow/load_sitemap&store_id={{ store_id }}&user_token={{ user_token }}',
+			type: 'post',
+			data: 'file=' + encodeURIComponent(sitemapInput.val()),
+			dataType: 'json',
+			crossDomain: true,
+			beforeSend: function () {
+				$(node).button('loading');
+			},
+			complete: function () {
+				$(node).button('reset');
+			},
+			success: function (json) {
+				$('.alert-dismissible').remove();
+
+				// Check for errors
+				if (json['error']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				if (json['success']) {
+					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+				}
+
+				sitemapInput.val('');
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+		});
+	});
+
+	$('#button-upload-sitemap').on('click', function() {
+		var node = $(this);
+
+		$('#form-upload').remove();
+
+		$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file"></form>');
+
+		$('#form-upload input[name=\'file\']').trigger('click');
+
+		if (typeof timer != 'undefined') {
+			clearInterval(timer);
+		}
+
+		timer = setInterval(function() {
+			if ($('#form-upload input[name=\'file\']').val() != '') {
+				clearInterval(timer);
+
+				$.ajax({
+					url: 'index.php?route=extension/feed/ps_indexnow/load_sitemap&store_id={{ store_id }}&user_token={{ user_token }}',
+					type: 'post',
+					dataType: 'json',
+					data: new FormData($('#form-upload')[0]),
+					cache: false,
+					contentType: false,
+					processData: false,
+					beforeSend: function() {
+						$(node).button('loading');
+					},
+					complete: function() {
+						$(node).button('reset');
+					},
+					success: function(json) {
+						$('.alert-dismissible').remove();
+
+						if (json['error']) {
+							$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+						}
+
+						if (json['success']) {
+							$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+						}
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+					}
+				});
+			}
+		}, 500);
+	});
+
 	$('.btn-generate-service-key').on('click', function () {
 		var node = this;
 
