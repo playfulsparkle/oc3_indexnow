@@ -108,6 +108,7 @@ $_['button_import_sitemap']               = 'Import Sitemap URLs';
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
 $_['help_url_list']                       = 'Enter a list of URLs separated by a new line. Click the Submit URL List button to submit these URLs to the search engines.';
+$_['help_load_sitemap']                   = 'You can either enter a sitemap URL or upload a sitemap.xml file. The URLs from the sitemap will be loaded into the URL List textarea, which will then be sent to the IndexNow services.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow feed!';
