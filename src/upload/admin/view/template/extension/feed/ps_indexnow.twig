@@ -137,6 +137,8 @@
 						</div>
 						<div class="tab-pane" id="tab-manual-submit">
 
+							<div class="alert alert-warning"><i class="fa fa-info-circle"></i> {{ text_url_list_warning }}</div>
+
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-url-list">{{ entry_url_list }}</label>
 								<div class="col-sm-10">
@@ -152,8 +154,8 @@
 										<span class="input-group-addon"><i class="fa fa-globe"></i></span>
 										<input type="text" value="" placeholder="{{ entry_load_sitemap }}" id="input-load-sitemap" class="form-control">
 										<span class="input-group-btn">
-											<button type="button" class="btn btn-secondary" id="button-import-sitemap" data-toggle="tooltip" title="{{ button_import_sitemap }}"><i class="fa fa-send"></i></button>
-											<button type="button" class="btn btn-secondary" id="button-upload-sitemap" data-toggle="tooltip" title="{{ button_upload_sitemap }}"><i class="fa fa-upload"></i></button>
+											<button type="button" class="btn btn-success" id="button-import-sitemap" data-toggle="tooltip" title="{{ button_import_sitemap }}"><i class="fa fa-send"></i> {{ button_import_sitemap }}</button>
+											<button type="button" class="btn btn-primary" id="button-upload-sitemap" data-toggle="tooltip" title="{{ button_upload_sitemap }}"><i class="fa fa-upload"></i> {{ button_upload_sitemap }}</button>
 										</span>
 									</div>
 								</div>
@@ -226,6 +228,7 @@
 	$('#button-import-sitemap').on('click', function () {
 		var node = this;
 		var sitemapInput = $('#input-load-sitemap');
+		var urlListObj = $('#input-url-list');
 
 		$.ajax({
 			url: 'index.php?route=extension/feed/ps_indexnow/load_sitemap&store_id={{ store_id }}&user_token={{ user_token }}',
@@ -252,6 +255,10 @@
 				}
 
 				sitemapInput.val('');
+
+				if (json['url_list']) {
+					urlListObj.val(json['url_list']);
+				}
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -261,6 +268,7 @@
 
 	$('#button-upload-sitemap').on('click', function() {
 		var node = $(this);
+		var urlListObj = $('#input-url-list');
 
 		$('#form-upload').remove();
 
@@ -299,6 +307,10 @@
 
 						if (json['success']) {
 							$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+						}
+
+						if (json['url_list']) {
+							urlListObj.val(json['url_list']);
 						}
 					},
 					error: function(xhr, ajaxOptions, thrownError) {

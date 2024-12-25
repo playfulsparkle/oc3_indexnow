@@ -82,6 +82,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $data['user_token'] = $this->session->data['user_token'];
 
+        $server = $this->get_store_url($store_id);
+
         if (isset($this->request->post['feed_ps_indexnow_status'])) {
             $data['feed_ps_indexnow_status'] = (bool) $this->request->post['feed_ps_indexnow_status'];
         } else {
@@ -111,8 +113,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if ($data['feed_ps_indexnow_service_key_location']) {
-            $server = $this->get_store_url($store_id);
-
             $data['feed_ps_indexnow_service_key_url'] = $server . $data['feed_ps_indexnow_service_key_location'];
         } else {
             $data['feed_ps_indexnow_service_key_url'] = '';
@@ -160,6 +160,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         );
 
         $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
+
+        $data['text_url_list_warning'] = sprintf($this->language->get('text_url_list_warning'), parse_url($server, PHP_URL_HOST));
 
         $data['header'] = $this->load->controller('common/header');
         $data['column_left'] = $this->load->controller('common/column_left');
@@ -230,7 +232,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
@@ -272,21 +274,144 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
+        }
+
+        if (!$json) {
+            if (isset($this->request->files['file'])) {
+                $json = $this->load_uploaded_sitemap($this->request->files['file']);
+            } else if (isset($this->request->post['file'])) {
+                $json = $this->load_url_sitemap((string) $this->request->post['file']);
+            }
         }
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }
 
+    private function load_uploaded_sitemap($file_upload)
+    {
+        $json = array();
+
+        if (!empty($file_upload['name']) && is_file($file_upload['tmp_name'])) {
+            $filename = basename($file_upload['name']);
+
+            if (strtolower(pathinfo($filename, PATHINFO_EXTENSION)) !== 'xml') {
+                $json['error'] = $this->language->get('error_filetype');
+
+                return $json;
+            }
+
+            if (!in_array($file_upload['type'], ['text/xml', 'application/xml'], true)) {
+                $json['error'] = $this->language->get('error_filetype');
+
+                return $json;
+            }
+
+            if ((int) $file_upload['error'] !== UPLOAD_ERR_OK) {
+                $json['error'] = $this->language->get('error_upload_' . $file_upload['error']);
+
+                return $json;
+            }
+        } else {
+            $json['error'] = $this->language->get('error_upload');
+
+            return $json;
+        }
+
+        if (is_readable($file_upload['tmp_name'])) {
+            $contents = file_get_contents($file_upload['tmp_name']);
+
+            $json['url_list'] = $this->process_xml_sitemap($contents);
+
+            @unlink($file_upload['tmp_name']);
+        } else {
+            $json['error'] = $this->language->get('error_upload');
+        }
+
+        return $json;
+    }
+
+    private function load_url_sitemap($file_url)
+    {
+        $json = array();
+
+        if (!filter_var($file_url, FILTER_VALIDATE_URL)) {
+            $json['error'] = $this->language->get('error_invalid_url');
+
+            return $json;
+        }
+
+        $file_host = parse_url($file_url, PHP_URL_HOST);
+
+        $server_host = $this->request->server['HTTPS']
+            ? parse_url(HTTPS_CATALOG, PHP_URL_HOST)
+            : parse_url(HTTP_CATALOG, PHP_URL_HOST);
+
+        if ($file_host !== $server_host) {
+            $json['error'] = $this->language->get('error_invalid_url_host');
+
+            return $json;
+        }
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $file_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            curl_close($ch);
+        } else if (ini_get('allow_url_fopen')) {
+            $response = file_get_contents($file_url);
+        }
+
+        if ($response !== false) {
+            $json['url_list'] = $this->process_xml_sitemap($response);
+        }
+
+        return $json;
+    }
+
+    private function process_xml_sitemap($xmlString)
+    {
+        $urls = array();
+
+        libxml_use_internal_errors(true);
+
+        $reader = new XMLReader();
+
+        if (!$reader->xml($xmlString)) {
+            libxml_clear_errors();
+
+            return $urls;
+        }
+
+        while ($reader->read()) {
+            if ($reader->nodeType === XMLReader::ELEMENT && $reader->localName === 'url') {
+                try {
+                    $node = new SimpleXMLElement($reader->readOuterXML());
+
+                    if (isset($node->loc)) {
+                        $urls[] = (string) $node->loc;
+                    }
+                } catch (Exception $e) {
+
+                }
+            }
+        }
+
+        $reader->close();
+
+        return implode(PHP_EOL, $urls);
+    }
+
     public function remove_queue()
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
@@ -367,7 +492,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
@@ -504,7 +629,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
@@ -589,7 +714,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     {
         $this->load->language('extension/feed/ps_indexnow');
 
-        $json = [];
+        $json = array();
 
         if (!$this->user->hasPermission('modify', 'extension/feed/ps_indexnow')) {
             $json['error'] = $this->language->get('error_permission');
@@ -615,7 +740,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->response->setOutput(json_encode($json));
     }
 
-    private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list): array
+    private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
         $post_data = json_encode(array(
             'host' => $host,
@@ -637,7 +762,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             curl_setopt($ch, CURLOPT_HEADER, true);
             curl_exec($ch);
 
-            $result = [];
+            $result = array();
 
             foreach ($url_list as $url) {
                 $result[] = [

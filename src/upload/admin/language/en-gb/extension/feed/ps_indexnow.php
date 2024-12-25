@@ -63,6 +63,7 @@ $_['text_products']                       = 'Products on your site are added, up
 $_['text_manufacturers']                  = 'Manufacturers on your site are added, updated, or deleted';
 $_['text_information']                    = 'Information Pages on your site are added, updated, or deleted';
 $_['text_articles']                       = 'Articles on your site are added, updated, or deleted';
+$_['text_url_list_warning']               = 'The URL entered will be validated and filtered. The URL must be valid, and the URL host must match the selected store host "%s".';
 
 // Column
 $_['column_log_id']                       = 'Log ID';
@@ -109,12 +110,16 @@ $_['help_service_key_location']           = 'Click the Check Key button to ensur
 $_['help_url_list']                       = 'Enter a list of URLs separated by a new line. Click the Submit URL List button to submit these URLs to the search engines.';
 
 // Error
-$_['error_permission']                    = 'Warning: You do not have permission to modify IndexNow feed!';
+$_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow feed!';
 $_['error_generate_service_key']          = 'Warning: Unable to generate a new service key!';
-$_['error_remove_queue']                  = 'Warning: Unable to remove queued URLs!';
-$_['error_clear_log']                     = 'Warning: Log is either empty or could not be cleared!';
-$_['error_clear_queue']                   = 'Warning: Queue is either empty or could not be cleared!';
-$_['error_not_configured']                = 'Warning: IndexNow extension is not configured!';
+$_['error_remove_queue']                  = 'Warning: Unable to remove the queued URLs!';
+$_['error_clear_log']                     = 'Warning: The log is either empty or could not be cleared!';
+$_['error_clear_queue']                   = 'Warning: The queue is either empty or could not be cleared!';
+$_['error_not_configured']                = 'Warning: The IndexNow extension is not configured!';
 $_['error_submit_queue']                  = 'Warning: There was a problem submitting the queued URLs!';
 $_['error_submit_url_list']               = 'Warning: There was a problem submitting the URL list!';
-$_['error_service_key']                   = 'The Service Key is invalid. Please provide a valid Service Key.';
+$_['error_filetype']                      = 'Warning: Invalid file type. Please upload a valid file.';
+$_['error_upload']                        = 'Warning: The file could not be uploaded.';
+$_['error_invalid_url']                   = 'Warning: The URL is invalid. Please provide a valid URL.';
+$_['error_invalid_url_host']              = 'Warning: The URL host is invalid. The URL host must be the same as the current URL host.';
+$_['error_service_key']                   = 'The service key is invalid. Please provide a valid service key.';
