@@ -105,7 +105,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $this->db->countAffected();
     }
 
-    public function getQueue(array $data = []): array
+    public function getQueue(array $data = array()): array
     {
         $sql = "SELECT
             `queue_id`,
@@ -118,11 +118,11 @@ class ModelExtensionFeedPsIndexNow extends Model
             $sql .= " AND `queue_id` = '" . (int) $data['queue_id'] . "'";
         }
 
-        $sort_data = [
+        $sort_data = array(
             'queue_id',
             'url',
             'date_added'
-        ];
+        );
 
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= " ORDER BY " . $data['sort'];
@@ -203,7 +203,7 @@ class ModelExtensionFeedPsIndexNow extends Model
             return;
         }
 
-        $values = [];
+        $values = array();
 
         foreach ($log_data as $data) {
             $values[] = "(

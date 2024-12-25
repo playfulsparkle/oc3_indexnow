@@ -45,12 +45,12 @@ class ps_indexnow
                     $url = $this->rewrite($url, $store_id, $language['language_id']);
                 }
 
-                $data = [
+                $data = array(
                     'url' => $url,
                     'content_hash' => $content_hash,
                     'store_id' => $store_id,
                     'language_id' => $language['language_id'],
-                ];
+                );
 
                 $this->model_extension_feed_ps_indexnow->addQueue($data);
             }

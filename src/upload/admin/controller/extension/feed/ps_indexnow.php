@@ -765,10 +765,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $result = array();
 
             foreach ($url_list as $url) {
-                $result[] = [
+                $result[] = array(
                     'url' => $url,
                     'status_code' => (int) curl_getinfo($ch, CURLINFO_HTTP_CODE),
-                ];
+                );
             }
 
             curl_close($ch);
