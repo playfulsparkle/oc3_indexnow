@@ -121,6 +121,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         $sort_data = array(
             'queue_id',
             'url',
+            'store_id',
             'date_added'
         );
 

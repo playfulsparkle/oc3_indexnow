@@ -95,7 +95,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $service_status = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
-            $service_status = json_decode($service_status, true);
+            $service_status = json_decode((string) $service_status, true);
 
             $data['feed_ps_indexnow_service_status'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $service_status : array();
         }
@@ -123,7 +123,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $content_category = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
 
-            $content_category = json_decode($content_category, true);
+            $content_category = json_decode((string) $content_category, true);
 
             $data['feed_ps_indexnow_content_category'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $content_category : array();
         }
@@ -571,7 +571,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         if (!$json) {
             $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
-            $services = json_decode($services, true);
+            $services = json_decode((string) $services, true);
 
             $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
 
