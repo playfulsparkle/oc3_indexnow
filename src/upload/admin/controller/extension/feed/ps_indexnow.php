@@ -371,20 +371,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $store_id = 0;
         }
 
-
-        if (!$json) {
-            $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id); // always returns string
-
-            $services = json_decode($services, true);
-
-            $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
-
-            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
-            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
-
-            if (!$services || empty($service_key) || empty($service_key_location)) {
-                $json['error'] = $this->language->get('error_not_configured');
-            }
+        if (isset($this->request->post['queue_id'])) {
+            $queue_id = (int) $this->request->post['queue_id'];
+        } else {
+            $queue_id = 0;
         }
 
 
@@ -392,12 +382,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             if (isset($this->request->post['url_list'])) {
                 $url_list = array_filter(explode("\n", (string) $this->request->post['url_list']));
             } else {
-                if (isset($this->request->post['queue_id'])) {
-                    $queue_id = (int) $this->request->post['queue_id'];
-                } else {
-                    $queue_id = 0;
-                }
-
                 $filter_data = array(
                     'store_id' => $store_id,
                     'queue_id' => $queue_id,
@@ -424,6 +408,15 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
 
         if (!$json) {
+            $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+
+            $services = json_decode($services, true);
+
+            $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
+
+            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+
             $server = $this->get_store_url($store_id);
 
             foreach ($services as $service) {
