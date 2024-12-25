@@ -442,26 +442,30 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $all_success = true;
 
             foreach ($services as $service) {
-                $url_list_results = $this->submitUrls(
-                    $service['endpoint_url'] . 'no',
-                    $server_host,
-                    $service_key,
-                    $server . $service_key_location,
-                    $url_list
-                );
+                $batches = array_chunk($url_list, 10000);
 
-                foreach ($url_list_results as $url_list_result) {
-                    $log_data = array(
-                        'service_id' => $service['service_id'],
-                        'url' => $url_list_result['url'],
-                        'status_code' => $url_list_result['status_code'],
-                        'store_id' => $store_id,
+                foreach ($batches as $batch) {
+                    $url_list_results = $this->submitUrls(
+                        $service['endpoint_url'] . 'no',
+                        $server_host,
+                        $service_key,
+                        $server . $service_key_location,
+                        $batch
                     );
 
-                    $this->model_extension_feed_ps_indexnow->addLog($log_data);
+                    foreach ($url_list_results as $url_list_result) {
+                        $log_data = [
+                            'service_id' => $service['service_id'],
+                            'url' => $url_list_result['url'],
+                            'status_code' => $url_list_result['status_code'],
+                            'store_id' => $store_id,
+                        ];
 
-                    if ($all_success && $url_list_result['status_code'] !== 200) {
-                        $all_success = false;
+                        if ($all_success && $url_list_result['status_code'] !== 200) {
+                            $all_success = false;
+                        }
+
+                        $this->model_extension_feed_ps_indexnow->addLog($log_data);
                     }
                 }
             }
