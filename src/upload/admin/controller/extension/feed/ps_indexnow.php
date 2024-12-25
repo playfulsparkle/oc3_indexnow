@@ -519,12 +519,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $server = $this->get_store_url($store_id);
         $server_host = parse_url($server, PHP_URL_HOST);
 
-        $task_type = 'url_list';
-
         if (!$json) {
             if (isset($this->request->post['url_list'])) {
-                $task_type = 'url_list';
-
                 $url_list = array_map('trim', explode("\n", (string) $this->request->post['url_list']));
 
                 $url_list = array_filter($url_list, function ($url) use ($server_host) {
@@ -537,12 +533,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                     return $url_host && strtolower($url_host) === strtolower($server_host);
                 });
 
+                $queue_id_list = array();
+
                 if (!$url_list) {
                     $json['error'] = $this->language->get('error_submit_url_list');
                 }
             } else {
-                $task_type = 'queue';
-
                 $filter_data = array(
                     'store_id' => $store_id,
                     'queue_id' => $queue_id,
@@ -552,13 +548,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $result = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
 
                 if ($result) {
-                    if ($queue_id_list = array_column($result, 'queue_id')) {
-                        $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
-                    }
-
                     $url_list = array_column($result, 'url');
+                    $queue_id_list = array_column($result, 'queue_id');
                 } else {
                     $url_list = array();
+                    $queue_id_list = array();
                 }
 
                 if (!$url_list) {
@@ -566,7 +560,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
             }
         }
-
 
         if (!$json) {
             $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
@@ -578,6 +571,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
             $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
 
+            if (!$services) {
+                $json['error'] = $this->language->get('error_no_services_enabled');
+            }
+        }
+
+        if (!$json) {
             $all_success = true;
 
             foreach ($services as $service) {
@@ -614,10 +613,14 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
             }
 
+            if ($services && $queue_id_list) {
+                $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
+            }
+
             if ($all_success) {
-                $json['success'] = ($task_type === 'url_list') ? $this->language->get('text_success_submit_url_list') : $this->language->get('text_success_submit_queue');
+                $json['success'] = !$queue_id_list ? $this->language->get('text_success_submit_url_list') : $this->language->get('text_success_submit_queue');
             } else {
-                $json['error'] = ($task_type === 'url_list') ? $this->language->get('error_submit_url_list') : $this->language->get('error_submit_queue');
+                $json['error'] = !$queue_id_list ? $this->language->get('error_submit_url_list') : $this->language->get('error_submit_queue');
             }
         }
 
