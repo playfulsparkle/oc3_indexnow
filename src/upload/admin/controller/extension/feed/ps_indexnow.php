@@ -93,11 +93,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $service_status = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
-            if (!is_array($service_status)) {
-                $service_status = (array) json_decode((string) $service_status, true);
-            }
+            $service_status = json_decode($service_status, true);
 
-            $data['feed_ps_indexnow_service_status'] = $service_status;
+            $data['feed_ps_indexnow_service_status'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $service_status : array();
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
@@ -125,11 +123,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $content_category = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
 
-            if (!is_array($content_category)) {
-                $content_category = (array) json_decode((string) $content_category, true);
-            }
+            $content_category = json_decode($content_category, true);
 
-            $data['feed_ps_indexnow_content_category'] = $content_category;
+            $data['feed_ps_indexnow_content_category'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $content_category : array();
         }
 
         $data['languages'] = $this->model_localisation_language->getLanguages();
@@ -363,9 +359,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_permission');
         }
 
+
         $this->load->model('extension/feed/ps_indexnow');
         $this->load->model('setting/setting');
         $this->load->model('setting/store');
+
 
         if (isset($this->request->get['store_id'])) {
             $store_id = (int) $this->request->get['store_id'];
@@ -373,49 +371,57 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $store_id = 0;
         }
 
-        if (isset($this->request->post['queue_id'])) {
-            $queue_id = (int) $this->request->post['queue_id'];
-        } else {
-            $queue_id = 0;
+
+        if (!$json) {
+            $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id); // always returns string
+
+            $services = json_decode($services, true);
+
+            $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
+
+            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+
+            if (!$services || empty($service_key) || empty($service_key_location)) {
+                $json['error'] = $this->language->get('error_not_configured');
+            }
         }
 
 
-        $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+        if (!$json) {
+            if (isset($this->request->post['url_list'])) {
+                $url_list = array_filter(explode("\n", (string) $this->request->post['url_list']));
+            } else {
+                if (isset($this->request->post['queue_id'])) {
+                    $queue_id = (int) $this->request->post['queue_id'];
+                } else {
+                    $queue_id = 0;
+                }
 
-        if (!is_array($services)) {
-            $services = (array) json_decode((string) $services, true);
-        }
+                $filter_data = array(
+                    'store_id' => $store_id,
+                    'queue_id' => $queue_id,
+                    'order' => 'ASC',
+                );
 
-        $services = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services);
-        $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
-        $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+                $result = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
 
-        if (!$json && (!$services || empty($service_key) || empty($service_key_location))) {
-            $json['error'] = $this->language->get('error_not_configured');
-        }
+                if ($result) {
+                    if ($queue_id_list = array_column($result, 'queue_id')) {
+                        $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
+                    }
 
-        $queued_url_list = false;
+                    $url_list = array_column($result, 'url');
+                } else {
+                    $url_list = array();
+                }
+            }
 
-        if (isset($this->request->post['url_list'])) {
-            $url_list = array_filter(explode("\n", (string) $this->request->post['url_list']));
-
-            if (!$json && !$url_list) {
+            if (!$url_list) {
                 $json['error'] = $this->language->get('error_empty_url_list');
             }
-        } else {
-            $filter_data = [
-                'store_id' => $store_id,
-                'queue_id' => $queue_id,
-                'order' => 'ASC',
-            ];
-
-            $queued_url_list = $this->model_extension_feed_ps_indexnow->getQueue($filter_data);
-            $url_list = array_column($queued_url_list, 'url');
-
-            if (!$json && !$queued_url_list) {
-                $json['error'] = $this->language->get('error_empty_queue');
-            }
         }
+
 
         if (!$json) {
             $server = $this->get_store_url($store_id);
@@ -441,16 +447,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
             }
 
-            $queue_id_list = $queued_url_list ? array_column($url_list, 'queue_id') : [];
-
-            if ($queue_id_list) {
-                $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
-            }
-
             $all_success = true;
 
             foreach ($url_list_results as $url_list_result) {
-                if ($url_list_result['status_code'] != 200) {
+                if ($url_list_result['status_code'] !== 200) {
                     $all_success = false;
                     break;
                 }
@@ -597,27 +597,23 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                 'Content-Type: application/json; charset=utf-8',
                 'Content-Length: ' . strlen($post_data)
-            ]);
+            ));
             curl_setopt($ch, CURLOPT_HEADER, true);
-            $response = curl_exec($ch);
-
-            if ($response !== false) {
-                $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            }
-
-            curl_close($ch);
+            curl_exec($ch);
 
             $result = [];
 
             foreach ($url_list as $url) {
                 $result[] = [
                     'url' => $url,
-                    'status_code' => $http_status_code,
+                    'status_code' => (int) curl_getinfo($ch, CURLINFO_HTTP_CODE),
                 ];
             }
+
+            curl_close($ch);
 
             return $result;
         }
