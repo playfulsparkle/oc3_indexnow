@@ -399,7 +399,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 });
 
                 if (!$url_list) {
-                    $json['success'] = $this->language->get('text_success_submit_url_list');
+                    $json['error'] = $this->language->get('error_submit_url_list');
                 }
             } else {
                 $task_type = 'queue';
@@ -423,7 +423,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
 
                 if (!$url_list) {
-                    $json['success'] = $this->language->get('text_success_submit_queue');
+                    $json['error'] = $this->language->get('error_submit_queue');
                 }
             }
         }
