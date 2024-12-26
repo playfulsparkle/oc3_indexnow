@@ -12,7 +12,7 @@
     {% for indexnow_queue in indexnow_queues %}
     <tr>
       <td class="text-right">{{ indexnow_queue.queue_id }}</td>
-      <td class="text-left">{{ indexnow_queue.url }}</td>
+      <td class="text-left">{{ indexnow_queue.url|escape }}</td>
       <td class="text-right">{{ indexnow_queue.date_added }}</td>
       <td class="text-right">
 				<button type="button" value="{{ indexnow_queue.queue_id }}" data-loading-text="{{ text_loading }}" data-toggle="tooltip" title="{{ button_submit_url }}" class="btn btn-success btn-submit-item"><i class="fa fa-send"></i></button>

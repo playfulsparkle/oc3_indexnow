@@ -66,7 +66,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
             foreach ($batches as $batch) {
                 $status_code = $this->submitUrls(
-                    $service['endpoint_url'] . 'no',
+                    $service['endpoint_url'],
                     $server_host,
                     $service_key,
                     $server . $service_key_location,

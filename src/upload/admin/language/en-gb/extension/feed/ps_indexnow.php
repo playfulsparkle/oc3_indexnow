@@ -124,6 +124,7 @@ $_['error_submit_queue']                  = 'Warning: There was a problem submit
 $_['error_submit_url_list']               = 'Warning: There was a problem submitting the URL list!';
 $_['error_filetype']                      = 'Warning: Invalid file type. Please upload a valid file.';
 $_['error_upload']                        = 'Warning: The file could not be uploaded.';
+$_['error_download']                      = 'Warning: Could not download sitemap file from "%s"';
 $_['error_invalid_url']                   = 'Warning: The URL is invalid. Please provide a valid URL.';
 $_['error_invalid_url_host']              = 'Warning: The URL host is invalid. The URL host must be the same as the current URL host.';
 $_['error_no_services_enabled']           = 'Warning: No services are enabled. Please enable at least one service.';

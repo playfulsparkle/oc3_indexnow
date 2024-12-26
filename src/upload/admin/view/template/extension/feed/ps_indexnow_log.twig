@@ -13,7 +13,7 @@
     {% for indexnow_log in indexnow_logs %}
     <tr>
       <td class="text-right">{{ indexnow_log.log_id }}</td>
-      <td class="text-left">{{ indexnow_log.url }}</td>
+      <td class="text-left">{{ indexnow_log.url|escape }}</td>
 			<td class="text-start">{{ indexnow_log.service_name }}</td>
       <td class="text-right">{{ indexnow_log.status_code }}</td>
       <td class="text-right">{{ indexnow_log.date_added }}</td>
