@@ -152,6 +152,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $data['server'] = $server;
 
+        $data['cron_url'] = ($this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG) . 'index.php?route=extension/feed/ps_indexnow';
+
         $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
 
         $data['content_categories'] = array(

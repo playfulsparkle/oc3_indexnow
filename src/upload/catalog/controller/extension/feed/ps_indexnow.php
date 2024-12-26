@@ -19,8 +19,27 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
     }
 
-    public function submit_url($store)
+    private function submit_url($store)
     {
+        if (!$this->model_setting_setting->getSettingValue('feed_ps_indexnow_status', $store['store_id'])) {
+            return;
+        }
+
+
+        $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
+
+        $services = json_decode((string) $services, true);
+
+        $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
+
+        $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
+        $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
+
+        if (empty($services)) {
+            return;
+        }
+
+
         $server = $store['url'];
         $server_host = parse_url($server, PHP_URL_HOST);
 
@@ -28,6 +47,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $server = $store['url'];
             $server_host = parse_url($server, PHP_URL_HOST);
         }
+
 
         $filter_data = array(
             'store_id' => $store['store_id'],
@@ -38,14 +58,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $url_list = $result ? array_column($result, 'url') : array();
 
-        $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
-
-        $services = json_decode((string) $services, true);
-
-        $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
-
-        $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
-        $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
 
         $all_success = true;
 

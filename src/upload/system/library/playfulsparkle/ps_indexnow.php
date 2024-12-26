@@ -56,7 +56,7 @@ class ps_indexnow
                     'url' => $store_url . $item_link,
                     'content_hash' => $content_hash,
                     'store_id' => $store_id,
-                    'language_id' => $language['language_id'],
+                    'language_id' => 0,
                 );
 
                 $this->model_extension_feed_ps_indexnow->addQueue($data);

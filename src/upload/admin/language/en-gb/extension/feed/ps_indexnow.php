@@ -36,25 +36,25 @@ $_['text_troubleshot']                    = '<ul>
 <li><strong>URL Submission Errors:</strong> Avoid submitting unchanged or outdated URLs; focus on recent changes.</li>
 <li><strong>Frequent Edits:</strong> Wait at least 10 minutes before resubmitting the same URL to avoid excessive requests.</li>
 </ul>';
-$_['text_faq']                            = '<details><summary>What happens after I submit a URL?</summary>Search engines will crawl the URL based on their scheduling and quota.</details>
-<details><summary>What happens if I submit 10,000 URLs in a day?</summary>Search engines will crawl some or all URLs if they have enough quota.</details>
-<details><summary>Why isn’t my submitted URL indexed?</summary>IndexNow informs search engines of changes, but indexing is not guaranteed and may take time.</details>
-<details><summary>Should I submit URLs changed last year?</summary>Only submit URLs that have changed since you started using IndexNow.</details>
-<details><summary>Do submitted URLs count towards my crawl quota?</summary>Yes, each crawl counts towards your quota, and IndexNow prioritizes these URLs.</details>
-<details><summary>Why aren’t all submitted URLs indexed?</summary>Search engines may not index URLs if they don’t meet their criteria.</details>
-<details><summary>Why is my URL indexed on one search engine but not others?</summary>Different search engines have different selection criteria.</details>
-<details><summary>Should I use IndexNow for a small website?</summary>Yes, it helps search engines discover changes quickly.</details>
-<details><summary>Can I submit the same URL multiple times a day?</summary>Avoid frequent submissions; wait 10 minutes between edits.</details>
-<details><summary>Can I submit 404 URLs?</summary>Yes, you can notify search engines about dead links.</details>
-<details><summary>Can I submit new redirects?</summary>Yes, notify search engines about new redirects.</details>
-<details><summary>Can I submit all URLs for my site?</summary>Submit only recently changed URLs; use sitemaps for all URLs.</details>
-<details><summary>What should I do if I receive a HTTP 429 response?</summary>Slow down or retry later as you are sending too many requests.</details>
-<details><summary>When should I change my key?</summary>Change it when search engines need to verify ownership with a new key.</details>
-<details><summary>Can I use more than one key per host?</summary>Yes, different CMS can use different keys.</details>
-<details><summary>Can I use one key for the whole domain?</summary>No, each host needs its own key.</details>
-<details><summary>Can I use the same key on multiple hosts?</summary>Yes, you can reuse the same key on multiple hosts and domains.</details>
-<details><summary>Do I need IndexNow if I have a sitemap?</summary>Yes, IndexNow allows immediate notification of changes, unlike sitemaps.</details>
-<details><summary>What if I have more questions about IndexNow?</summary>Refer to the documentation from each search engine.</details>';
+$_['text_faq']                            = '<details><summary>What happens after I submit a URL?</summary>Search engines will visit the URL to check for updates. The timing depends on their schedules and limits.</details>
+<details><summary>What happens if I submit 10,000 URLs in one day?</summary>Search engines may visit some or all of them, depending on their limits for your site.</details>
+<details><summary>Why isn’t my submitted URL showing up in search results?</summary>Submitting a URL lets search engines know about it, but they decide if and when to include it in search results.</details>
+<details><summary>Should I submit old URLs?</summary>Only submit URLs that have been updated since you started using IndexNow.</details>
+<details><summary>Do submitted URLs count towards my search engine limit?</summary>Yes, each visit by a search engine counts towards your limit, but submitted URLs are prioritized.</details>
+<details><summary>Why aren’t all submitted URLs showing up?</summary>Search engines may skip some URLs if they don’t meet their guidelines.</details>
+<details><summary>Why is one search engine showing my URL but not others?</summary>Each search engine uses its own rules to decide which URLs to include.</details>
+<details><summary>Should I use IndexNow for a small website?</summary>Yes, it helps search engines find updates faster.</details>
+<details><summary>Can I submit the same URL multiple times in a day?</summary>Avoid doing this often. Wait at least 10 minutes between updates.</details>
+<details><summary>Can I submit URLs that no longer exist (404 errors)?</summary>Yes, this helps search engines know which links are no longer active.</details>
+<details><summary>Can I submit new redirects?</summary>Yes, you can notify search engines about changes like new redirects.</details>
+<details><summary>Can I submit all the URLs from my website?</summary>Only submit URLs that have recently changed. Use a sitemap for the full list of your site’s URLs.</details>
+<details><summary>What should I do if I see an HTTP 429 error?</summary>This means you’ve sent too many requests. Slow down and try again later.</details>
+<details><summary>When should I change my key?</summary>Change it if a search engine asks for a new one to verify your site.</details>
+<details><summary>Can I use more than one key for my site?</summary>Yes, if you have different systems (like CMS) on your site, you can use different keys.</details>
+<details><summary>Can I use one key for my entire domain?</summary>No, each part of your website (like different subdomains) needs its own key.</details>
+<details><summary>Can I use the same key for multiple websites?</summary>Yes, you can use one key for several websites if you want.</details>
+<details><summary>Do I still need IndexNow if I have a sitemap?</summary>Yes, IndexNow notifies search engines immediately, while sitemaps are checked less often.</details>
+<details><summary>Where can I find more information?</summary>Check the help guides or documentation provided by each search engine.</details>';
 $_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
 $_['text_log_no_results']                 = 'No log entries available at this time.';
 $_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
@@ -91,6 +91,7 @@ $_['entry_active_store']                  = 'Active Store';
 $_['entry_notify_search_engines']         = 'Notify Search Engines';
 $_['entry_url_list']                      = 'URL List';
 $_['entry_load_sitemap']                  = 'Load Sitemap';
+$_['entry_cron_url']                      = 'Cron URL';
 
 // Button
 $_['button_change_key']                   = 'Change Key';
@@ -103,12 +104,14 @@ $_['button_submit_url_list']              = 'Submit URL List';
 $_['button_clear_url_list']               = 'Clear URL List';
 $_['button_upload_sitemap']               = 'Upload Sitemap URLs';
 $_['button_import_sitemap']               = 'Import Sitemap URLs';
+$_['button_copy']                         = 'Copy URL';
 
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
 $_['help_url_list']                       = 'Enter a list of URLs, one per line. Click the "Submit URL List" button to send them to the enabled IndexNow services.';
 $_['help_load_sitemap']                   = 'You can either provide a sitemap URL or upload a sitemap.xml file. The URLs from the sitemap will be added to the URL list, which will then be sent to the IndexNow services.';
+$_['help_cron_url']                       = 'Add this URL to your hosting server’s cron table. It will automatically send <strong>all queued URLs</strong> from <strong>all configured stores</strong> to the <strong>selected IndexNow service endpoints</strong> at scheduled intervals.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow feed!';
