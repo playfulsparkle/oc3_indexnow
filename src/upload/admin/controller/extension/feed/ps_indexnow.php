@@ -150,6 +150,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             );
         }
 
+        $data['server'] = $server;
+
         $data['indexnow_services'] = $this->model_extension_feed_ps_indexnow->getIndexNowServiceList();
 
         $data['content_categories'] = array(
@@ -273,6 +275,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     public function load_sitemap()
     {
         $this->load->language('extension/feed/ps_indexnow');
+        $this->load->model('setting/store');
 
         $json = array();
 
@@ -280,11 +283,17 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_permission');
         }
 
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
         if (!$json) {
             if (isset($this->request->files['file'])) {
                 $json = $this->load_uploaded_sitemap($this->request->files['file']);
             } else if (isset($this->request->post['file'])) {
-                $json = $this->load_url_sitemap((string) $this->request->post['file']);
+                $json = $this->load_url_sitemap($store_id, (string) $this->request->post['file']);
             }
         }
 
@@ -335,7 +344,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         return $json;
     }
 
-    private function load_url_sitemap($file_url)
+    private function load_url_sitemap($store_id, $file_url)
     {
         $json = array();
 
@@ -347,9 +356,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $file_host = parse_url($file_url, PHP_URL_HOST);
 
-        $server_host = $this->request->server['HTTPS']
-            ? parse_url(HTTPS_CATALOG, PHP_URL_HOST)
-            : parse_url(HTTP_CATALOG, PHP_URL_HOST);
+        $server = $this->get_store_url($store_id);
+        $server_host = parse_url($server, PHP_URL_HOST);
 
         if ($file_host !== $server_host) {
             $json['error'] = $this->language->get('error_invalid_url_host');
@@ -361,10 +369,24 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $file_url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
             $response = curl_exec($ch);
             curl_close($ch);
         } else if (ini_get('allow_url_fopen')) {
-            $response = file_get_contents($file_url);
+            $context = stream_context_create(array(
+                'http' => array(
+                    'timeout' => 30,
+                    'follow_location' => 1,
+                    'max_redirects' => 1,
+                    'ignore_errors' => true,
+                )
+            ));
+            $response = @file_get_contents($file_url, false, $context);
         }
 
         if ($response !== false) {
@@ -530,14 +552,14 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
                     $url_host = parse_url($url, PHP_URL_HOST);
 
-                    return $url_host && strtolower($url_host) === strtolower($server_host);
+                    return $url_host && strcasecmp($url_host, $server_host) === 0;
                 });
 
-                $queue_id_list = array();
-
-                if (!$url_list) {
-                    $json['error'] = $this->language->get('error_submit_url_list');
+                if (empty($url_list)) {
+                    $json['error'] = $this->language->get('error_submit_url_list_invalid');
                 }
+
+                $queue_id_list = array();
             } else {
                 $filter_data = array(
                     'store_id' => $store_id,
@@ -555,8 +577,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                     $queue_id_list = array();
                 }
 
-                if (!$url_list) {
-                    $json['error'] = $this->language->get('error_submit_queue');
+                if (empty($url_list)) {
+                    $json['error'] = $this->language->get('error_empty_queue');
                 }
             }
         }
@@ -745,6 +767,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
+        $result = array();
+
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
@@ -752,43 +776,69 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             'urlList' => $url_list,
         ));
 
+        $headers = array(
+            'Content-Type: application/json; charset=utf-8',
+            'Content-Length: ' . strlen($post_data)
+        );
+
         if (function_exists('curl_init')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $service_endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json; charset=utf-8',
-                'Content-Length: ' . strlen($post_data)
-            ));
-            curl_setopt($ch, CURLOPT_HEADER, true);
-            curl_exec($ch);
+            $response = curl_exec($ch);
 
-            $result = array();
+            if ($response !== false && !curl_errno($ch)) {
+                $status_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-            foreach ($url_list as $url) {
-                $result[] = array(
-                    'url' => $url,
-                    'status_code' => (int) curl_getinfo($ch, CURLINFO_HTTP_CODE),
-                );
+                foreach ($url_list as $url) {
+                    $result[] = array(
+                        'url' => $url,
+                        'status_code' => $status_code,
+                    );
+                }
             }
 
             curl_close($ch);
+        } else if (ini_get('allow_url_fopen')) {
+            $context = stream_context_create(array(
+                'http' => array(
+                    'timeout' => 30,
+                    'ignore_errors' => true,
+                    'header' => $headers,
+                    'method' => 'POST',
+                    'content' => $post_data
+                )
+            ));
 
-            return $result;
+            $response = @file_get_contents($service_endpoint, false, $context);
+
+            if ($response !== false) {
+                $metadata = stream_get_meta_data($context);
+
+                if (isset($metadata['wrapper_data']) && preg_match('#HTTP/\d\.\d (\d+)#', $metadata['wrapper_data'][0], $matches)) {
+                    foreach ($url_list as $url) {
+                        $result[] = array(
+                            'url' => $url,
+                            'status_code' => (int) $matches[1],
+                        );
+                    }
+                }
+            }
         }
 
-        return false;
+        return $result;
     }
 
     private function get_store_url($store_id)
     {
-        if ($this->request->server['HTTPS']) {
-            $server = HTTPS_CATALOG;
-        } else {
-            $server = HTTP_CATALOG;
-        }
+        $server = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
 
         if ($store_id > 0 && $store = $this->model_setting_store->getStore($store_id)) {
             $server = $store['url'];

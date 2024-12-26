@@ -63,7 +63,7 @@ $_['text_products']                       = 'Products on your site are added, up
 $_['text_manufacturers']                  = 'Manufacturers on your site are added, updated, or deleted';
 $_['text_information']                    = 'Information Pages on your site are added, updated, or deleted';
 $_['text_articles']                       = 'Articles on your site are added, updated, or deleted';
-$_['text_url_list_warning']               = 'The URL entered will be validated and filtered. The URL must be valid, and the URL host must match the selected store host "%s".';
+$_['text_url_list_warning']               = 'The URLs you enter will be validated. They must be valid, and the host of each URL must match the store host "%s".';
 
 // Column
 $_['column_log_id']                       = 'Log ID';
@@ -107,8 +107,8 @@ $_['button_import_sitemap']               = 'Import Sitemap URLs';
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
-$_['help_url_list']                       = 'Enter a list of URLs separated by a new line. Click the Submit URL List button to submit these URLs to the search engines.';
-$_['help_load_sitemap']                   = 'You can either enter a sitemap URL or upload a sitemap.xml file. The URLs from the sitemap will be loaded into the URL List textarea, which will then be sent to the IndexNow services.';
+$_['help_url_list']                       = 'Enter a list of URLs, one per line. Click the "Submit URL List" button to send them to the enabled IndexNow services.';
+$_['help_load_sitemap']                   = 'You can either provide a sitemap URL or upload a sitemap.xml file. The URLs from the sitemap will be added to the URL list, which will then be sent to the IndexNow services.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow feed!';
@@ -124,4 +124,6 @@ $_['error_upload']                        = 'Warning: The file could not be uplo
 $_['error_invalid_url']                   = 'Warning: The URL is invalid. Please provide a valid URL.';
 $_['error_invalid_url_host']              = 'Warning: The URL host is invalid. The URL host must be the same as the current URL host.';
 $_['error_no_services_enabled']           = 'Warning: No services are enabled. Please enable at least one service.';
+$_['error_submit_url_list_invalid']       = 'Warning: The URL list contains invalid entries, such as URLs with a different host than the active store, invalid URLs, or empty lines.';
+$_['error_empty_queue']                   = 'Warning: The queue URL list is empty and contains no URLs.';
 $_['error_service_key']                   = 'The service key is invalid. Please provide a valid service key.';

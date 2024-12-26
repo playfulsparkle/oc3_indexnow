@@ -28,14 +28,14 @@ class ModelExtensionFeedPsIndexNow extends Model
         ");
 
         $this->db->query("
-            INSERT INTO `" . DB_PREFIX . "ps_indexnow_services` (`service_name`, `endpoint_url`)
+            INSERT INTO `" . DB_PREFIX . "ps_indexnow_services` (`service_id`, `service_name`, `endpoint_url`)
             VALUES
-                ('Microsoft Bing', 'https://www.bing.com/indexnow'),
-                ('Naver', 'https://searchadvisor.naver.com/indexnow'),
-                ('Seznam.cz', 'https://search.seznam.cz/indexnow'),
-                ('Yandex', 'https://yandex.com/indexnow'),
-                ('Yep', 'https://indexnow.yep.com/indexnow'),
-                ('Internet Archive', 'https://web-static.archive.org/indexnow');
+                (1, 'Microsoft Bing', 'https://www.bing.com/indexnow'),
+                (2, 'Naver', 'https://searchadvisor.naver.com/indexnow'),
+                (3, 'Seznam.cz', 'https://search.seznam.cz/indexnow'),
+                (4, 'Yandex', 'https://yandex.com/indexnow'),
+                (5, 'Yep', 'https://indexnow.yep.com/indexnow'),
+                (6, 'Internet Archive', 'https://web-static.archive.org/indexnow');
         ");
 
         $this->db->query("
