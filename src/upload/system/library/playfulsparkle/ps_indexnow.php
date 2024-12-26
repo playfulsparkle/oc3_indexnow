@@ -27,14 +27,14 @@ class ps_indexnow
 
         foreach ($item_stores as $store_info) {
             if (is_array($store_info)) {
-                $stores[$store_info['store_id']] = $store_info['url'];
+                $stores[$store_info['store_id']] = ($this->request->server['HTTPS'] && !empty($store_info['ssl'])) ? $store_info['ssl'] : $store_info['url'];
             } else if (is_numeric($store_info)) {
                 $store_id = (int) $store_info;
 
                 if ($store_id === 0) {
                     $stores[$store_id] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
                 } else if ($store_data = $this->model_setting_store->getStore($store_id)) {
-                    $stores[$store_id] = $store_data['url'];
+                    $stores[$store_id] = ($this->request->server['HTTPS'] && !empty($store_data['ssl'])) ? $store_data['ssl'] : $store_data['url'];
                 }
             }
         }

@@ -7,12 +7,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->load->model('setting/setting');
         $this->load->model('setting/store');
 
-        $server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
+        $default_store = array('store_id' => 0, 'url' => $this->config->get('config_url'), 'ssl' => $this->config->get('config_ssl'));
 
-        $stores = array_merge(
-            array(array('store_id' => 0, 'url' => $server)),
-            $this->model_setting_store->getStores(),
-        );
+        $stores = array_merge(array($default_store), $this->model_setting_store->getStores());
 
         foreach ($stores as $store) {
             $this->submit_url($store);
@@ -40,13 +37,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
 
-        $server = $store['url'];
+        $server = ($this->request->server['HTTPS'] && !empty($store['ssl'])) ? $store['ssl'] : $store['url'];
         $server_host = parse_url($server, PHP_URL_HOST);
-
-        if ($store['store_id'] > 0) {
-            $server = $store['url'];
-            $server_host = parse_url($server, PHP_URL_HOST);
-        }
 
 
         $filter_data = array(

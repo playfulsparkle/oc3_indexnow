@@ -71,10 +71,8 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->model('setting/setting');
 
                 $languages = $this->model_localisation_language->getLanguages();
-                $category_store = array_merge(
-                    $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG),
-                    $this->model_setting_store->getStores()
-                );
+                $default_store = array('store_id' => 0, 'url' => HTTP_CATALOG, 'ssl' => HTTPS_CATALOG);
+                $category_store = array_merge(array($default_store), $this->model_setting_store->getStores());
 
                 $post_data = $this->request->post;
 
@@ -153,10 +151,8 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->model('setting/setting');
 
                 $languages = $this->model_localisation_language->getLanguages();
-                $product_store = array_merge(
-                    $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG),
-                    $this->model_setting_store->getStores()
-                );
+                $default_store = array('store_id' => 0, 'url' => HTTP_CATALOG, 'ssl' => HTTPS_CATALOG);
+                $product_store = array_merge(array($default_store), $this->model_setting_store->getStores());
 
                 $post_data = $this->request->post;
 
@@ -235,10 +231,8 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->model('setting/setting');
 
                 $languages = $this->model_localisation_language->getLanguages();
-                $manufacturer_store = array_merge(
-                    $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG),
-                    $this->model_setting_store->getStores()
-                );
+                $default_store = array('store_id' => 0, 'url' => HTTP_CATALOG, 'ssl' => HTTPS_CATALOG);
+                $manufacturer_store = array_merge(array($default_store), $this->model_setting_store->getStores());
 
                 $post_data = $this->request->post;
 
@@ -317,10 +311,8 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->model('setting/setting');
 
                 $languages = $this->model_localisation_language->getLanguages();
-                $information_store = array_merge(
-                    $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG),
-                    $this->model_setting_store->getStores()
-                );
+                $default_store = array('store_id' => 0, 'url' => HTTP_CATALOG, 'ssl' => HTTPS_CATALOG);
+                $information_store = array_merge(array($default_store), $this->model_setting_store->getStores());
 
                 $post_data = $this->request->post;
 
