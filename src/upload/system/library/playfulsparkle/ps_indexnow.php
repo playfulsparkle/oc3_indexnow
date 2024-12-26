@@ -23,14 +23,24 @@ class ps_indexnow
 
     public function addToQueueItemData($item_link, $item_stores, $content_hash, $languages)
     {
-        $stores = $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG);
+        $stores = array();
 
         foreach ($item_stores as $store_info) {
             if (is_array($store_info)) {
                 $stores[$store_info['store_id']] = $store_info['url'];
-            } else if ($store_info > 0 && $store_data = $this->model_setting_store->getStore($store_info)) {
-                $stores[$store_data['store_id']] = $store_data['url'];
+            } else if (is_numeric($store_info)) {
+                $store_id = (int) $store_info;
+
+                if ($store_id === 0) {
+                    $stores[$store_id] = $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG);
+                } else if ($store_data = $this->model_setting_store->getStore($store_id)) {
+                    $stores[$store_id] = $store_data['url'];
+                }
             }
+        }
+
+        if (!$stores) {
+            return;
         }
 
         foreach ($stores as $store_id => $store_url) {
