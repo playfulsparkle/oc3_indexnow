@@ -50,6 +50,10 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function getServiceEndpoints(array $services): array
     {
+        if (empty($services)) {
+            return array();
+        }
+
         $services = array_keys(array_filter($services, function ($value): bool {
             return $value > 0;
         }));
@@ -59,7 +63,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function addLog(array $data): void
+    public function addLog(array $log_data): void
     {
         if (empty($log_data)) {
             return;

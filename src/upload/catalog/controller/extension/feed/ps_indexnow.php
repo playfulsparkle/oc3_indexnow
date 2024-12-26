@@ -7,11 +7,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->load->model('setting/setting');
         $this->load->model('setting/store');
 
-        if ($this->request->server['HTTPS']) {
-            $server = $this->config->get('config_ssl');
-        } else {
-            $server = $this->config->get('config_url');
-        }
+        $server = $this->request->server['HTTPS'] ? $this->config->get('config_ssl') : $this->config->get('config_url');
 
         $stores = array_merge(
             array(array('store_id' => 0, 'url' => $server)),

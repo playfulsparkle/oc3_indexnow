@@ -23,11 +23,7 @@ class ps_indexnow
 
     public function addToQueueItemData($item_link, $item_stores, $content_hash, $languages)
     {
-        if ($this->request->server['HTTPS']) {
-            $stores = array(0 => HTTPS_CATALOG);
-        } else {
-            $stores = array(0 => HTTP_CATALOG);
-        }
+        $stores = $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG);
 
         foreach ($item_stores as $store_info) {
             if (is_array($store_info)) {
@@ -38,15 +34,26 @@ class ps_indexnow
         }
 
         foreach ($stores as $store_id => $store_url) {
-            foreach ($languages as $language) {
-                $url = $store_url . $item_link;
+            if ($this->config->get('config_seo_url')) {
+                foreach ($languages as $language) {
+                    $url = $this->rewrite($store_url . $item_link, $store_id, $language['language_id']);
 
-                if ($this->config->get('config_seo_url')) {
-                    $url = $this->rewrite($url, $store_id, $language['language_id']);
+                    if (strpos($url, 'index.php?route') !== false) {
+                        continue;
+                    }
+
+                    $data = array(
+                        'url' => $url,
+                        'content_hash' => $content_hash,
+                        'store_id' => $store_id,
+                        'language_id' => $language['language_id'],
+                    );
+
+                    $this->model_extension_feed_ps_indexnow->addQueue($data);
                 }
-
+            } else {
                 $data = array(
-                    'url' => $url,
+                    'url' => $store_url . $item_link,
                     'content_hash' => $content_hash,
                     'store_id' => $store_id,
                     'language_id' => $language['language_id'],

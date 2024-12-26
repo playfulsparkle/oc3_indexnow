@@ -70,6 +70,10 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function getServiceEndpoints(array $services): array
     {
+        if (empty($services)) {
+            return array();
+        }
+
         $services = array_keys(array_filter($services, function ($value): bool {
             return $value > 0;
         }));
@@ -81,10 +85,6 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function addQueue($data)
     {
-        if (strpos($data['url'], 'index.php?') !== false) {
-            $data['language_id'] = 0;
-        }
-
         $this->db->query("
             INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
             VALUES ('" . $this->db->escape($data['url']) . "', '" . $this->db->escape($data['content_hash']) . "', '" . (int) $data['store_id'] . "', '" . (int) $data['language_id'] . "', NOW())
@@ -198,7 +198,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->row['total'];
     }
 
-    public function addLog(array $data): void
+    public function addLog(array $log_data): void
     {
         if (empty($log_data)) {
             return;
