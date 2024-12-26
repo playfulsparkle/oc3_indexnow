@@ -629,8 +629,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$json) {
-            $all_success = true;
-
             foreach ($services as $service) {
                 $batches = array_chunk($url_list, 10000);
 
@@ -654,10 +652,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                         );
                     }
 
-                    if ($all_success && $status_code !== 200) {
-                        $all_success = false;
-                    }
-
                     $this->model_extension_feed_ps_indexnow->addLog($log_data);
 
                     sleep(1);
@@ -668,11 +662,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
             }
 
-            if ($all_success) {
-                $json['success'] = !$queue_id_list ? $this->language->get('text_success_submit_url_list') : $this->language->get('text_success_submit_queue');
-            } else {
-                $json['error'] = !$queue_id_list ? $this->language->get('error_submit_url_list') : $this->language->get('error_submit_queue');
-            }
+            $json['success'] = !$queue_id_list ? $this->language->get('text_success_submit_url_list') : $this->language->get('text_success_submit_queue');
         }
 
         $this->response->addHeader('Content-Type: application/json');
