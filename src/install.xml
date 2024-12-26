@@ -40,7 +40,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->model_catalog_category->editCategory]]></search>
-            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
+            <add position="after"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -122,7 +122,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/product.php">
         <operation>
             <search><![CDATA[$this->model_catalog_product->editProduct]]></search>
-            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
+            <add position="after"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -204,7 +204,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/manufacturer.php">
         <operation>
             <search><![CDATA[$this->model_catalog_manufacturer->editManufacturer]]></search>
-            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
+            <add position="after"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -286,7 +286,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/information.php">
         <operation>
             <search><![CDATA[$this->model_catalog_information->editInformation]]></search>
-            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
+            <add position="after"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
