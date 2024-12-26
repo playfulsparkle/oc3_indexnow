@@ -664,8 +664,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         if (!$json) {
             $this->load->model('extension/feed/ps_indexnow');
 
-            if (isset($this->request->post['store_id'])) {
-                $store_id = (int) $this->request->post['store_id'];
+            if (isset($this->request->get['store_id'])) {
+                $store_id = (int) $this->request->get['store_id'];
             } else {
                 $store_id = 0;
             }
@@ -749,8 +749,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         if (!$json) {
             $this->load->model('extension/feed/ps_indexnow');
 
-            if (isset($this->request->post['store_id'])) {
-                $store_id = (int) $this->request->post['store_id'];
+            if (isset($this->request->get['store_id'])) {
+                $store_id = (int) $this->request->get['store_id'];
             } else {
                 $store_id = 0;
             }
