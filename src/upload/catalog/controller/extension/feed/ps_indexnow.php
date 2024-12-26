@@ -57,7 +57,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $batches = array_chunk($url_list, 10000);
 
             foreach ($batches as $batch) {
-                $url_list_results = $this->submitUrls(
+                $status_code = $this->submitUrls(
                     $service['endpoint_url'] . 'no',
                     $server_host,
                     $service_key,
@@ -67,23 +67,22 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
                 $log_data = array();
 
-                foreach ($url_list_results as $url_list_result) {
+                foreach ($batch as $batch_url) {
                     $log_data[] = array(
                         'service_id' => $service['service_id'],
-                        'url' => $url_list_result['url'],
-                        'status_code' => $url_list_result['status_code'],
+                        'url' => $batch_url,
+                        'status_code' => (int) $status_code,
                         'store_id' => $store['store_id'],
                     );
+                }
 
-                    if ($all_success && $url_list_result['status_code'] !== 200) {
-                        $all_success = false;
-                    }
+                if ($all_success && $status_code !== 200) {
+                    $all_success = false;
                 }
 
                 $this->model_extension_feed_ps_indexnow->addLog($log_data);
 
-                // Add a delay between batches to avoid overwhelming the service
-                sleep(2); // Delay for 2 second
+                sleep(1);
             }
         }
 
@@ -96,8 +95,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
-        $result = array();
-
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
@@ -125,16 +122,13 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
             if ($response !== false && !curl_errno($ch)) {
                 $status_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-                foreach ($url_list as $url) {
-                    $result[] = array(
-                        'url' => $url,
-                        'status_code' => $status_code,
-                    );
-                }
+            } else {
+                $status_code = false;
             }
 
             curl_close($ch);
+
+            return $status_code;
         } else if (ini_get('allow_url_fopen')) {
             $context = stream_context_create(array(
                 'http' => array(
@@ -152,16 +146,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $metadata = stream_get_meta_data($context);
 
                 if (isset($metadata['wrapper_data']) && preg_match('#HTTP/\d\.\d (\d+)#', $metadata['wrapper_data'][0], $matches)) {
-                    foreach ($url_list as $url) {
-                        $result[] = array(
-                            'url' => $url,
-                            'status_code' => (int) $matches[1],
-                        );
-                    }
+                    return (int) $matches[1];
                 }
             }
         }
 
-        return $result;
+        return false;
     }
 }
