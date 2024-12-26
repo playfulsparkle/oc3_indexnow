@@ -21,7 +21,7 @@ class ps_indexnow
         $this->registry->set($name, $value);
     }
 
-    public function addToQueueItemData($item_link, $item_stores, $content_hash, $languages)
+    public function addToQueueItemData($item_category, $item_link, $item_stores, $content_hash, $languages)
     {
         $stores = array();
 
@@ -32,7 +32,7 @@ class ps_indexnow
                 $store_id = (int) $store_info;
 
                 if ($store_id === 0) {
-                    $stores[$store_id] = $this->request->server['HTTPS'] ? array(0 => HTTPS_CATALOG) : array(0 => HTTP_CATALOG);
+                    $stores[$store_id] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
                 } else if ($store_data = $this->model_setting_store->getStore($store_id)) {
                     $stores[$store_id] = $store_data['url'];
                 }
@@ -44,6 +44,16 @@ class ps_indexnow
         }
 
         foreach ($stores as $store_id => $store_url) {
+            if (!$this->model_setting_setting->getSettingValue('feed_ps_indexnow_status', $store_id)) {
+                continue;
+            }
+
+            $content_categories = (array) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
+
+            if (!in_array($item_category, $content_categories)) {
+                continue;
+            }
+
             if ($this->config->get('config_seo_url')) {
                 foreach ($languages as $language) {
                     $url = $this->rewrite($store_url . $item_link, $store_id, $language['language_id']);

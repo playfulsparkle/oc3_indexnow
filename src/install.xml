@@ -14,10 +14,7 @@ code package and also available on the project page: https://github.com/playfuls
 <file path="admin/controller/catalog/category.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_category->addCategory($this->request->post);]]></search>
-            <add><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $ps_category_id = $this->model_catalog_category->addCategory($this->request->post);
 
                 $this->load->model('extension/feed/ps_indexnow');
@@ -36,17 +33,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $ps_category_id, $category_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('category', 'index.php?route=product/category&path=' . (int) $ps_category_id, $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->model_catalog_category->editCategory]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -63,17 +57,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $this->request->get['category_id'], $category_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('category', 'index.php?route=product/category&path=' . (int) $this->request->get['category_id'], $category_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/category.php">
         <operation>
             <search><![CDATA[$this->model_catalog_category->deleteCategory]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('category', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -94,7 +85,7 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->library('playfulsparkle/ps_indexnow');
 
                 foreach ((array) $this->request->post['selected'] as $category_id) {
-                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/category&path=' . (int) $category_id, $category_store, $content_hash, $languages);
+                    $this->ps_indexnow->addToQueueItemData('category', 'index.php?route=product/category&path=' . (int) $category_id, $category_store, $content_hash, $languages);
                 }
             }]]></add>
         </operation>
@@ -105,10 +96,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/product.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_product->addProduct($this->request->post);]]></search>
-            <add><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $ps_product_id = $this->model_catalog_product->addProduct($this->request->post);
 
                 $this->load->model('extension/feed/ps_indexnow');
@@ -127,17 +115,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/product&product_id=' . (int) $ps_product_id, $product_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('product', 'index.php?route=product/product&product_id=' . (int) $ps_product_id, $product_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/product.php">
         <operation>
             <search><![CDATA[$this->model_catalog_product->editProduct]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -154,17 +139,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/product&product_id=' . (int) $this->request->get['product_id'], $product_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('product', 'index.php?route=product/product&product_id=' . (int) $this->request->get['product_id'], $product_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/product.php">
         <operation>
             <search><![CDATA[$this->model_catalog_product->deleteProduct]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('product', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -185,7 +167,7 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->library('playfulsparkle/ps_indexnow');
 
                 foreach ((array) $this->request->post['selected'] as $product_id) {
-                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/product&product_id=' . (int) $product_id, $product_store, $content_hash, $languages);
+                    $this->ps_indexnow->addToQueueItemData('product', 'index.php?route=product/product&product_id=' . (int) $product_id, $product_store, $content_hash, $languages);
                 }
             }]]></add>
         </operation>
@@ -196,10 +178,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/manufacturer.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_manufacturer->addManufacturer($this->request->post);]]></search>
-            <add><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $ps_manufacturer_id = $this->model_catalog_manufacturer->addManufacturer($this->request->post);
 
                 $this->load->model('extension/feed/ps_indexnow');
@@ -218,17 +197,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $ps_manufacturer_id, $manufacturer_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('manufacturer', 'index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $ps_manufacturer_id, $manufacturer_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/manufacturer.php">
         <operation>
             <search><![CDATA[$this->model_catalog_manufacturer->editManufacturer]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -245,17 +221,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $this->request->get['manufacturer_id'], $manufacturer_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('manufacturer', 'index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $this->request->get['manufacturer_id'], $manufacturer_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/manufacturer.php">
         <operation>
             <search><![CDATA[$this->model_catalog_manufacturer->deleteManufacturer]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('manufacturer', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -276,7 +249,7 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->library('playfulsparkle/ps_indexnow');
 
                 foreach ((array) $this->request->post['selected'] as $manufacturer_id) {
-                    $this->ps_indexnow->addToQueueItemData('index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $manufacturer_id, $manufacturer_store, $content_hash, $languages);
+                    $this->ps_indexnow->addToQueueItemData('manufacturer', 'index.php?route=product/manufacturer/info&manufacturer_id=' . (int) $manufacturer_id, $manufacturer_store, $content_hash, $languages);
                 }
             }]]></add>
         </operation>
@@ -287,10 +260,7 @@ code package and also available on the project page: https://github.com/playfuls
     <file path="admin/controller/catalog/information.php">
         <operation>
             <search position="replace"><![CDATA[$this->model_catalog_information->addInformation($this->request->post);]]></search>
-            <add><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('information', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $ps_information_id = $this->model_catalog_information->addInformation($this->request->post);
 
                 $this->load->model('extension/feed/ps_indexnow');
@@ -309,17 +279,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=information/information&information_id=' . (int) $ps_information_id, $information_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('information', 'index.php?route=information/information&information_id=' . (int) $ps_information_id, $information_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/information.php">
         <operation>
             <search><![CDATA[$this->model_catalog_information->editInformation]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('information', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -336,17 +303,14 @@ code package and also available on the project page: https://github.com/playfuls
 
                 $this->load->library('playfulsparkle/ps_indexnow');
 
-                $this->ps_indexnow->addToQueueItemData('index.php?route=information/information&information_id=' . (int) $this->request->get['information_id'], $information_store, $content_hash, $languages);
+                $this->ps_indexnow->addToQueueItemData('information', 'index.php?route=information/information&information_id=' . (int) $this->request->get['information_id'], $information_store, $content_hash, $languages);
             }]]></add>
         </operation>
     </file>
     <file path="admin/controller/catalog/information.php">
         <operation>
             <search><![CDATA[$this->model_catalog_information->deleteInformation]]></search>
-            <add position="before"><![CDATA[if (
-                    $this->config->get('feed_ps_indexnow_status') &&
-                    in_array('information', (array) $this->config->get('feed_ps_indexnow_content_category'))
-            ) {
+            <add position="before"><![CDATA[if ($this->config->get('feed_ps_indexnow_status')) {
                 $this->load->model('extension/feed/ps_indexnow');
                 $this->load->model('localisation/language');
                 $this->load->model('setting/store');
@@ -367,7 +331,7 @@ code package and also available on the project page: https://github.com/playfuls
                 $this->load->library('playfulsparkle/ps_indexnow');
 
                 foreach ((array) $this->request->post['selected'] as $information_id) {
-                    $this->ps_indexnow->addToQueueItemData('index.php?route=information/information&information_id=' . (int) $information_id, $information_store, $content_hash, $languages);
+                    $this->ps_indexnow->addToQueueItemData('information', 'index.php?route=information/information&information_id=' . (int) $information_id, $information_store, $content_hash, $languages);
                 }
             }]]></add>
         </operation>
