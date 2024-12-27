@@ -1,7 +1,7 @@
 <?php
 class ModelExtensionFeedPsIndexNow extends Model
 {
-    public function getQueue(array $data = array())
+    public function getQueue($data = array())
     {
         $sql = "SELECT `queue_id`, `url`, `date_added` FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $data['store_id'] . "'";
 
@@ -41,14 +41,14 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function removeQueueItems(array $queue_id_list): int
+    public function removeQueueItems($queue_id_list)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `queue_id` IN (" . implode(',', $queue_id_list) . ")");
 
         return $this->db->countAffected();
     }
 
-    public function getServiceEndpoints(array $services): array
+    public function getServiceEndpoints($services)
     {
         $services = array_filter($services, function ($value): bool {
             return $value > 0;
@@ -63,7 +63,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function addLog(array $log_data): void
+    public function addLog($log_data = array())
     {
         if (empty($log_data)) {
             return;

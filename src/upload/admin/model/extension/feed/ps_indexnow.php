@@ -68,9 +68,9 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function getServiceEndpoints(array $services): array
+    public function getServiceEndpoints($services = array())
     {
-        $services = array_filter($services, function ($value): bool {
+        $services = array_filter($services, function ($value) {
             return $value > 0;
         });
 
@@ -83,7 +83,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function addQueue($data)
+    public function addQueue($data = array())
     {
         $this->db->query("
             INSERT IGNORE INTO `" . DB_PREFIX . "ps_indexnow_queue` (`url`, `content_hash`, `store_id`, `language_id`, `date_added`)
@@ -91,19 +91,26 @@ class ModelExtensionFeedPsIndexNow extends Model
         ");
     }
 
-    public function removeQueueItems(array $queue_id_list): int
+    public function removeQueue($queue_id)
+    {
+        $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `queue_id` = '" . (int) $queue_id . "'");
+
+        return $this->db->countAffected();
+    }
+
+    public function removeQueueItems($queue_id_list = array())
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `queue_id` IN (" . implode(',', $queue_id_list) . ")");
 
         return $this->db->countAffected();
     }
 
-    public function clearQueue(int $store_id)
+    public function clearQueue($store_id)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $store_id . "'");
     }
 
-    public function getQueue(array $data = array()): array
+    public function getQueue($data = array())
     {
         $sql = "SELECT
             `queue_id`,
@@ -152,7 +159,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->rows;
     }
 
-    public function getTotalQueue(int $store_id)
+    public function getTotalQueue($store_id)
     {
         $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $store_id . "'");
 
@@ -196,7 +203,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         return $query->row['total'];
     }
 
-    public function addLog(array $log_data): void
+    public function addLog($log_data = array())
     {
         if (empty($log_data)) {
             return;
@@ -217,7 +224,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         $this->db->query("INSERT INTO `" . DB_PREFIX . "ps_indexnow_logs` (`service_id`, `url`, `status_code`, `store_id`, `date_added`) VALUES " . implode(", ", $values));
     }
 
-    public function clearLog(int $store_id)
+    public function clearLog($store_id)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
     }
