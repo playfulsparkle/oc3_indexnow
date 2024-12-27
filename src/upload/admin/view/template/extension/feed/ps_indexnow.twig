@@ -484,11 +484,10 @@
 
 				if (json['success']) {
 					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+					$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 				}
-
-				$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
-
-				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -521,13 +520,12 @@
 
 				if (json['success']) {
 					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+					$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
+
+					urlListTextarea.val('');
 				}
-
-				$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
-
-				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
-
-				urlListTextarea.val('');
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -561,11 +559,10 @@
 
 				if (json['success']) {
 					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
+					$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 				}
-
-				$('#queue-content').load('index.php?route=extension/feed/ps_indexnow/queue&store_id={{ store_id }}&user_token={{ user_token }}');
-
-				$('#log-content').load('index.php?route=extension/feed/ps_indexnow/log&store_id={{ store_id }}&user_token={{ user_token }}');
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
