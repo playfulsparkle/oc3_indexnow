@@ -39,7 +39,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
 
         if (empty($services)) {
-            $this->log->write('Playful Sparkle - IndexNow: No IndexNow services are enabled');
+            $this->log->write('Playful Sparkle - IndexNow: No IndexNow services are enabled for store ID "' . $store['store_id'] . '"');
 
             return;
         }
