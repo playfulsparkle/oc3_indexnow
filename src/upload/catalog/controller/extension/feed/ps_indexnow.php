@@ -12,13 +12,19 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $stores = array_merge(array($default_store), $this->model_setting_store->getStores());
 
         foreach ($stores as $store) {
-            $this->submit_url($store);
+            try {
+                $this->submit_url($store);
+            } catch (\Exception $exception) {
+                $this->log->write($exception->getMessage());
+            }
         }
     }
 
     private function submit_url($store)
     {
         if (!$this->model_setting_setting->getSettingValue('feed_ps_indexnow_status', $store['store_id'])) {
+            $this->log->write('Playful Sparkle - IndexNow: Extension not enabled for store ID "' . $store['store_id'] . '"');
+
             return;
         }
 
@@ -33,6 +39,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
 
         if (empty($services)) {
+            $this->log->write('Playful Sparkle - IndexNow: No IndexNow services are enabled');
+
             return;
         }
 
