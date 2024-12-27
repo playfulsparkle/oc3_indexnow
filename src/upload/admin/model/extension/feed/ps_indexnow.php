@@ -73,7 +73,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         $services = array_keys(array_filter($services, function ($value): bool {
             return $value > 0;
         }));
-        
+
         if (empty($services)) {
             return array();
         }
@@ -101,8 +101,6 @@ class ModelExtensionFeedPsIndexNow extends Model
     public function clearQueue(int $store_id)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_queue` WHERE `store_id` = '" . (int) $store_id . "'");
-
-        return $this->db->countAffected();
     }
 
     public function getQueue(array $data = array()): array
@@ -128,7 +126,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= " ORDER BY " . $data['sort'];
         } else {
-            $sql .= " ORDER BY `date_added`";
+            $sql .= " ORDER BY `queue_id`";
         }
 
         if (isset($data['order']) && ($data['order'] == 'DESC' || $data['order'] == 'ASC')) {
@@ -172,7 +170,7 @@ class ModelExtensionFeedPsIndexNow extends Model
         FROM `" . DB_PREFIX . "ps_indexnow_logs` l
         LEFT JOIN `" . DB_PREFIX . "ps_indexnow_services` s ON (l.`service_id` = s.`service_id`)
         WHERE (l.`store_id` = '" . (int) $data['store_id'] . "' OR l.`store_id` IS NULL)
-        ORDER BY l.`date_added` DESC";
+        ORDER BY l.`log_id` DESC";
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
@@ -222,7 +220,5 @@ class ModelExtensionFeedPsIndexNow extends Model
     public function clearLog(int $store_id)
     {
         $this->db->query("DELETE FROM `" . DB_PREFIX . "ps_indexnow_logs` WHERE `store_id` = '" . (int) $store_id . "'");
-
-        return $this->db->countAffected();
     }
 }

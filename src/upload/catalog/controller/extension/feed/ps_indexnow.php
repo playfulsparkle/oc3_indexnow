@@ -89,6 +89,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
+        $service_endpoint .= '-test';
+
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
@@ -115,7 +117,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $response = curl_exec($ch);
 
             if ($response !== false && !curl_errno($ch)) {
-                $status_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             } else {
                 $status_code = false;
             }

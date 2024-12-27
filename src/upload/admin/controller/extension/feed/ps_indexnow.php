@@ -367,6 +367,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             return $json;
         }
 
+        $xml_mime_types = array('text/xml', 'application/xml');
+
         $url_list = array();
 
         if (function_exists('curl_init')) {
@@ -381,34 +383,45 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
             $response = curl_exec($ch);
-            $error = curl_errno($ch);
-            $http_status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+            if ($response !== false && !curl_errno($ch)) {
+                $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+
+                if ($content_type && in_array($content_type, $xml_mime_types)) {
+                    $url_list = $this->process_xml_sitemap($response);
+                }
+            }
 
             curl_close($ch);
-
-            if ($response !== false && !$error && in_array((int) $http_status_code, array(200, 304))) {
-                $url_list = $this->process_xml_sitemap($response);
-            }
         } else if (ini_get('allow_url_fopen')) {
             $context = stream_context_create(array(
-                'http' => array(
+                'http' => [
                     'timeout' => 30,
                     'follow_location' => 1,
                     'max_redirects' => 1,
                     'ignore_errors' => true,
-                )
+                ]
             ));
             $response = @file_get_contents($file_url, false, $context);
 
             if ($response !== false) {
                 $metadata = stream_get_meta_data($context);
 
-                if (
-                    isset($metadata['wrapper_data']) &&
-                    preg_match('#HTTP/\d\.\d (\d+)#', $metadata['wrapper_data'][0], $matches) &&
-                    in_array((int) $matches[1], array(200, 304))
-                ) {
-                    $url_list = $this->process_xml_sitemap($response);
+                if (isset($metadata['wrapper_data']) && is_array($metadata['wrapper_data'])) {
+                    $mime_type = null;
+
+                    foreach ($metadata['wrapper_data'] as $header) {
+                        $parts = explode(':', $header, 2);
+
+                        if (count($parts) === 2 && trim($parts[0]) === 'Content-Type') {
+                            $mime_type = explode(';', trim($parts[1]))[0];
+                            break;
+                        }
+                    }
+
+                    if ($mime_type && in_array($mime_type, $xml_mime_types)) {
+                        $url_list = $this->process_xml_sitemap($response);
+                    }
                 }
             }
         }
@@ -450,6 +463,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                     }
                 } catch (Exception $e) {
 
+                }
+
+                if (count($urls) >= 50000) {
+                    break;
                 }
             }
         }
@@ -688,11 +705,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $store_id = 0;
             }
 
-            if ($this->model_extension_feed_ps_indexnow->clearQueue($store_id)) {
-                $json['success'] = $this->language->get('text_success_clear_queue');
-            } else {
-                $json['error'] = $this->language->get('error_clear_queue');
-            }
+            $this->model_extension_feed_ps_indexnow->clearQueue($store_id);
+
+            $json['success'] = $this->language->get('text_success_clear_queue');
         }
 
         $this->response->addHeader('Content-Type: application/json');
@@ -773,11 +788,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $store_id = 0;
             }
 
-            if ($this->model_extension_feed_ps_indexnow->clearLog($store_id)) {
-                $json['success'] = $this->language->get('text_success_clear_log');
-            } else {
-                $json['error'] = $this->language->get('error_clear_log');
-            }
+            $this->model_extension_feed_ps_indexnow->clearLog($store_id);
+
+            $json['success'] = $this->language->get('text_success_clear_log');
         }
 
         $this->response->addHeader('Content-Type: application/json');
@@ -786,6 +799,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
+        $service_endpoint .= '-test';
+
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
@@ -812,7 +827,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $response = curl_exec($ch);
 
             if ($response !== false && !curl_errno($ch)) {
-                $status_code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             } else {
                 $status_code = false;
             }

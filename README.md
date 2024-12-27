@@ -1,12 +1,19 @@
 # Playful Sparkle - IndexNow for OpenCart 3
 
-The **Playful Sparkle - IndexNow** extension for OpenCart 3.x+ xxxx
+The **Playful Sparkle - IndexNow** extension for OpenCart 3.x+ provides a powerful way to enhance your store’s visibility by notifying supported search engines whenever URLs on your store are added, updated, or deleted. With this extension, your store can quickly and automatically notify search engines like Bing and Yandex whenever changes are made, ensuring that these changes are indexed much faster than traditional crawling.
 
 ---
 
 ## Features
 
-- **Compatibility**: Integrates smoothly with OpenCart 4.x+, supporting a range of online store setups.
+- **Queue Management**: Add URLs to a queue and submit them individually or all at once, with the ability to clear the queue.
+- **Multiple URL Submission Options**: Submit URLs via imported sitemaps, XML file uploads, or manually entered URLs.
+- **Service Key Management**: Regenerate your service key for each store individually, as needed.
+- **Cron Support**: Use the extension-provided cron URL to send queued URLs to the IndexNow services.
+- **Detailed Log Tracking**: Monitor the status of submitted URLs in the logs and clear the logs when necessary.
+- **Customizable Store Settings**: Enable or disable IndexNow services for each store separately and configure URL submission and notification settings per store.
+- **Easy Integration**: Simple installation and configuration, with an automatically generated service key for each store.
+- **Compatibility**: Integrates smoothly with OpenCart 3.x+, supporting a range of online store setups.
 - **Multilingual Support**: Ready for international use with languages including Čeština (cs-cz), Deutsch (de-de), English (GB) (en-gb), English (US) (en-us), Español (es-es), Français (fr-fr), Magyar (hu-hu), Italiano (it-it), Русский (ru-ru), and Slovenčina (sk-sk).
 
 ---
@@ -17,8 +24,8 @@ The **Playful Sparkle - IndexNow** extension for OpenCart 3.x+ xxxx
 2. Log in to your OpenCart admin panel.
 3. Navigate to `Extensions > Installer`.
 4. Click the `Upload` button and upload the `ps_indexnow.ocmod.zip` file.
-5. Navigate to `Extensions > Extensions` and select `Modules` from the `Choose the extension type` dropdown list.
-6. Locate the extension in the `Modules` list and click the `Install` button.
+5. Navigate to `Extensions > Extensions` and select `Feeds` from the `Choose the extension type` dropdown list.
+6. Locate the extension in the `Feeds` list and click the `Install` button.
 7. Click the `Edit` button, configure the extension parameters, and click the `Save` button to save your settings.
 8. Navigate to `Extensions > Modifications`, select all your modifications and click the `Refresh` button to update the modification cache and apply the changes.
 

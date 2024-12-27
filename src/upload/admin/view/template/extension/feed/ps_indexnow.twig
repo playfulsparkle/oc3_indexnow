@@ -150,7 +150,7 @@
 						</div>
 						<div class="tab-pane" id="tab-manual-submit">
 
-							<div class="alert alert-warning"><i class="fa fa-info-circle"></i> {{ text_url_list_warning }}</div>
+							<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_url_list_warning }}</div>
 
 							<div class="form-group">
 								<label class="col-sm-2 control-label" for="input-url-list">{{ entry_url_list }}</label>
@@ -177,7 +177,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-5 col-sm-offset-2">
-									<button type="button" style="width: 100%;" id="button-submit-url-list" data-toggle="tooltip" title="{{ button_submit_url_list }}" class="btn btn-success"><i class="fa fa-send"></i> {{ button_submit_url_list }}</button>
+									<button type="button" style="width: 100%;" id="button-submit-url-list" data-toggle="tooltip" title="{{ button_submit_url_list }}" class="btn btn-primary"><i class="fa fa-send"></i> {{ button_submit_url_list }}</button>
 								</div>
 								<div class="col-sm-5">
 									<button type="button" style="width: 100%;" id="button-clear-url-list" data-toggle="tooltip" title="{{ button_clear_url_list }}" class="btn btn-danger"><i class="fa fa-trash"></i> {{ button_clear_url_list }}</button>
@@ -191,7 +191,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-6">
-									<button type="button" style="width: 100%;" id="button-submit-queue" data-toggle="tooltip" title="{{ button_submit_queue }}" class="btn btn-success"><i class="fa fa-send"></i> {{ button_submit_queue }}</button>
+									<button type="button" style="width: 100%;" id="button-submit-queue" data-toggle="tooltip" title="{{ button_submit_queue }}" class="btn btn-primary"><i class="fa fa-send"></i> {{ button_submit_queue }}</button>
 								</div>
 								<div class="col-sm-6">
 									<button type="button" style="width: 100%;" id="button-clear-queue" data-toggle="tooltip" title="{{ button_clear_queue }}" class="btn btn-danger"><i class="fa fa-trash"></i> {{ button_clear_queue }}</button>
@@ -200,6 +200,8 @@
 
 						</div>
 						<div class="tab-pane" id="tab-log">
+
+							<div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ text_http_status_code }}</div>
 
 							<div id="log-content"></div>
 
@@ -243,18 +245,18 @@
 		var copyText = $("#" + $(this).data('inputId'));
 
 		if (copyText.length) {
-				copyText.select();
-				copyText[0].setSelectionRange(0, 99999);
-				document.execCommand("copy");
+			copyText.select();
+			copyText[0].setSelectionRange(0, 99999);
+			document.execCommand("copy");
 		}
 	});
 
-	$('#input-load-sitemap').on('keydown', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
+	$('#input-load-sitemap').on('keydown', function (event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
 
-        $('#button-import-sitemap').click();
-    }
+			$('#button-import-sitemap').click();
+		}
 	});
 
 	$('#button-import-sitemap').on('click', function () {
@@ -302,7 +304,7 @@
 		});
 	});
 
-	$('#button-upload-sitemap').on('click', function() {
+	$('#button-upload-sitemap').on('click', function () {
 		var node = $(this);
 		var urlListTextarea = $('#input-url-list');
 
@@ -316,9 +318,19 @@
 			clearInterval(timer);
 		}
 
-		timer = setInterval(function() {
+		timer = setInterval(function () {
 			if ($('#form-upload input[name=\'file\']').val() != '') {
 				clearInterval(timer);
+
+				var file = $('#form-upload input[name=\'file\']')[0].files[0];
+
+				if (file.size > 52428800) {
+					$('.alert-dismissible').remove();
+
+					$('#content > .container-fluid').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_file_upload_limit }} <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+					return;
+				}
 
 				$.ajax({
 					url: 'index.php?route=extension/feed/ps_indexnow/load_sitemap&store_id={{ store_id }}&user_token={{ user_token }}',
@@ -328,15 +340,15 @@
 					cache: false,
 					contentType: false,
 					processData: false,
-					beforeSend: function() {
+					beforeSend: function () {
 						$(node).button('loading');
 						urlListTextarea.prop('disabled', true);
 					},
-					complete: function() {
+					complete: function () {
 						$(node).button('reset');
 						urlListTextarea.prop('disabled', false);
 					},
-					success: function(json) {
+					success: function (json) {
 						$('.alert-dismissible').remove();
 
 						if (json['error']) {
@@ -351,7 +363,7 @@
 							urlListTextarea.val(json['url_list']);
 						}
 					},
-					error: function(xhr, ajaxOptions, thrownError) {
+					error: function (xhr, ajaxOptions, thrownError) {
 						alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 					}
 				});

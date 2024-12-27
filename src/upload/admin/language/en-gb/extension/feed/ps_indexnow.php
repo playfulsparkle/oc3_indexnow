@@ -18,43 +18,28 @@ $_['text_success_clear_queue']            = 'Success: Queue has been successfull
 $_['text_success_submit_queue']           = 'Success: Queued URLs have been successfully submitted!';
 $_['text_success_submit_url_list']        = 'Success: URL list has been successfully submitted!';
 $_['text_edit']                           = 'Edit IndexNow';
-$_['text_getting_started']                = '<p><strong>Overview:</strong> The Playful Sparkle - IndexNow extension enables OpenCart users to easily notify supported search engines when URLs on their website have been added, updated, or deleted. Using IndexNow, search engines are informed instantly, allowing them to prioritize crawling these URLs and quickly reflect changes in search results.</p><p><strong>Requirements:</strong> OpenCart 4.x+, PHP 7.4+ or higher.</p>';
+$_['text_getting_started']                = '<p><strong>Overview:</strong> The Playful Sparkle - IndexNow extension for OpenCart simplifies the process of notifying search engines when URLs on your website are added, updated, or deleted. By leveraging IndexNow, this extension ensures that search engines receive real-time notifications, enabling them to prioritize crawling these URLs and promptly update search results with the latest changes.</p>
+<p>This extension offers flexible options, such as enabling or disabling the service for each store, customizing notification triggers (for products, categories, manufacturers, and more), and the ability to submit URLs manually or through an XML sitemap. Additionally, users can configure Cron jobs for automatic URL submission to supported search engines.</p>
+<p><strong>Requirements:</strong> OpenCart 4.x+, PHP 7.4+ or higher.</p>';
 $_['text_setup']                          = '<ul>
-<li>Click the "Edit" button next to "Playful Sparkle - IndexNow" and set the status to "Enabled".</li>
-<li>In the extension settings, locate the "IndexNow Services" section and enable the services you want to notify about URL changes.</li>
-<li>Scroll down to the "Notify Search Engines" section and enable the areas you want to monitor for changes, such as Categories, Products, Manufacturers, Information Pages.</li>
-<li>If necessary, regenerate the service key by clicking the "Generate New Key" button. This will create a new key and update the service key URL.</li>
-<li>Once all settings are configured, click the "Save" button to apply the changes.</li>
+<li><strong>Step 1: Install the Extension</strong> Download and install the extension through the OpenCart admin panel. Once installed, the service key will be automatically generated for each store.</li>
+<li><strong>Step 2: Clear Modification Cache</strong> After installation, go to <strong>Extensions > Modifications</strong> and click the <strong>Refresh</strong> button to clear the modification cache. This ensures that the extension is fully integrated into your system.</li>
+<li><strong>Step 3: Enable the Extension for Your Store</strong> Go to the extension settings and enable the extension for each store where you want to use the IndexNow services.</li>
+<li><strong>Step 4: Enable IndexNow Services for Your Store</strong> In the extension settings, enable IndexNow services for the selected store. You can also choose to enable or disable specific IndexNow services for each store.</li>
+<li><strong>Step 5: Configure URL Submission Settings</strong> Choose how you want to submit URLs to the IndexNow services. You can either import a sitemap, upload an XML sitemap file, or manually enter a URL. Each method will automatically generate a URL list for submission.</li>
+<li><strong>Step 6: Set Notification Options</strong> Enable notifications for when content such as categories, products, manufacturers, or articles are added, updated, or deleted. This ensures your search engines stay updated.</li>
+<li><strong>Step 7: Re-generate the Service Key (Optional)</strong> If needed, you can re-generate your service key for each store separately through the extension settings.</li>
+<li><strong>Step 8: Monitor Logs</strong> Once URLs are submitted, you can check the Log tab to see the results of the submissions. You can also clear the log if needed.</li>
 </ul>';
-$_['text_troubleshot']                    = '<ul>
-<li><strong>URL Not Indexed:</strong> IndexNow informs search engines of changes, but indexing is not guaranteed and may take time.</li>
-<li><strong>HTTP 429 Response:</strong> Slow down or retry later as you are sending too many requests.</li>
-<li><strong>Submitted URLs Not Fully Crawled:</strong> Search engines may not crawl all URLs if they exceed the quota or do not meet criteria.</li>
-<li><strong>URL Indexed on One Search Engine but Not Others:</strong> Different search engines use different selection criteria for indexing.</li>
-<li><strong>Key Verification Issues:</strong> Ensure the key is accessible at the specified URL and follows the required format.</li>
-<li><strong>Incorrect Key Usage:</strong> Use separate keys for each host unless specified otherwise.</li>
-<li><strong>URL Submission Errors:</strong> Avoid submitting unchanged or outdated URLs; focus on recent changes.</li>
-<li><strong>Frequent Edits:</strong> Wait at least 10 minutes before resubmitting the same URL to avoid excessive requests.</li>
-</ul>';
-$_['text_faq']                            = '<details><summary>What happens after I submit a URL?</summary>Search engines will visit the URL to check for updates. The timing depends on their schedules and limits.</details>
-<details><summary>What happens if I submit 10,000 URLs in one day?</summary>Search engines may visit some or all of them, depending on their limits for your site.</details>
-<details><summary>Why isn’t my submitted URL showing up in search results?</summary>Submitting a URL lets search engines know about it, but they decide if and when to include it in search results.</details>
-<details><summary>Should I submit old URLs?</summary>Only submit URLs that have been updated since you started using IndexNow.</details>
-<details><summary>Do submitted URLs count towards my search engine limit?</summary>Yes, each visit by a search engine counts towards your limit, but submitted URLs are prioritized.</details>
-<details><summary>Why aren’t all submitted URLs showing up?</summary>Search engines may skip some URLs if they don’t meet their guidelines.</details>
-<details><summary>Why is one search engine showing my URL but not others?</summary>Each search engine uses its own rules to decide which URLs to include.</details>
-<details><summary>Should I use IndexNow for a small website?</summary>Yes, it helps search engines find updates faster.</details>
-<details><summary>Can I submit the same URL multiple times in a day?</summary>Avoid doing this often. Wait at least 10 minutes between updates.</details>
-<details><summary>Can I submit URLs that no longer exist (404 errors)?</summary>Yes, this helps search engines know which links are no longer active.</details>
-<details><summary>Can I submit new redirects?</summary>Yes, you can notify search engines about changes like new redirects.</details>
-<details><summary>Can I submit all the URLs from my website?</summary>Only submit URLs that have recently changed. Use a sitemap for the full list of your site’s URLs.</details>
-<details><summary>What should I do if I see an HTTP 429 error?</summary>This means you’ve sent too many requests. Slow down and try again later.</details>
-<details><summary>When should I change my key?</summary>Change it if a search engine asks for a new one to verify your site.</details>
-<details><summary>Can I use more than one key for my site?</summary>Yes, if you have different systems (like CMS) on your site, you can use different keys.</details>
-<details><summary>Can I use one key for my entire domain?</summary>No, each part of your website (like different subdomains) needs its own key.</details>
-<details><summary>Can I use the same key for multiple websites?</summary>Yes, you can use one key for several websites if you want.</details>
-<details><summary>Do I still need IndexNow if I have a sitemap?</summary>Yes, IndexNow notifies search engines immediately, while sitemaps are checked less often.</details>
-<details><summary>Where can I find more information?</summary>Check the help guides or documentation provided by each search engine.</details>';
+$_['text_troubleshot']                    = '<ul><li><strong>Extension not working or not enabled:</strong> Ensure that the extension is enabled for the active store. You can manage the extension’s status for each store from the settings.</li><li><strong>IndexNow services not enabled:</strong> Make sure you have enabled IndexNow services for the relevant store. This setting is also configurable per store.</li><li><strong>Invalid or missing service key:</strong> The service key is generated automatically upon installing the extension and should not fail. If the key is missing, please reinstall the extension.</li><li><strong>Issues with Cron:</strong> You can either use the extension-provided Cron URL or the OpenCart Cron page URL. Both should work without any issues. Double-check your server settings if the Cron task fails to execute.</li><li><strong>Invalid sitemap upload or URL:</strong> Ensure that the sitemap file is within the allowed size (50MB) and does not exceed 50,000 URLs. If submitting a URL, make sure it is correctly formatted with "http" or "https".</li></ul>';
+$_['text_faq']                            = '<details><summary><strong>How can I enable or disable the extension for each store?</strong></summary><p>You can enable or disable the extension for each store separately through the extension settings.</p></details>
+<details><summary><strong>Can I enable or disable IndexNow services for each store?</strong></summary><p>Yes, you can enable or disable IndexNow services for each store individually in the extension settings.</p></details>
+<details><summary><strong>How do I generate a service key for each store?</strong></summary><p>The service key is automatically generated upon installation and is unique to each store. You do not need to generate it manually.</p></details>
+<details><summary><strong>Can I re-generate the service key for each store?</strong></summary><p>Yes, you can re-generate the service key for each store separately through the extension settings. This allows you to refresh or change the key as needed.</p></details>
+<details><summary><strong>Can I use a custom Cron URL for sending URLs to IndexNow services?</strong></summary><p>Yes, you can choose to use either the extension-provided Cron URL or the OpenCart Cron page URL to send the queued URLs. Both options work without any issues.</p></details>
+<details><summary><strong>What are the size and URL limits for the sitemap?</strong></summary><p>The sitemap file can be up to 50MB in size and contain up to 50,000 URLs. Ensure that your sitemap does not exceed these limits.</p></details>
+<details><summary><strong>How can I submit URLs to IndexNow services?</strong></summary><p>You can submit URLs to IndexNow services by importing a sitemap, uploading an XML sitemap file, or typing the sitemap URL manually. Additionally, you can submit individual URLs from the queue or send all queued URLs at once for the selected store.</p></details>
+<details><summary><strong>How do I clear the URL submission log?</strong></summary><p>You can clear the log in the Log tab. The log is cleared without errors whenever you choose to clear it.</p></details>';
 $_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
 $_['text_log_no_results']                 = 'No log entries available at this time.';
 $_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
@@ -63,7 +48,8 @@ $_['text_products']                       = 'Products on your site are added, up
 $_['text_manufacturers']                  = 'Manufacturers on your site are added, updated, or deleted';
 $_['text_information']                    = 'Information Pages on your site are added, updated, or deleted';
 $_['text_articles']                       = 'Articles on your site are added, updated, or deleted';
-$_['text_url_list_warning']               = 'The URLs you enter will be validated. They must be valid, and the host of each URL must match the store host "%s".';
+$_['text_url_list_warning']               = 'The URLs you paste will be validated. Each URL must be properly formatted with "http" or "https", and its host must match the store host: "%s". A maximum of 10,000 URLs can be submitted.';
+$_['text_http_status_code']               = 'Analyzing HTTP response status codes from IndexNow services helps you understand if your requests were processed successfully or encountered issues. These codes provide insights into URL indexing results and potential errors. Visit the following IndexNow services to learn more about their HTTP status codes:<br><br><ul><li><a href="https://www.bing.com/indexnow/getstarted" target="_blank">Microsoft Bing Webmaster Tools</a></li><li><a href="https://searchadvisor.naver.com/guide/indexnow-request" target="_blank">Naver Search Advisor</a></li><li><a href="https://napoveda.seznam.cz/cz/fulltext-hledani-v-internetu/protokol-indexnow/odeslani-vice-stranek-jednim-pozadavkem/" target="_blank">Seznam.cz</a></li><li><a href="https://yandex.com/support/webmaster/indexnow/reference/post-url.html" target="_blank">Yandex Webmaster Tools</a></li></ul>';
 
 // Column
 $_['column_log_id']                       = 'Log ID';
@@ -109,23 +95,22 @@ $_['button_copy']                         = 'Copy URL';
 // Help
 $_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
 $_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
-$_['help_url_list']                       = 'Enter a list of URLs, one per line. Click the "Submit URL List" button to send them to the enabled IndexNow services.';
-$_['help_load_sitemap']                   = 'You can either provide a sitemap URL or upload a sitemap.xml file. The URLs from the sitemap will be added to the URL list, which will then be sent to the IndexNow services.';
+$_['help_url_list']                       = 'Enter a list of URLs, one per line (up to 10,000). Ensure each URL is properly formatted with "http" or "https". Click "Submit URL List" to send the URLs to the selected IndexNow services.';
+$_['help_load_sitemap']                   = 'You can either provide a sitemap URL or upload a sitemap.xml file (up to 50MB or 50,000 URLs). The URLs from the sitemap will be added to the list and sent to the selected IndexNow service. You will be notified once the process is complete.';
 $_['help_cron_url']                       = 'Add this URL to your hosting server’s cron table. It will automatically send <strong>all queued URLs</strong> from <strong>all configured stores</strong> to the <strong>selected IndexNow service endpoints</strong> at scheduled intervals.';
 
 // Error
 $_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow feed!';
 $_['error_generate_service_key']          = 'Warning: Unable to generate a new service key!';
 $_['error_remove_queue']                  = 'Warning: Unable to remove the queued URLs!';
-$_['error_clear_log']                     = 'Warning: The log is either empty or could not be cleared!';
-$_['error_clear_queue']                   = 'Warning: The queue is either empty or could not be cleared!';
 $_['error_not_configured']                = 'Warning: The IndexNow extension is not configured!';
 $_['error_filetype']                      = 'Warning: Invalid file type. Please upload a valid file.';
 $_['error_upload']                        = 'Warning: The file could not be uploaded.';
-$_['error_download']                      = 'Warning: Could not download sitemap file from "%s"';
+$_['error_download']                      = 'Warning: Could not download sitemap file "%s"';
 $_['error_invalid_url']                   = 'Warning: The URL is invalid. Please provide a valid URL.';
 $_['error_invalid_url_host']              = 'Warning: The URL host is invalid. The URL host must be the same as the current URL host.';
 $_['error_no_services_enabled']           = 'Warning: No services are enabled. Please enable at least one service.';
-$_['error_submit_url_list_invalid']       = 'Warning: The URL list contains invalid entries, such as URLs with a different host than the active store, invalid URLs, or empty lines.';
-$_['error_empty_queue']                   = 'Warning: The queue URL list is empty and contains no URLs.';
+$_['error_submit_url_list_invalid']       = 'Warning: The URL list contains invalid URLs or URLs with a host different from the active store.';
+$_['error_empty_queue']                   = 'Warning: The queue is empty.';
+$_['error_file_upload_limit']             = 'Warning: The file size exceeds the 50MB limit. Please upload a smaller file.';
 $_['error_service_key']                   = 'The service key is invalid. Please provide a valid service key.';
