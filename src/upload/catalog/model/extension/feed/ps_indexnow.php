@@ -50,15 +50,15 @@ class ModelExtensionFeedPsIndexNow extends Model
 
     public function getServiceEndpoints(array $services): array
     {
-        $services = array_keys(array_filter($services, function ($value): bool {
+        $services = array_filter($services, function ($value): bool {
             return $value > 0;
-        }));
+        });
 
         if (empty($services)) {
             return array();
         }
 
-        $query = $this->db->query("SELECT `service_id`, `endpoint_url` FROM `" . DB_PREFIX . "ps_indexnow_services` WHERE `service_id` IN (" . implode(',', $services) . ")");
+        $query = $this->db->query("SELECT `service_id`, `endpoint_url` FROM `" . DB_PREFIX . "ps_indexnow_services` WHERE `service_id` IN (" . implode(',', array_keys($services)) . ")");
 
         return $query->rows;
     }

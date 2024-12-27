@@ -590,20 +590,24 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         if (!$json) {
             if (isset($this->request->post['url_list'])) {
-                $url_list = array_map('trim', explode("\n", (string) $this->request->post['url_list']));
-
-                $url_list = array_filter($url_list, function ($url) use ($server_host) {
-                    if (!filter_var($url, FILTER_VALIDATE_URL)) {
-                        return false;
-                    }
-
-                    $url_host = parse_url($url, PHP_URL_HOST);
-
-                    return $url_host && strcasecmp($url_host, $server_host) === 0;
-                });
+                $url_list = array_filter(array_map('trim', explode("\n", (string) $this->request->post['url_list'])));
 
                 if (empty($url_list)) {
-                    $json['error'] = $this->language->get('error_submit_url_list_invalid');
+                    $json['error'] = $this->language->get('error_submit_url_list_empty');
+                } else {
+                    $url_list = array_filter($url_list, function ($url) use ($server_host) {
+                        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                            return false;
+                        }
+
+                        $url_host = parse_url($url, PHP_URL_HOST);
+
+                        return $url_host && strcasecmp($url_host, $server_host) === 0;
+                    });
+
+                    if (empty($url_list)) {
+                        $json['error'] = $this->language->get('error_submit_url_list_invalid');
+                    }
                 }
 
                 $queue_id_list = array();
