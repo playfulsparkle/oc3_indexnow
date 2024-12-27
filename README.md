@@ -1,8 +1,8 @@
 # Playful Sparkle - IndexNow for OpenCart 3
 
-The **Playful Sparkle - IndexNow** extension for OpenCart 3.x+ revolutionizes how your store communicates with search engines. This extension allows your store to quickly and automatically notify supported search engines like Bing and Yandex whenever URLs are added, updated, or deleted. By ensuring these changes are indexed faster than traditional crawling methods, the extension helps improve your store’s visibility and search performance.
+The **Playful Sparkle - IndexNow** extension for OpenCart 3.x+ revolutionizes how your store communicates with search engines. This extension allows your store to quickly and automatically notify supported search engines like Bing and Yandex whenever store content is added, updated, or deleted. By ensuring these changes are indexed faster than traditional crawling methods, the extension helps improve your store’s visibility and search performance.
 
-Take advantage of powerful features like queue management, where URLs can be submitted individually or all at once, with the ability to clear the queue as needed. Choose from multiple URL submission options, including importing sitemaps, uploading XML files, or manually entering URLs. Manage service keys effortlessly with the ability to regenerate keys for each store individually.
+Take advantage of powerful features like queue management, where URLs can be submitted individually or all at once, with the ability to clear the queue as needed. Choose from multiple URL submission options, including importing URLs from XML sitemap from URL, uploading XML sitemap, or manually entering URLs. Manage service keys effortlessly with the ability to regenerate keys for each store individually.
 
 Cron support allows for automated submissions of queued URLs, while detailed log tracking provides insight into the status of submitted URLs, with options to clear logs when necessary. Customizable store settings let you enable or disable IndexNow services for each store and configure URL submission and notification settings tailored to your needs. The extension’s easy integration ensures a seamless installation and setup process.
 
