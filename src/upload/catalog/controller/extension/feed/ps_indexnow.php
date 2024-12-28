@@ -97,8 +97,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
-        $service_endpoint .= '-test';
-
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
