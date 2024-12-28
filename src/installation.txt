@@ -1,25 +1,34 @@
 Playful Sparkle - IndexNow
 
 The Playful Sparkle - IndexNow extension for OpenCart 3.x+ revolutionizes how
-your store communicates with search engines. This extension allows your store
-to quickly and automatically notify supported search engines like Bing and
-Yandex whenever store content is added, updated, or deleted. By ensuring these
-changes are indexed faster than traditional crawling methods, the extension
-helps improve your store’s visibility and search performance.
+your store communicates with search engines by leveraging the powerful IndexNow
+protocol. This innovative extension allows your store to quickly and
+automatically notify supported search engines like Bing and Yandex whenever
+content such as products, categories, or articles is added, updated, or deleted.
+By ensuring these changes are indexed faster than traditional crawling methods,
+the extension significantly improves your store's visibility and
+search performance.
 
-Take advantage of powerful features like queue management, where URLs can be
-submitted individually or all at once, with the ability to clear the queue
-as needed. Choose from multiple URL submission options, including importing URLs
-from XML sitemap from URL, uploading XML sitemap, or manually entering URLs.
-Manage service keys effortlessly with the ability to regenerate keys for each
-store individually.
+The extension comes packed with advanced features, including queue management,
+which enables you to submit URLs individually or in bulk, with the ability to
+clear the queue as needed. It offers multiple URL submission options, such as
+importing URLs from an XML sitemap via a URL, uploading an XML sitemap, or
+manually entering URLs. To further enhance usability, it provides effortless
+management of service keys, including the ability to regenerate keys for
+each store individually.
 
-Cron support allows for automated submissions of queued URLs, while detailed log
-tracking provides insight into the status of submitted URLs, with options to
-clear logs when necessary. Customizable store settings let you enable or disable
-IndexNow services for each store and configure URL submission and notification
-settings tailored to your needs. The extension’s easy integration ensures a
-seamless installation and setup process.
+Automated processes are made possible with cron support, ensuring that queued
+URLs are submitted regularly without manual intervention. Detailed log tracking
+provides clear insights into the status of submitted URLs, with options to
+clear logs when necessary for better maintenance. The extension's customizable
+store settings allow you to enable or disable IndexNow services for each store
+and tailor URL submission and notification settings to fit your
+unique requirements.
+
+With its easy integration, seamless installation, and setup process,
+the extension is designed to deliver maximum efficiency. By harnessing the
+powerof IndexNow, this extension ensures your store’s content changes are
+indexed faster and more effectively than ever before.
 
 Features
 
