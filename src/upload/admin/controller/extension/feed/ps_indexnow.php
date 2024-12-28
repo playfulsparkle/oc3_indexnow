@@ -319,7 +319,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                     $store_id = 0;
                 }
 
-                $json = $this->load_url_sitemap($store_id, (string) $this->request->post['file']);
+                $server = $this->get_store_url($store_id);
+
+                $json = $this->load_url_sitemap($store_id, $server . (string) $this->request->post['file']);
             }
         }
 

@@ -166,8 +166,8 @@
 								<label class="col-sm-2 control-label" for="input-load-sitemap">{{ entry_load_sitemap }}</label>
 								<div class="col-sm-10">
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fa fa-globe"></i></span>
-										<input type="text" value="{{ server }}" data-default-value="{{ server }}" placeholder="{{ entry_load_sitemap }}" id="input-load-sitemap" class="form-control" autocomplete="off">
+										<span class="input-group-addon">{{ server }}</span>
+										<input type="text" value="" placeholder="{{ entry_load_sitemap }}" id="input-load-sitemap" class="form-control" autocomplete="off">
 										<span class="input-group-btn">
 											<button type="button" class="btn btn-success" id="button-import-sitemap" data-toggle="tooltip" title="{{ button_import_sitemap }}"><i class="fa fa-send"></i> {{ button_import_sitemap }}</button>
 											<button type="button" class="btn btn-primary" id="button-upload-sitemap" data-toggle="tooltip" title="{{ button_upload_sitemap }}"><i class="fa fa-upload"></i> {{ button_upload_sitemap }}</button>
@@ -308,7 +308,7 @@
 					$('#content > .container-fluid').prepend('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 				}
 
-				sitemapInput.val(sitemapInput.data('default-value'));
+				sitemapInput.val('');
 
 				if (json['url_list']) {
 					urlListTextarea.val(json['url_list']);
