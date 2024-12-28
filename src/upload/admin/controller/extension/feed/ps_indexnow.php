@@ -112,7 +112,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['feed_ps_indexnow_service_key_location'] = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
         }
 
-        if ($data['feed_ps_indexnow_service_key_location']) {
+        if (!empty($data['feed_ps_indexnow_service_key_location'])) {
             $data['feed_ps_indexnow_service_key_url'] = $server . $data['feed_ps_indexnow_service_key_location'];
         } else {
             $data['feed_ps_indexnow_service_key_url'] = '';
