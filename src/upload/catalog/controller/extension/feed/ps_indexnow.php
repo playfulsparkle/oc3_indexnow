@@ -35,8 +35,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
 
-        $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
-        $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
+        $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
+        $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
 
         if (empty($services)) {
             $this->log->write('Playful Sparkle - IndexNow: No IndexNow services are enabled for store ID "' . $store['store_id'] . '"');

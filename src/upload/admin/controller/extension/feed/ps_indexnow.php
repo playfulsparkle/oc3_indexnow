@@ -101,15 +101,15 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
-            $data['feed_ps_indexnow_service_key'] = $this->request->post['feed_ps_indexnow_service_key'];
+            $data['feed_ps_indexnow_service_key'] = (string) $this->request->post['feed_ps_indexnow_service_key'];
         } else {
-            $data['feed_ps_indexnow_service_key'] = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+            $data['feed_ps_indexnow_service_key'] = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key_location'])) {
-            $data['feed_ps_indexnow_service_key_location'] = $this->request->post['feed_ps_indexnow_service_key_location'];
+            $data['feed_ps_indexnow_service_key_location'] = (string) $this->request->post['feed_ps_indexnow_service_key_location'];
         } else {
-            $data['feed_ps_indexnow_service_key_location'] = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+            $data['feed_ps_indexnow_service_key_location'] = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
         }
 
         if ($data['feed_ps_indexnow_service_key_location']) {
@@ -641,8 +641,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
             $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
 
-            $service_key = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
-            $service_key_location = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
+            $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
+            $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
 
             if (!$services) {
                 $json['error'] = $this->language->get('error_no_services_enabled');
