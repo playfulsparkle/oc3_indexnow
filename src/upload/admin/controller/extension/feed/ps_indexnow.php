@@ -277,6 +277,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     public function load_sitemap()
     {
         $this->load->language('extension/feed/ps_indexnow');
+        
         $this->load->model('setting/store');
 
         $json = array();
@@ -285,16 +286,16 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_permission');
         }
 
-        if (isset($this->request->get['store_id'])) {
-            $store_id = (int) $this->request->get['store_id'];
-        } else {
-            $store_id = 0;
-        }
-
         if (!$json) {
             if (isset($this->request->files['file'])) {
                 $json = $this->load_uploaded_sitemap($this->request->files['file']);
             } else if (isset($this->request->post['file'])) {
+                if (isset($this->request->get['store_id'])) {
+                    $store_id = (int) $this->request->get['store_id'];
+                } else {
+                    $store_id = 0;
+                }
+
                 $json = $this->load_url_sitemap($store_id, (string) $this->request->post['file']);
             }
         }
@@ -385,9 +386,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $response = curl_exec($ch);
 
             if ($response !== false && !curl_errno($ch)) {
-                $content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+                $mime_type = (string) curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-                if ($content_type && in_array($content_type, $xml_mime_types)) {
+                $mime_type = explode(';', trim($mime_type))[0];
+
+                if ($mime_type && in_array($mime_type, $xml_mime_types)) {
                     $url_list = $this->process_xml_sitemap($response);
                 }
             }
@@ -426,7 +429,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             }
         }
 
-        if ($url_list) {
+        if (!empty($url_list)) {
             $json['url_list'] = $url_list;
         } else {
             $json['error'] = sprintf($this->language->get('error_download'), htmlspecialchars($file_url, ENT_QUOTES, 'UTF-8'));
@@ -486,18 +489,20 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $json['error'] = $this->language->get('error_permission');
         }
 
-        if (isset($this->request->post['queue_id'])) {
-            $queue_id = (int) $this->request->post['queue_id'];
-        } else {
-            $queue_id = 0;
-        }
+        if (!$json) {
+            if (isset($this->request->post['queue_id'])) {
+                $queue_id = (int) $this->request->post['queue_id'];
+            } else {
+                $queue_id = 0;
+            }
 
-        $this->load->model('extension/feed/ps_indexnow');
+            $this->load->model('extension/feed/ps_indexnow');
 
-        if ($this->model_extension_feed_ps_indexnow->removeQueue($queue_id)) {
-            $json['success'] = $this->language->get('text_success_remove_queue');
-        } else {
-            $json['error'] = $this->language->get('error_remove_queue');
+            if ($this->model_extension_feed_ps_indexnow->removeQueue($queue_id)) {
+                $json['success'] = $this->language->get('text_success_remove_queue');
+            } else {
+                $json['error'] = $this->language->get('error_remove_queue');
+            }
         }
 
         $this->response->addHeader('Content-Type: application/json');
