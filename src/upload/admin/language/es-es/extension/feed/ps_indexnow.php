@@ -117,3 +117,4 @@ $_['error_submit_url_list_invalid']       = 'Advertencia: La lista de URLs envia
 $_['error_empty_queue']                   = 'Advertencia: La cola está vacía.';
 $_['error_file_upload_limit']             = 'Advertencia: El tamaño del archivo excede el límite de 50MB. Cargue un archivo más pequeño.';
 $_['error_service_key']                   = 'La clave de servicio no es válida. Por favor, proporcione una clave de servicio válida.';
+$_['error_service_key_location']          = 'La ubicación de la clave de servicio no es válida. Por favor, proporcione una ubicación válida de la clave de servicio.';

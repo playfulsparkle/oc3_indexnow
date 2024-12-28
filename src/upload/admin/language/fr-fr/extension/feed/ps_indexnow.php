@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Avertissement : La liste d\'URLs so
 $_['error_empty_queue']                   = 'Avertissement : La file d\'attente est vide.';
 $_['error_file_upload_limit']             = 'Avertissement : La taille du fichier dépasse la limite de 50 Mo. Veuillez télécharger un fichier plus petit.';
 $_['error_service_key']                   = 'La clé de service est invalide. Veuillez fournir une clé de service valide.';
+$_['error_service_key_location']          = 'L’emplacement de la clé de service est invalide. Veuillez fournir un emplacement valide pour la clé de service.';

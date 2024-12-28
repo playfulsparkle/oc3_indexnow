@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Warnung: Die eingereichte URL-Liste
 $_['error_empty_queue']                   = 'Warnung: Die Warteschlange ist leer.';
 $_['error_file_upload_limit']             = 'Warnung: Die Dateigröße überschreitet das 50 MB-Limit. Bitte laden Sie eine kleinere Datei hoch.';
 $_['error_service_key']                   = 'Der API-Schlüssel ist ungültig. Bitte geben Sie einen gültigen API-Schlüssel an.';
+$_['error_service_key_location']          = 'Der Speicherort des Dienstschlüssels ist ungültig. Bitte geben Sie einen gültigen Speicherort für den Dienstschlüssel an.';

@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Upozornění: Seznam odeslaných UR
 $_['error_empty_queue']                   = 'Upozornění: Fronta je prázdná.';
 $_['error_file_upload_limit']             = 'Upozornění: Velikost souboru překračuje limit 50 MB. Nahrajte menší soubor.';
 $_['error_service_key']                   = 'Klíč služby je neplatný. Uveďte platný klíč služby.';
+$_['error_service_key_location']          = 'Umístění klíče služby je neplatné. Prosím, poskytněte platné umístění klíče služby.';

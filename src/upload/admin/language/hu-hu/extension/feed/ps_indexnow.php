@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Figyelmeztetés: A beküldött URL 
 $_['error_empty_queue']                   = 'Figyelmeztetés: A várólista üres.';
 $_['error_file_upload_limit']             = 'Figyelmeztetés: A fájlméret meghaladja az 50 MB-os korlátot. Kérjük, töltsön fel kisebb fájlt.';
 $_['error_service_key']                   = 'A szolgáltatási kulcs érvénytelen. Kérjük, adjon meg egy érvényes szolgáltatási kulcsot.';
+$_['error_service_key_location']          = 'A szolgáltatás kulcsának helye érvénytelen. Kérem, adjon meg egy érvényes helyet a szolgáltatás kulcsához.';

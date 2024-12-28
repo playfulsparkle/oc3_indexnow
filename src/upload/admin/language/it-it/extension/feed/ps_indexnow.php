@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Avviso: L\'elenco URL inviato conti
 $_['error_empty_queue']                   = 'Avviso: La coda è vuota.';
 $_['error_file_upload_limit']             = 'Avviso: La dimensione del file supera il limite di 50 MB. Carica un file di dimensioni inferiori.';
 $_['error_service_key']                   = 'La chiave di servizio non è valida. Fornisci una chiave di servizio valida.';
+$_['error_service_key_location']          = 'La posizione della chiave del servizio non è valida. Si prega di fornire una posizione valida per la chiave del servizio.';

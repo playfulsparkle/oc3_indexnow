@@ -53,6 +53,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['error_service_key'] = '';
         }
 
+        if (isset($this->error['service_key_location'])) {
+            $data['error_service_key_location'] = $this->error['service_key_location'];
+        } else {
+            $data['error_service_key_location'] = '';
+        }
+
         if (isset($this->request->get['store_id'])) {
             $store_id = (int) $this->request->get['store_id'];
         } else {
@@ -185,7 +191,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$this->error) {
-            $required_keys = array('feed_ps_indexnow_service_key');
+            $required_keys = array(
+                'feed_ps_indexnow_service_key',
+                'feed_ps_indexnow_service_key_location',
+            );
 
             foreach ($required_keys as $value) {
                 if (!isset($this->request->post[$value])) {
@@ -193,8 +202,22 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
             }
 
-            if (empty($this->request->post['feed_ps_indexnow_service_key'])) {
+            if (!preg_match('/^[a-zA-Z0-9\-]{8,128}$/', (string) $this->request->post['feed_ps_indexnow_service_key'])) {
                 $this->error['service_key'] = $this->language->get('error_service_key');
+            }
+
+            $parsed_url = parse_url((string) $this->request->post['feed_ps_indexnow_service_key_location']);
+
+            if (
+                isset($parsed_url['scheme']) ||
+                isset($parsed_url['host']) ||
+                isset($parsed_url['port']) ||
+                isset($parsed_url['query']) ||
+                isset($parsed_url['fragment']) ||
+                empty($parsed_url['path']) ||
+                substr($parsed_url['path'], 0, 1) === '/'
+            ) {
+                $this->error['service_key_location'] = $this->language->get('error_service_key_location');
             }
         }
 
@@ -277,7 +300,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     public function load_sitemap()
     {
         $this->load->language('extension/feed/ps_indexnow');
-        
+
         $this->load->model('setting/store');
 
         $json = array();

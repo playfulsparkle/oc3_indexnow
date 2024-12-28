@@ -116,3 +116,4 @@ $_['error_submit_url_list_invalid']       = 'Upozornenie: Zoznam odoslaných URL
 $_['error_empty_queue']                   = 'Upozornenie: Čakacia rada je prázdna.';
 $_['error_file_upload_limit']             = 'Upozornenie: Veľkosť súboru presahuje limit 50 MB. Nahrajte menší súbor.';
 $_['error_service_key']                   = 'Služobný kľúč je neplatný. Poskytnite platný služobný kľúč.';
+$_['error_service_key_location']          = 'Miesto kľúča služby je neplatné. Poskytnite prosím platné miesto kľúča služby.';

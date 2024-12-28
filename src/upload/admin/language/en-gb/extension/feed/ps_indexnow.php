@@ -115,3 +115,4 @@ $_['error_submit_url_list_invalid']       = 'Warning: The submitted URL list con
 $_['error_empty_queue']                   = 'Warning: The queue is empty.';
 $_['error_file_upload_limit']             = 'Warning: The file size exceeds the 50MB limit. Please upload a smaller file.';
 $_['error_service_key']                   = 'The service key is invalid. Please provide a valid service key.';
+$_['error_service_key_location']          = 'The service key location is invalid. Please provide a valid service key location.';
