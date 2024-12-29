@@ -36,6 +36,7 @@ archive.pipe(output);
 archive.directory("src/upload/", "upload");
 archive.file("src/install.xml", { name: "install.xml" });
 archive.file("src/installation.txt", { name: "installation.txt" });
+archive.file("LICENSE", { name: "license.txt" });
 
 archive.finalize();
 
