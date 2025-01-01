@@ -50,9 +50,12 @@ class ps_indexnow
 
             $content_categories = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
 
+            /**
+             * @var array $content_categories
+             */
             $content_categories = json_decode((string) $content_categories, true);
 
-            $content_categories = (json_last_error() === JSON_ERROR_NONE) ? (array) $content_categories : array();
+            $content_categories = json_last_error() === JSON_ERROR_NONE ? $content_categories : array();
 
             if (!$content_categories || !in_array($item_category, $content_categories)) {
                 continue;

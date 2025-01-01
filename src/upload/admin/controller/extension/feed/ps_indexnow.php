@@ -101,9 +101,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $service_status = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
+            /**
+             * @var array $service_status
+             */
             $service_status = json_decode((string) $service_status, true);
 
-            $data['feed_ps_indexnow_service_status'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $service_status : array();
+            $data['feed_ps_indexnow_service_status'] = json_last_error() === JSON_ERROR_NONE ? $service_status : array();
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
@@ -129,9 +132,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         } else {
             $content_category = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_content_category', $store_id);
 
+            /**
+             * @var array $content_category
+             */
             $content_category = json_decode((string) $content_category, true);
 
-            $data['feed_ps_indexnow_content_category'] = (json_last_error() === JSON_ERROR_NONE) ? (array) $content_category : array();
+            $data['feed_ps_indexnow_content_category'] = json_last_error() === JSON_ERROR_NONE ? $content_category : array();
         }
 
         $data['languages'] = $this->model_localisation_language->getLanguages();
@@ -667,9 +673,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         if (!$json) {
             $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
+            /**
+             * @var array $services
+             */
             $services = json_decode((string) $services, true);
 
-            $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
+            $services = json_last_error() === JSON_ERROR_NONE ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services) : array();
 
             $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
             $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);

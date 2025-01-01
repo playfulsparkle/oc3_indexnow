@@ -31,9 +31,12 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
         $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
 
+        /**
+         * @var array $services
+         */
         $services = json_decode((string) $services, true);
 
-        $services = (json_last_error() === JSON_ERROR_NONE) ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints((array) $services) : array();
+        $services = json_last_error() === JSON_ERROR_NONE ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services) : array();
 
         $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
         $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
