@@ -20,7 +20,7 @@ With its **easy integration**, seamless installation, and setup process, the ext
 - **Customizable Store Settings**: Enable or disable IndexNow services for each store separately and configure URL submission and notification settings per store.
 - **Easy Integration**: Simple installation and configuration, with an automatically generated service key for each store.
 - **Compatibility**: Integrates smoothly with OpenCart 3.x+, supporting a range of online store setups.
-- **Multilingual Support**: Ready for international use with languages including Čeština (cs-cz), Deutsch (de-de), English (GB) (en-gb), English (US) (en-us), Español (es-es), Français (fr-fr), Magyar (hu-hu), Italiano (it-it), Русский (ru-ru), and Slovenčina (sk-sk).
+- **Multilingual Support**: Ready for international use with languages including Čeština (cs-cz), Deutsch (de-de), English (GB) (en-gb), English (US) (en-us), Español (es-es), Français (fr-fr), Magyar (hu-hu), Italiano (it-it), Русский (ru-ru), Ελληνικά (el-GR), العربية (ar), Polski (pl-pl), and Slovenčina (sk-sk).
 
 ---
 
