@@ -5,15 +5,15 @@ class ModelExtensionFeedPsIndexNow extends Model
     {
         $this->db->query("
             CREATE TABLE `" . DB_PREFIX . "ps_indexnow_queue` (
-            `queue_id` INT NOT NULL AUTO_INCREMENT,
-            `url` VARCHAR(2083) NOT NULL,
-            `content_hash` CHAR(32) NOT NULL,
-            `store_id` INT NOT NULL DEFAULT 0,
-            `language_id` INT DEFAULT NULL,
-            `date_added` DATETIME NOT NULL,
-            PRIMARY KEY (`queue_id`),
-            UNIQUE KEY `unique_index` (`url`, `content_hash`, `store_id`, `language_id`),
-            KEY `date_added_index` (`date_added`)
+                `queue_id` INT NOT NULL AUTO_INCREMENT,
+                `url` VARCHAR(255) NOT NULL,
+                `content_hash` CHAR(32) NOT NULL,
+                `store_id` INT NOT NULL DEFAULT 0,
+                `language_id` INT DEFAULT NULL,
+                `date_added` DATETIME NOT NULL,
+                PRIMARY KEY (`queue_id`),
+                UNIQUE KEY `unique_index` (`url`, `content_hash`, `store_id`, `language_id`),
+                KEY `date_added_index` (`date_added`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
         ");
 
