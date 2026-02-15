@@ -1,13 +1,12 @@
 <?php
 // Heading
 $_['heading_title']                       = 'Playful Sparkle - IndexNow';
-$_['heading_fix']                         = 'Gyakori hibák javítása';
 $_['heading_getting_started']             = 'Kezdő lépések';
 $_['heading_setup']                       = 'IndexNow beállítása';
 $_['heading_troubleshot']                 = 'Gyakori hibakeresési lépések';
 $_['heading_faq']                         = 'GYIK';
 $_['heading_contact']                     = 'Terméktámogatás';
-$_['heading_services']                    = 'IndexNow szolgáltatások';
+$_['entry_indexnow_services']                    = 'IndexNow szolgáltatások';
 
 // Text
 $_['text_extension']                      = 'Bővítmények';
@@ -20,14 +19,7 @@ $_['text_success_submit_queue']           = 'Siker: A várólistán szereplő UR
 $_['text_success_submit_url_list']        = 'Siker: Az URL lista sikeresen benyújtva!';
 $_['text_edit']                           = 'IndexNow szerkesztése';
 $_['text_getting_started']                = '<p><strong>Áttekintés:</strong> A <strong>Playful Sparkle - IndexNow</strong> bővítmény az OpenCart 4.x+ verzióihoz lehetővé teszi, hogy automatikusan értesítse a keresőmotorokat, mint a Bing és a Yandex, amikor az Ön boltjának tartalmát hozzáadják, frissítik vagy törlik. Ez gyorsabb indexelést biztosít a változásokhoz, javítva ezzel boltja láthatóságát és keresési teljesítményét. Funkciókat kínál, mint például manuális URL-benyújtás, várólistás URL-benyújtás, testreszabható beállítások és Cron támogatás.</p><p><strong>Követelmények:</strong> OpenCart 4.x+, PHP 7.4+ vagy újabb.</p>';
-$_['text_setup']                          = '<ul><li><strong>1. lépés: Bővítmény telepítése</strong> - Töltse le és telepítse a bővítményt az OpenCart adminisztrációs felületén keresztül. A telepítés után a szolgáltatáskulcs automatikusan generálódik minden egyes bolt számára.</li>
-<li><strong>2. lépés: Módosítási gyorsítótár törlése</strong> - Telepítés után lépjen a <strong>Bővítmények > Módosítások</strong> menüpontra, és kattintson a <strong>Frissítés</strong> gombra a módosítási gyorsítótár törléséhez. Ez biztosítja, hogy a bővítmény teljes mértékben integrálódjon a rendszerbe.</li>
-<li><strong>3. lépés: Bővítmény engedélyezése az üzlethez</strong> - Lépjen a bővítmény beállításaihoz, és engedélyezze a bővítményt minden olyan bolt számára, ahol használni kívánja az IndexNow szolgáltatásokat.</li>
-<li><strong>4. lépés: IndexNow szolgáltatások engedélyezése az üzlethez</strong> - A bővítmény beállításaiban engedélyezze az IndexNow szolgáltatásokat a kiválasztott bolt számára. Emellett lehetősége van arra, hogy az egyes IndexNow szolgáltatásokat engedélyezze vagy letiltsa minden bolt számára.</li>
-<li><strong>5. lépés: Keresőmotorok értesítése opciók beállítása</strong> - Engedélyezze ezeket az opciókat, hogy értesítse a keresőmotorokat, amikor a tartalom (például kategóriák, termékek, gyártók vagy cikkek) hozzáadásra, frissítésre vagy törlésre kerül. Ez biztosítja, hogy a keresőmotorok naprakészen kövessék a változásokat.</li>
-<li><strong>6. lépés: Szolgáltatáskulcs újragenerálása (opcionális)</strong> - Ha szükséges, újragenerálhatja a szolgáltatáskulcsot minden bolt számára külön-külön a bővítmény beállításaiban.</li>
-<li><strong>7. lépés: URL-ek benyújtása</strong> - Nyújtson be URL-eket az IndexNow szolgáltatások számára a várólistás URL-ek benyújtásával, XML térkép importálásával/feltöltésével, vagy manuálisan URL-t adva meg és benyújtva az IndexNow szolgáltatásoknak.</li>
-<li><strong>8. lépés: Naplók figyelése</strong> - Miután az URL-eket benyújtotta, ellenőrizheti a Napló fülön az elküldött URL-ek eredményeit. Ha szükséges, törölheti a naplót.</li></ul>';
+$_['text_setup']                          = '<ul><li><strong>1. lépés: A bővítmény telepítése</strong> - Töltse fel és telepítse a bővítményt az OpenCart adminisztrációs felületén. A telepítés után minden áruházhoz automatikusan létrejön egy szolgáltatáskulcs.</li><li><strong>2. lépés: Módosítások frissítése</strong> - Lépjen a <strong>Bővítmények &gt; Módosítások</strong> menüpontba, és kattintson a <strong>Frissítés</strong> gombra a módosítási gyorsítótár újraépítéséhez.</li><li><strong>3. lépés: Bővítmény engedélyezése áruházanként</strong> - Nyissa meg a bővítmény beállításait, és engedélyezze minden olyan áruházhoz, ahol használni szeretné az IndexNow szolgáltatást.</li><li><strong>4. lépés: IndexNow szolgáltatás kiválasztása</strong> - Válassza ki azt az IndexNow végpontot, amelyre küldeni szeretné az adatokat.</li><li><strong>5. lépés: Automatikus értesítés konfigurálása</strong> - Engedélyezze az automatikus értesítési beállításokat az URL-ek beküldéséhez kategóriák, termékek, gyártók vagy cikkek hozzáadásakor, frissítésekor vagy törlésekor.</li><li><strong>6. lépés: Szolgáltatáskulcs újragenerálása (opcionális)</strong> - Szükség esetén a bővítmény beállításaiban minden áruházhoz külön-külön újragenerálhatja a szolgáltatáskulcsot.</li><li><strong>7. lépés: URL-ek beküldése</strong> - Küldje be az URL-eket a sor feldolgozásával, az XML-oldaltérkép importálásával, oldaltérkép-fájl feltöltésével vagy az URL-ek manuális megadásával.</li><li><strong>8. lépés: Naplók ellenőrzése</strong> - A beküldés után ellenőrizze az eredményeket a <strong>Napló</strong> fülön. Szükség esetén a naplót törölheti is.</li></ul>';
 $_['text_troubleshot']                    = '<details><summary><strong>A benyújtott URL lista érvénytelen URL-eket vagy olyan URL-eket tartalmaz, amelyek hosztja nem egyezik az aktív bolt hosztjával</strong></summary> Győződjön meg róla, hogy az URL lista szöveges mezője érvényes URL-eket tartalmaz, és hogy az URL-ek hosztja (domain) megegyezik az aktív bolt domainjával.</details>
 <details><summary><strong>Nem sikerült letölteni a xyz térkép fájlt</strong></summary> Győződjön meg róla, hogy a térkép URL-je helyesen van megadva.</details>
 <details><summary><strong>Érvénytelen fájltípus. Kérjük, töltsön fel egy érvényes fájlt</strong></summary> Győződjön meg róla, hogy érvényes XML térkép fájlt tölt fel.</details>

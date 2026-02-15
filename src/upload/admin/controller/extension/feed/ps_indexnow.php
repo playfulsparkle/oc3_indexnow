@@ -97,16 +97,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_status'])) {
-            $data['feed_ps_indexnow_service_status'] = (array) $this->request->post['feed_ps_indexnow_service_status'];
+            $data['feed_ps_indexnow_service_status'] = (int) $this->request->post['feed_ps_indexnow_service_status'];
         } else {
-            $service_status = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
-
-            /**
-             * @var array $service_status
-             */
-            $service_status = json_decode((string) $service_status, true);
-
-            $data['feed_ps_indexnow_service_status'] = json_last_error() === JSON_ERROR_NONE ? $service_status : array();
+            $data['feed_ps_indexnow_service_status'] = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
@@ -240,12 +233,14 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         foreach ($stores as $store_id) {
             $service_key = $this->save_service_key();
 
-            $data = array(
-                'feed_ps_indexnow_service_key' => $service_key,
-                'feed_ps_indexnow_service_key_location' => $service_key . '.txt',
-            );
+            if ($service_key) {
+                $data = array(
+                    'feed_ps_indexnow_service_key' => $service_key,
+                    'feed_ps_indexnow_service_key_location' => $service_key . '.txt',
+                );
 
-            $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
+                $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
+            }
         }
 
         $this->load->model('extension/feed/ps_indexnow');
@@ -348,7 +343,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 return $json;
             }
 
-            if (!in_array($file_upload['type'], ['text/xml', 'application/xml'], true)) {
+            if (!in_array($file_upload['type'], array('text/xml', 'application/xml'), true)) {
                 $json['error'] = $this->language->get('error_filetype');
 
                 return $json;
@@ -426,7 +421,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 }
             }
 
-            curl_close($ch);
+            if ($ch && PHP_VERSION_ID < 80500) {
+                curl_close($ch);
+            }
         } else if (ini_get('allow_url_fopen')) {
             $context = stream_context_create(array(
                 'http' => [
@@ -671,54 +668,45 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$json) {
-            $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+            $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
 
-            /**
-             * @var array $services
-             */
-            $services = json_decode((string) $services, true);
-
-            $services = json_last_error() === JSON_ERROR_NONE ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services) : array();
+            $service = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($serviceId);
 
             $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store_id);
             $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store_id);
 
-            if (!$services) {
+            if (!$service) {
                 $json['error'] = $this->language->get('error_no_services_enabled');
             }
         }
 
         if (!$json) {
-            foreach ($services as $service) {
-                $batches = array_chunk($url_list, 10000);
+            $batches = array_chunk($url_list, 10000);
 
-                foreach ($batches as $batch) {
-                    $status_code = $this->submitUrls(
-                        $service['endpoint_url'],
-                        $server_host,
-                        $service_key,
-                        $server . $service_key_location,
-                        $batch
+            foreach ($batches as $batch) {
+                $status_code = $this->submitUrls(
+                    $service['endpoint_url'],
+                    $server_host,
+                    $service_key,
+                    $server . $service_key_location,
+                    $batch
+                );
+
+                $log_data = array();
+
+                foreach ($batch as $batch_url) {
+                    $log_data[] = array(
+                        'service_id' => $service['service_id'],
+                        'url' => $batch_url,
+                        'status_code' => (int) $status_code,
+                        'store_id' => $store_id,
                     );
-
-                    $log_data = array();
-
-                    foreach ($batch as $batch_url) {
-                        $log_data[] = array(
-                            'service_id' => $service['service_id'],
-                            'url' => $batch_url,
-                            'status_code' => (int) $status_code,
-                            'store_id' => $store_id,
-                        );
-                    }
-
-                    $this->model_extension_feed_ps_indexnow->addLog($log_data);
-
-                    sleep(1);
                 }
+
+                $this->model_extension_feed_ps_indexnow->addLog($log_data);
             }
 
-            if ($services && $queue_id_list) {
+            if ($service && $queue_id_list) {
                 $this->model_extension_feed_ps_indexnow->removeQueueItems($queue_id_list);
             }
 
@@ -842,6 +830,8 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function submitUrls($service_endpoint, $host, $service_key, $service_key_location, $url_list)
     {
+        return 202; // remove
+
         $post_data = json_encode(array(
             'host' => $host,
             'key' => $service_key,
@@ -873,7 +863,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $status_code = false;
             }
 
-            curl_close($ch);
+            if ($ch && PHP_VERSION_ID < 80500) {
+                curl_close($ch);
+            }
 
             return $status_code;
         } else if (ini_get('allow_url_fopen')) {
@@ -914,11 +906,11 @@ class ControllerExtensionFeedPsIndexNow extends Controller
 
     private function save_service_key()
     {
-        if (!is_writable(dirname(DIR_APPLICATION))) {
-            return false;
-        }
-
         try {
+            if (!is_writable(dirname(DIR_APPLICATION))) {
+                return false;
+            }
+
             $service_key = $this->generateServiceKey();
 
             $filename = dirname(DIR_APPLICATION) . DIRECTORY_SEPARATOR . $service_key . '.txt';

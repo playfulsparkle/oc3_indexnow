@@ -1,13 +1,12 @@
 <?php
 // Heading
 $_['heading_title']                       = 'Playful Sparkle - IndexNow';
-$_['heading_fix']                         = 'Napraw powszechne błędy';
 $_['heading_getting_started']             = 'Pierwsze kroki';
 $_['heading_setup']                       = 'Konfiguracja IndexNow';
 $_['heading_troubleshot']                 = 'Częste problemy';
 $_['heading_faq']                         = 'FAQ';
 $_['heading_contact']                     = 'Kontakt z obsługą';
-$_['heading_services']                    = 'Usługi IndexNow';
+$_['entry_indexnow_services']                    = 'Usługi IndexNow';
 
 // Text
 $_['text_extension']                      = 'Rozszerzenia';
@@ -20,13 +19,7 @@ $_['text_success_submit_queue']           = 'Sukces: Adresy URL w kolejce zosta�
 $_['text_success_submit_url_list']        = 'Sukces: Lista adresów URL została pomyślnie przesłana!';
 $_['text_edit']                           = 'Edytuj IndexNow';
 $_['text_getting_started']                = '<p><strong>Przegląd:</strong> Rozszerzenie <strong>Playful Sparkle - IndexNow</strong> dla OpenCart 3.x+ umożliwia Twojemu sklepowi automatyczne powiadamianie wyszukiwarek, takich jak Bing i Yandex, gdy zawartość Twojego sklepu zostanie dodana, zaktualizowana lub usunięta. Zapewnia to szybsze indeksowanie zmian, poprawiając widoczność Twojego sklepu i wyniki wyszukiwania. Oferuje funkcje takie jak ręczne przesyłanie adresów URL, przesyłanie adresów URL w kolejce, konfigurowalne ustawienia i obsługę Cron.</p><p><strong>Wymagania:</strong> OpenCart 3.x+, PHP 7.3 lub nowszy.</p>';
-$_['text_setup']                          = '<ul><li><strong>Krok 1: Zainstaluj rozszerzenie</strong> - Pobierz i zainstaluj rozszerzenie za pomocą panelu administracyjnego OpenCart. Po zainstalowaniu klucz usługi zostanie automatycznie wygenerowany dla każdego sklepu.</li>
-<li><strong>Krok 2: Włącz rozszerzenie dla swojego sklepu</strong> - Przejdź do ustawień rozszerzenia i włącz je dla każdego sklepu, w którym chcesz korzystać z usług IndexNow.</li>
-<li><strong>Krok 3: Włącz usługi IndexNow dla swojego sklepu</strong> - W ustawieniach rozszerzenia włącz usługi IndexNow dla wybranego sklepu. Możesz także włączyć lub wyłączyć określone usługi IndexNow dla każdego sklepu.</li>
-<li><strong>Krok 4: Ustaw opcje powiadamiania wyszukiwarek</strong> - Włącz te opcje, aby powiadamiać wyszukiwarki, gdy zawartość, taka jak kategorie, produkty, producenci lub artykuły, zostanie dodana, zaktualizowana lub usunięta. Zapewnia to, że wyszukiwarki pozostaną na bieżąco.</li>
-<li><strong>Krok 5: Ponownie wygeneruj klucz usługi (opcjonalnie)</strong> - W razie potrzeby możesz ponownie wygenerować klucz usługi dla każdego sklepu osobno za pomocą ustawień rozszerzenia.</li>
-<li><strong>Krok 6: Prześlij adresy URL</strong> - Prześlij adresy URL do usług IndexNow, przesyłając adresy URL z kolejki, importując/przesyłając mapę witryny XML lub ręcznie wprowadzając adres URL i przesyłając go do usług IndexNow.</li>
-<li><strong>Krok 7: Monitoruj dzienniki</strong> - Po przesłaniu adresów URL możesz sprawdzić zakładkę Dziennik, aby zobaczyć wyniki przesyłania. W razie potrzeby możesz również wyczyścić dziennik.</li></ul>';
+$_['text_setup']                          = '<ul><li><strong>Krok 1: Instalacja rozszerzenia</strong> - Prześlij i zainstaluj rozszerzenie w panelu administracyjnym OpenCart. Po instalacji klucz usługi zostanie wygenerowany automatycznie dla każdego sklepu.</li><li><strong>Krok 2: Odświeżenie modyfikacji</strong> - Przejdź do <strong>Rozszerzenia &gt; Modyfikacje</strong> i kliknij <strong>Odśwież</strong>, aby przebudować pamięć podręczną modyfikacji.</li><li><strong>Krok 3: Włączenie rozszerzenia dla każdego sklepu</strong> - Otwórz ustawienia rozszerzenia i włącz je dla każdego sklepu, w którym chcesz korzystać z IndexNow.</li><li><strong>Krok 4: Wybór usługi IndexNow</strong> - Wybierz punkt końcowy IndexNow, do którego chcesz przesyłać zgłoszenia.</li><li><strong>Krok 5: Konfiguracja automatycznego powiadamiania</strong> - Włącz opcje automatycznego powiadamiania, aby przesyłać adresy URL w przypadku dodania, aktualizacji lub usunięcia kategorii, produktów, producentów lub artykułów.</li><li><strong>Krok 6: Ponowne generowanie klucza usługi (opcjonalnie)</strong> - W razie potrzeby możesz wygenerować klucz usługi ponownie, osobno dla każdego sklepu w ustawieniach rozszerzenia.</li><li><strong>Krok 7: Przesyłanie adresów URL</strong> - Przesyłaj adresy URL, przetwarzając kolejkę, importując mapę witryny XML, przesyłając plik mapy witryny lub ręcznie wprowadzając adresy URL.</li><li><strong>Krok 8: Monitorowanie dzienników</strong> - Po przesłaniu sprawdź wyniki w zakładce <strong>Dziennik</strong>. W razie potrzeby możesz również wyczyścić dziennik.</li></ul>';
 $_['text_troubleshot']                    = '<details><summary><strong>Przesłana lista adresów URL zawiera nieprawidłowe adresy URL lub adresy URL z hostem, który nie pasuje do aktywnego sklepu</strong></summary> Upewnij się, że pole tekstowe listy adresów URL zawiera prawidłowe adresy URL i że host (domena) adresów URL pasuje do domeny aktywnego sklepu.</details>
 <details><summary><strong>Nie można pobrać pliku mapy witryny xyz</strong></summary> Upewnij się, że adres URL mapy witryny został wprowadzony poprawnie.</details>
 <details><summary><strong>Nieprawidłowy typ pliku. Proszę przesłać prawidłowy plik</strong></summary> Upewnij się, że przesyłasz prawidłowy plik mapy witryny XML.</details>
@@ -81,7 +74,6 @@ $_['entry_load_sitemap']                  = 'Załaduj mapę witryny';
 $_['entry_cron_url']                      = 'Adres URL Cron';
 
 // Button
-$_['button_fix_event_handler']            = 'Napraw obsługę zdarzeń';
 $_['button_change_key']                   = 'Zmień klucz';
 $_['button_check_key']                    = 'Sprawdź klucz';
 $_['button_submit_url']                   = 'Prześlij URL';

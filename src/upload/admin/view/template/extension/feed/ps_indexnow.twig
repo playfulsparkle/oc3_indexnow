@@ -64,27 +64,26 @@
 								</div>
 							</div>
 
-							<fieldset style="padding: 1em; margin-bottom: 1em;">
-								<legend>{{ heading_services }}</legend>
-
-								{% for indexnow_service in indexnow_services %}
-								<div class="form-group">
-									<label for="input-service-status-{{ indexnow_service.service_id }}" class="col-sm-2 control-label">{{ indexnow_service.service_name }}</label>
-									<div class="col-sm-10">
-										<select name="feed_ps_indexnow_service_status[{{ indexnow_service.service_id }}]" id="input-service-status-{{ indexnow_service.service_id }}" data-controls="tab-link-service-{{ indexnow_service.service_id }}" class="form-control">
-											{% if feed_ps_indexnow_service_status[indexnow_service.service_id] %}
-											<option value="1" selected="selected">{{ text_enabled }}</option>
-											<option value="0">{{ text_disabled }}</option>
-											{% else %}
-											<option value="1">{{ text_enabled }}</option>
-											<option value="0" selected="selected">{{ text_disabled }}</option>
-											{% endif %}
-										</select>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">{{ entry_indexnow_services }}</label>
+								<div class="col-sm-10">
+									<div class="well well-sm" style="height: 150px; overflow: auto;">
+										{% for indexnow_service in indexnow_services %}
+										<div class="radio">
+											<label>
+												{% if indexnow_service.service_id == feed_ps_indexnow_service_status %}
+												<input type="radio" name="feed_ps_indexnow_service_status" value="{{ indexnow_service.service_id }}" checked="checked" />
+												{{ indexnow_service.service_name }}
+												{% else %}
+												<input type="radio" name="feed_ps_indexnow_service_status" value="{{ indexnow_service.service_id }}" />
+												{{ indexnow_service.service_name }}
+												{% endif %}
+											</label>
+										</div>
+										{% endfor %}
 									</div>
 								</div>
-								{% endfor %}
-
-							</fieldset>
+							</div>
 
 							<div class="form-group">
 								<label class="col-sm-2 control-label">{{ entry_notify_search_engines }}</label>

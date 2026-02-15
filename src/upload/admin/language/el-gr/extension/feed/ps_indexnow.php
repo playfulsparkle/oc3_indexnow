@@ -1,118 +1,111 @@
 <?php
 // Heading
-$_['heading_title']                       = 'Playful Sparkle - IndexNow';
-$_['heading_getting_started']             = 'Getting Started';
-$_['heading_setup']                       = 'Setting Up IndexNow';
-$_['heading_troubleshot']                 = 'Common Troubleshooting';
-$_['heading_faq']                         = 'FAQ';
-$_['heading_contact']                     = 'Contact Support';
-$_['heading_services']                    = 'IndexNow Services';
+$_['heading_title']                           = 'Playful Sparkle - IndexNow';
+$_['heading_getting_started']                 = 'Πρώτα Βήματα';
+$_['heading_setup']                           = 'Ρύθμιση του IndexNow';
+$_['heading_troubleshot']                     = 'Αντιμετώπιση Κοινών Προβλημάτων';
+$_['heading_faq']                             = 'Συχνές Ερωτήσεις';
+$_['heading_contact']                         = 'Επικοινωνία με την Υποστήριξη';
+$_['entry_indexnow_services']                 = 'Υπηρεσίες IndexNow';
 
 // Text
-$_['text_extension']                      = 'Extensions';
-$_['text_success']                        = 'Success: You have modified IndexNow feed!';
-$_['text_success_generate_service_key']   = 'Success: Successfully generated a new service key!';
-$_['text_success_remove_queue']           = 'Success: Queued URL has been successfully removed!';
-$_['text_success_clear_log']              = 'Success: Log has been successfully cleared!';
-$_['text_success_clear_queue']            = 'Success: Queue has been successfully cleared!';
-$_['text_success_submit_queue']           = 'Success: Queued URLs have been successfully submitted!';
-$_['text_success_submit_url_list']        = 'Success: URL list has been successfully submitted!';
-$_['text_edit']                           = 'Edit IndexNow';
-$_['text_getting_started']                = '<p><strong>Overview:</strong> The <strong>Playful Sparkle - IndexNow</strong> extension for OpenCart 3.x+ enables your store to automatically notify search engines like Bing and Yandex when your store’s content is added, updated, or deleted. This ensures faster indexing of changes, improving your store’s visibility and search performance. It offers features like manual URL submission, queued URL submission, customizable settings, and Cron support.</p><p><strong>Requirements:</strong> OpenCart 3.x+, PHP 7.3 or higher.</p>';
-$_['text_setup']                          = '<ul><li><strong>Step 1: Install the Extension</strong> - Download and install the extension through the OpenCart admin panel. Once installed, the service key will be automatically generated for each store.</li>
-<li><strong>Step 2: Clear Modification Cache</strong> - After installation, go to <strong>Extensions > Modifications</strong> and click the <strong>Refresh</strong> button to clear the modification cache. This ensures that the extension is fully integrated into your system.</li>
-<li><strong>Step 3: Enable the Extension for Your Store</strong> - Go to the extension settings and enable the extension for each store where you want to use the IndexNow services.</li>
-<li><strong>Step 4: Enable IndexNow Services for Your Store</strong> - In the extension settings, enable IndexNow services for the selected store. You can also choose to enable or disable specific IndexNow services for each store.</li>
-<li><strong>Step 5: Set Notify Search Engines Options</strong> - Enable these options to notify search engines when content such as categories, products, manufacturers, or articles is added, updated, or deleted. This ensures that search engines remain up to date.</li>
-<li><strong>Step 6: Re-generate the Service Key (Optional)</strong> - If needed, you can re-generate your service key for each store separately through the extension settings.</li>
-<li><strong>Step 7: Submit URLs</strong> - Submit URLs to the IndexNow services by either submitting the queued URLs, importing/uploading your XML sitemap, or manually entering a URL and submitting it to the IndexNow services.</li>
-<li><strong>Step 8: Monitor Logs</strong> - Once URLs are submitted, you can check the Log tab to see the results of the submissions. You can also clear the log if needed.</li></ul>';
-$_['text_troubleshot']                    = '<details><summary><strong>The submitted URL list contains invalid URLs or URLs with a host that does not match the active store</strong></summary> Ensure that the URL list text field contains valid URLs and that the host (domain) of the URLs matches the active store’s domain.</details>
-<details><summary><strong>Could not download sitemap file xyz</strong></summary> Ensure that the sitemap URL is entered correctly.</details>
-<details><summary><strong>Invalid file type. Please upload a valid file</strong></summary> Ensure you are uploading a valid XML sitemap file.</details>
-<details><summary><strong>Queue list is not populated</strong></summary> Ensure that the options to notify search engines are enabled. These options allow the system to queue URLs for categories, products, manufacturers, or articles whenever they are added, updated, or deleted.</details>
-<details><summary><strong>No services are enabled. Please enable at least one service</strong></summary> You must enable at least one IndexNow service before clicking the "Submit Queued URLs" button.</details>';
-$_['text_faq']                            = '<details><summary><strong>How can I enable or disable the extension for each store?</strong></summary><p>You can enable or disable the extension for each store separately through the extension settings.</p></details>
-<details><summary><strong>Can I enable or disable IndexNow services for each store?</strong></summary><p>Yes, you can enable or disable IndexNow services for each store individually in the extension settings.</p></details>
-<details><summary><strong>How do I generate a service key for each store?</strong></summary><p>The service key is automatically generated upon installation and is unique to each store. You do not need to generate it manually.</p></details>
-<details><summary><strong>Can I re-generate the service key for each store?</strong></summary><p>Yes, you can re-generate the service key for each store separately through the extension settings. This allows you to refresh or change the key as needed.</p></details>
-<details><summary><strong>Can I use a custom Cron URL for sending URLs to IndexNow services?</strong></summary><p>Yes, you can choose to use either the extension-provided Cron URL or the OpenCart Cron page URL to send the queued URLs. Both options work without any issues.</p></details>
-<details><summary><strong>What are the size and URL limits for the sitemap?</strong></summary><p>The sitemap file can be up to 50MB in size and contain up to 50,000 URLs. Ensure that your sitemap does not exceed these limits.</p></details>
-<details><summary><strong>How can I submit URLs to IndexNow services?</strong></summary><p>You can submit URLs to IndexNow services by importing a sitemap, uploading an XML sitemap file, or typing the sitemap URL manually. Additionally, you can submit individual URLs from the queue or send all queued URLs at once for the selected store.</p></details>
-<details><summary><strong>How do I clear the URL submission log?</strong></summary><p>You can clear the log in the Log tab. The log is cleared without errors whenever you choose to clear it.</p></details>';
-$_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
-$_['text_log_no_results']                 = 'No log entries available at this time.';
-$_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
-$_['text_categories']                     = 'Categories on your site are added, updated, or deleted';
-$_['text_products']                       = 'Products on your site are added, updated, or deleted';
-$_['text_manufacturers']                  = 'Manufacturers on your site are added, updated, or deleted';
-$_['text_information']                    = 'Information Pages on your site are added, updated, or deleted';
-$_['text_articles']                       = 'Articles on your site are added, updated, or deleted';
-$_['text_url_list_warning']               = 'The URLs you paste will be validated. Each URL must be properly formatted with "http" or "https", and its host must match the store host: "%s". A maximum of 10,000 URLs can be submitted.';
-$_['text_http_status_code']               = 'Analyzing HTTP response status codes from IndexNow services helps you understand if your requests were processed successfully or encountered issues. These codes provide insights into URL indexing results and potential errors. Visit the following IndexNow services to learn more about their HTTP status codes:<br><br><ul><li><a href="https://www.bing.com/indexnow/getstarted"target="_blank" rel="noopener noreferrer">Microsoft Bing Webmaster Tools</a></li><li><a href="https://searchadvisor.naver.com/guide/indexnow-request"target="_blank" rel="noopener noreferrer">Naver Search Advisor</a></li><li><a href="https://napoveda.seznam.cz/cz/fulltext-hledani-v-internetu/protokol-indexnow/odeslani-vice-stranek-jednim-pozadavkem/"target="_blank" rel="noopener noreferrer">Seznam.cz</a></li><li><a href="https://yandex.com/support/webmaster/indexnow/reference/post-url.html"target="_blank" rel="noopener noreferrer">Yandex Webmaster Tools</a></li></ul>';
+$_['text_extension']                          = 'Επεκτάσεις';
+$_['text_success']                            = 'Επιτυχία: Έχετε τροποποιήσει την τροφοδοσία IndexNow!';
+$_['text_success_generate_service_key']       = 'Επιτυχία: Το νέο κλειδί υπηρεσίας δημιουργήθηκε με επιτυχία!';
+$_['text_success_remove_queue']               = 'Επιτυχία: Το URL αφαιρέθηκε με επιτυχία από την ουρά αναμονής!';
+$_['text_success_clear_log']                  = 'Επιτυχία: Το αρχείο καταγραφής εκκαθαρίστηκε με επιτυχία!';
+$_['text_success_clear_queue']                = 'Επιτυχία: Η ουρά αναμονής εκκαθαρίστηκε με επιτυχία!';
+$_['text_success_submit_queue']               = 'Επιτυχία: Τα URLs στην ουρά αναμονής υποβλήθηκαν με επιτυχία!';
+$_['text_success_submit_url_list']            = 'Επιτυχία: Η λίστα URL υποβλήθηκε με επιτυχία!';
+$_['text_edit']                               = 'Επεξεργασία IndexNow';
+$_['text_getting_started']                    = '<p><strong>Επισκόπηση:</strong> Η επέκταση <strong>Playful Sparkle - IndexNow</strong> για το OpenCart 3.x+ επιτρέπει στο κατάστημά σας να ενημερώνει αυτόματα τις μηχανές αναζήτησης, όπως η Bing και η Yandex, όταν το περιεχόμενο του καταστήματός σας προστίθεται, ενημερώνεται ή διαγράφεται. Αυτό εξασφαλίζει ταχύτερη ευρετηρίαση των αλλαγών, βελτιώνοντας την προβολή και την απόδοση του καταστήματός σας στις αναζητήσεις. Προσφέρει λειτουργίες όπως χειροκίνητη υποβολή URL, υποβολή URL σε ουρά αναμονής, προσαρμόσιμες ρυθμίσεις και υποστήριξη Cron.</p><p><strong>Απαιτήσεις:</strong> OpenCart 3.x+, PHP 7.3 ή νεότερη.</p>';
+$_['text_setup']                              = '<ul><li><strong>Βήμα 1: Εγκατάσταση της επέκτασης</strong> - Μεταφορτώστε και εγκαταστήστε την επέκταση στον πίνακα διαχείρισης του OpenCart. Μετά την εγκατάσταση, δημιουργείται αυτόματα ένα κλειδί υπηρεσίας για κάθε κατάστημα.</li><li><strong>Βήμα 2: Ανανέωση τροποποιήσεων</strong> - Μεταβείτε στις <strong>Επεκτάσεις &gt; Τροποποιήσεις</strong> και κάντε κλικ στο <strong>Ανανέωση</strong> για την ανακατασκευή της προσωρινής μνήμης (cache) των τροποποιήσεων.</li><li><strong>Βήμα 3: Ενεργοποίηση της επέκτασης ανά κατάστημα</strong> - Ανοίξτε τις ρυθμίσεις της επέκτασης και ενεργοποιήστε την για κάθε κατάστημα όπου επιθυμείτε να χρησιμοποιήσετε το IndexNow.</li><li><strong>Βήμα 4: Επιλογή υπηρεσίας IndexNow</strong> - Επιλέξτε το τελικό σημείο (endpoint) IndexNow στο οποίο θέλετε να κάνετε υποβολή.</li><li><strong>Βήμα 5: Ρύθμιση αυτόματης ειδοποίησης</strong> - Ενεργοποιήστε τις επιλογές αυτόματης ειδοποίησης για την υποβολή URL όταν προστίθενται, ενημερώνονται ή διαγράφονται κατηγορίες, προϊόντα, κατασκευαστές ή άρθρα.</li><li><strong>Βήμα 6: Επαναδημιουργία κλειδιού υπηρεσίας (προαιρετικό)</strong> - Εάν απαιτείται, μπορείτε να δημιουργήσετε ξανά το κλειδί υπηρεσίας ξεχωριστά για κάθε κατάστημα μέσω των ρυθμίσεων της επέκτασης.</li><li><strong>Βήμα 7: Υποβολή URLs</strong> - Υποβάλετε URLs επεξεργαζόμενοι την ουρά αναμονής, εισάγοντας το XML sitemap σας, μεταφορτώνοντας ένα αρχείο sitemap ή εισάγοντας χειροκίνητα τα URLs.</li><li><strong>Βήμα 8: Παρακολούθηση αρχείων καταγραφής</strong> - Μετά την υποβολή, ελέγξτε την καρτέλα <strong>Αρχείο Καταγραφής</strong> για τα αποτελέσματα. Μπορείτε επίσης να εκκαθαρίσετε το αρχείο εάν χρειαστεί.</li></ul>';
+$_['text_troubleshot']                        = '<details><summary><strong>Η λίστα URL που υποβλήθηκε περιέχει μη έγκυρα URLs ή URLs με κεντρικό υπολογιστή (host) που δεν ταιριάζει με το ενεργό κατάστημα</strong></summary> Βεβαιωθείτε ότι το πεδίο κειμένου της λίστας URL περιέχει έγκυρα URLs και ότι ο κεντρικός υπολογιστής (domain) των URLs αντιστοιχεί στο domain του ενεργού καταστήματος.</details>
+<details><summary><strong>Αδυναμία λήψης του αρχείου sitemap xyz</strong></summary> Βεβαιωθείτε ότι η διεύθυνση URL του sitemap έχει εισαχθεί σωστά.</details>
+<details><summary><strong>Μη έγκυρος τύπος αρχείου. Παρακαλούμε μεταφορτώστε ένα έγκυρο αρχείο</strong></summary> Βεβαιωθείτε ότι μεταφορτώνετε ένα έγκυρο αρχείο XML sitemap.</details>
+<details><summary><strong>Η λίστα ουράς αναμονής δεν είναι συμπληρωμένη</strong></summary> Βεβαιωθείτε ότι οι επιλογές ειδοποίησης των μηχανών αναζήτησης είναι ενεργοποιημένες. Αυτές οι επιλογές επιτρέπουν στο σύστημα να θέτει σε ουρά αναμονής τα URLs για κατηγορίες, προϊόντα, κατασκευαστές ή άρθρα κάθε φορά που αυτά προστίθενται, ενημερώνονται ή διαγράφονται.</details>
+<details><summary><strong>Δεν έχουν ενεργοποιηθεί υπηρεσίες. Παρακαλούμε ενεργοποιήστε τουλάχιστον μία υπηρεσία</strong></summary> Πρέπει να ενεργοποιήσετε τουλάχιστον μία υπηρεσία IndexNow πριν κάνετε κλικ στο κουμπί "Υποβολή URLs στην Ουρά".</details>';
+$_['text_faq']                                = '<details><summary><strong>Πώς μπορώ να ενεργοποιήσω ή να απενεργοποιήσω την επέκταση για κάθε κατάστημα;</strong></summary><p>Μπορείτε να ενεργοποιήσετε ή να απενεργοποιήσετε την επέκταση για κάθε κατάστημα ξεχωριστά μέσω των ρυθμίσεων της επέκτασης.</p></details>
+<details><summary><strong>Μπορώ να ενεργοποιήσω ή να απενεργοποιήσω τις υπηρεσίες IndexNow για κάθε κατάστημα;</strong></summary><p>Ναι, μπορείτε να ενεργοποιήσετε ή να απενεργοποιήσετε τις υπηρεσίες IndexNow για κάθε κατάστημα μεμονωμένα στις ρυθμίσεις της επέκτασης.</p></details>
+<details><summary><strong>Πώς δημιουργώ ένα κλειδί υπηρεσίας για κάθε κατάστημα;</strong></summary><p>Το κλειδί υπηρεσίας δημιουργείται αυτόματα κατά την εγκατάσταση και είναι μοναδικό για κάθε κατάστημα. Δεν χρειάζεται να το δημιουργήσετε χειροκίνητα.</p></details>
+<details><summary><strong>Μπορώ να δημιουργήσω ξανά το κλειδί υπηρεσίας για κάθε κατάστημα;</strong></summary><p>Ναι, μπορείτε να επαναδημιουργήσετε το κλειδί υπηρεσίας για κάθε κατάστημα ξεχωριστά μέσω των ρυθμίσεων της επέκτασης. Αυτό σας επιτρέπει να ανανεώσετε ή να αλλάξετε το κλειδί ανάλογα με τις ανάγκες σας.</p></details>
+<details><summary><strong>Μπορώ να χρησιμοποιήσω μια προσαρμοσμένη διεύθυνση Cron για την αποστολή URLs στις υπηρεσίες IndexNow;</strong></summary><p>Ναι, μπορείτε να επιλέξετε να χρησιμοποιήσετε είτε τη διεύθυνση URL Cron που παρέχεται από την επέκταση είτε τη διεύθυνση URL της σελίδας Cron του OpenCart. Και οι δύο επιλογές λειτουργούν χωρίς προβλήματα.</p></details>
+<details><summary><strong>Ποια είναι τα όρια μεγέθους και αριθμού URL για το sitemap;</strong></summary><p>Το αρχείο sitemap μπορεί να έχει μέγεθος έως 50MB και να περιέχει έως 50.000 URLs. Βεβαιωθείτε ότι το sitemap σας δεν υπερβαίνει αυτά τα όρια.</p></details>
+<details><summary><strong>Πώς μπορώ να υποβάλω URLs στις υπηρεσίες IndexNow;</strong></summary><p>Μπορείτε να υποβάλετε URLs εισάγοντας ένα sitemap, μεταφορτώνοντας ένα αρχείο XML sitemap ή πληκτρολογώντας τη διεύθυνση URL του sitemap χειροκίνητα. Επιπλέον, μπορείτε να υποβάλετε μεμονωμένα URLs από την ουρά ή να στείλετε όλα τα URLs της ουράς ταυτόχρονα για το επιλεγμένο κατάστημα.</p></details>
+<details><summary><strong>Πώς μπορώ να εκκαθαρίσω το αρχείο καταγραφής υποβολής URL;</strong></summary><p>Μπορείτε να εκκαθαρίσετε το αρχείο καταγραφής στην καρτέλα "Αρχείο Καταγραφής". Το αρχείο εκκαθαρίζεται χωρίς σφάλματα όποτε το επιλέξετε.</p></details>';
+$_['text_contact']                            = '<p>Για περαιτέρω βοήθεια, επικοινωνήστε με την ομάδα υποστήριξής μας:</p><ul><li><strong>Επικοινωνία:</strong> <a href="mailto:%s">%s</a></li><li><strong>Τεκμηρίωση:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Τεκμηρίωση Χρήστη</a></li></ul>';
+$_['text_log_no_results']                  = 'Δεν υπάρχουν διαθέσιμες εγγραφές στο αρχείο καταγραφής αυτή τη στιγμή.';
+$_['text_queue_no_results']                = 'Δεν υπάρχουν URLs στην ουρά αναμονής αυτή τη στιγμή.';
+$_['text_categories']                         = 'Οι κατηγορίες στον ιστότοπό σας προστίθενται, ενημερώνονται ή διαγράφονται';
+$_['text_products']                           = 'Τα προϊόντα στον ιστότοπό σας προστίθενται, ενημερώνονται ή διαγράφονται';
+$_['text_manufacturers']                      = 'Οι κατασκευαστές στον ιστότοπό σας προστίθενται, ενημερώνονται ή διαγράφονται';
+$_['text_information']                        = 'Οι σελίδες πληροφοριών στον ιστότοπό σας προστίθενται, ενημερώνονται ή διαγράφονται';
+$_['text_articles']                           = 'Τα άρθρα στον ιστότοπό σας προστίθενται, ενημερώνονται ή διαγράφονται';
+$_['text_url_list_warning']                   = 'Τα URLs που επικολλάτε θα επικυρωθούν. Κάθε URL πρέπει να είναι σωστά μορφοποιημένο με "http" ή "https" και ο κεντρικός υπολογιστής του πρέπει να ταιριάζει με αυτόν του καταστήματος: "%s". Μπορούν να υποβληθούν έως 10.000 URLs.';
+$_['text_http_status_code']                   = 'Η ανάλυση των κωδικών κατάστασης απόκρισης HTTP από τις υπηρεσίες IndexNow σάς βοηθά να κατανοήσετε εάν τα αιτήματά σας υποβλήθηκαν σε επεξεργασία με επιτυχία ή αν αντιμετώπισαν προβλήματα. Αυτοί οι κωδικοί παρέχουν πληροφορίες σχετικά με τα αποτελέσματα ευρετηρίασης των URL και πιθανά σφάλματα. Επισκεφθείτε τις ακόλουθες υπηρεσίες IndexNow για να μάθετε περισσότερα σχετικά με τους κωδικούς κατάστασης HTTP:<br><br><ul><li><a href="https://www.bing.com/indexnow/getstarted"target="_blank" rel="noopener noreferrer">Microsoft Bing Webmaster Tools</a></li><li><a href="https://searchadvisor.naver.com/guide/indexnow-request"target="_blank" rel="noopener noreferrer">Naver Search Advisor</a></li><li><a href="https://napoveda.seznam.cz/cz/fulltext-hledani-v-internetu/protokol-indexnow/odeslani-vice-stranek-jednim-pozadavkem/"target="_blank" rel="noopener noreferrer">Seznam.cz</a></li><li><a href="https://yandex.com/support/webmaster/indexnow/reference/post-url.html"target="_blank" rel="noopener noreferrer">Yandex Webmaster Tools</a></li></ul>';
 
 // Column
-$_['column_log_id']                       = 'Log ID';
-$_['column_log_url']                      = 'URL';
-$_['column_log_service_name']             = 'Service Name';
-$_['column_log_status_code']              = 'Status Code';
-$_['column_log_date_added']               = 'Date Added';
-$_['column_queue_id']                     = 'Queue ID';
-$_['column_queue_url']                    = 'URL';
-$_['column_queue_date_added']             = 'Date Added';
-$_['column_queue_action']                 = 'Action';
+$_['column_log_id']                           = 'ID Καταγραφής';
+$_['column_log_url']                          = 'URL';
+$_['column_log_service_name']                 = 'Όνομα Υπηρεσίας';
+$_['column_log_status_code']                  = 'Κωδικός Κατάστασης';
+$_['column_log_date_added']                   = 'Ημερομηνία Προσθήκης';
+$_['column_queue_id']                         = 'ID Ουράς';
+$_['column_queue_url']                        = 'URL';
+$_['column_queue_date_added']                 = 'Ημερομηνία Προσθήκης';
+$_['column_queue_action']                     = 'Ενέργεια';
 
 // Tab
-$_['tab_general']                         = 'General';
-$_['tab_manual_submit']                   = 'Manual Submit';
-$_['tab_queue']                           = 'Queue';
-$_['tab_log']                             = 'Log';
-$_['tab_help_and_support']                = 'Help &amp; Support';
+$_['tab_general']                             = 'Γενικά';
+$_['tab_manual_submit']                       = 'Χειροκίνητη Υποβολή';
+$_['tab_queue']                               = 'Ουρά Αναμονής';
+$_['tab_log']                                 = 'Αρχείο Καταγραφής';
+$_['tab_help_and_support']                    = 'Βοήθεια & Υποστήριξη';
 
 // Entry
-$_['entry_status']                        = 'Status';
-$_['entry_service_key']                   = 'Service Key';
-$_['entry_service_key_location']          = 'Service Key URL';
-$_['entry_active_store']                  = 'Active Store';
-$_['entry_notify_search_engines']         = 'Notify Search Engines';
-$_['entry_url_list']                      = 'URL List';
-$_['entry_load_sitemap']                  = 'Load Sitemap';
-$_['entry_cron_url']                      = 'Cron URL';
+$_['entry_status']                            = 'Κατάσταση';
+$_['entry_service_key']                       = 'Κλειδί Υπηρεσίας';
+$_['entry_service_key_location']              = 'URL Κλειδιού Υπηρεσίας';
+$_['entry_active_store']                      = 'Ενεργό Κατάστημα';
+$_['entry_notify_search_engines']             = 'Ειδοποίηση Μηχανών Αναζήτησης';
+$_['entry_url_list']                          = 'Λίστα URL';
+$_['entry_load_sitemap']                      = 'Φόρτωση Sitemap';
+$_['entry_cron_url']                          = 'URL Cron';
 
 // Button
-$_['button_change_key']                   = 'Change Key';
-$_['button_check_key']                    = 'Check Key';
-$_['button_submit_url']                   = 'Submit URL';
-$_['button_submit_queue']                 = 'Submit Queued URLs';
-$_['button_clear_queue']                  = 'Clear Queued URLs';
-$_['button_clear_log']                    = 'Clear Log';
-$_['button_submit_url_list']              = 'Submit URL List';
-$_['button_clear_url_list']               = 'Clear URL List';
-$_['button_upload_sitemap']               = 'Upload Sitemap URLs';
-$_['button_import_sitemap']               = 'Import Sitemap URLs';
-$_['button_copy']                         = 'Copy URL';
+$_['button_change_key']                       = 'Αλλαγή Κλειδιού';
+$_['button_check_key']                        = 'Έλεγχος Κλειδιού';
+$_['button_submit_url']                       = 'Υποβολή URL';
+$_['button_submit_queue']                     = 'Υποβολή URLs στην Ουρά';
+$_['button_clear_queue']                      = 'Εκκαθάριση URLs στην Ουρά';
+$_['button_clear_log']                        = 'Εκκαθάριση Αρχείου Καταγραφής';
+$_['button_submit_url_list']                  = 'Υποβολή Λίστας URL';
+$_['button_clear_url_list']                   = 'Εκκαθάριση Λίστας URL';
+$_['button_upload_sitemap']                   = 'Μεταφόρτωση URLs από Sitemap';
+$_['button_import_sitemap']                   = 'Εισαγωγή URLs από Sitemap';
+$_['button_copy']                             = 'Αντιγραφή URL';
 
 // Help
-$_['help_service_key']                    = 'The IndexNow API key verifies site ownership and is generated automatically. Change the key if it becomes compromised.';
-$_['help_service_key_location']           = 'Click the Check Key button to ensure the key is accessible to search engines. This should open the live URL where the key is located.';
-$_['help_url_list']                       = 'Enter a list of URLs, one per line (up to 10,000). Ensure each URL is properly formatted with "http" or "https". Click "Submit URL List" to send the URLs to the selected IndexNow services.';
-$_['help_load_sitemap']                   = 'You can either provide a sitemap URL or upload a sitemap.xml file (up to 50MB or 50,000 URLs). The URLs from the sitemap will be added to the list and sent to the selected IndexNow service. You will be notified once the process is complete.';
-$_['help_cron_url']                       = 'Add this URL to your hosting server’s cron table. It will automatically send <strong>all queued URLs</strong> from <strong>all configured stores</strong> to the <strong>selected IndexNow service endpoints</strong> at scheduled intervals.';
+$_['help_service_key']                        = 'Το κλειδί API IndexNow επαληθεύει την ιδιοκτησία του ιστότοπου και δημιουργείται αυτόματα. Αλλάξτε το κλειδί εάν θεωρείτε ότι έχει παραβιαστεί.';
+$_['help_service_key_location']               = 'Κάντε κλικ στο κουμπί "Έλεγχος Κλειδιού" για να βεβαιωθείτε ότι το κλειδί είναι προσβάσιμο από τις μηχανές αναζήτησης. Αυτό θα πρέπει να ανοίξει τη ζωντανή διεύθυνση URL όπου βρίσκεται το κλειδί.';
+$_['help_url_list']                           = 'Εισαγάγετε μια λίστα με URLs, ένα ανά γραμμή (έως 10.000). Βεβαιωθείτε ότι κάθε URL είναι σωστά μορφοποιημένο με "http" ή "https". Κάντε κλικ στο "Υποβολή Λίστας URL" για να στείλετε τα URLs στις επιλεγμένες υπηρεσίες IndexNow.';
+$_['help_load_sitemap']                       = 'Μπορείτε είτε να παρέχετε μια διεύθυνση URL sitemap είτε να μεταφορτώσετε ένα αρχείο sitemap.xml (έως 50MB ή 50.000 URLs). Τα URLs από το sitemap θα προστεθούν στη λίστα και θα σταλούν στην επιλεγμένη υπηρεσία IndexNow. Θα ειδοποιηθείτε μόλις ολοκληρωθεί η διαδικασία.';
+$_['help_cron_url']                           = 'Προσθέστε αυτή τη διεύθυνση URL στον πίνακα cron του διακομιστή φιλοξενίας σας. Θα στέλνει αυτόματα <strong>όλα τα URLs στην ουρά</strong> από <strong>όλα τα ρυθμισμένα καταστήματα</strong> στα <strong>επιλεγμένα τελικά σημεία της υπηρεσίας IndexNow</strong> σε προγραμματισμένα διαστήματα.';
 
 // Error
-$_['error_permission']                    = 'Warning: You do not have permission to modify the IndexNow extension!';
-$_['error_generate_service_key']          = 'Warning: Unable to generate a new service key!';
-$_['error_remove_queue']                  = 'Warning: Unable to remove the queued URLs!';
-$_['error_not_configured']                = 'Warning: The IndexNow extension is not configured!';
-$_['error_filetype']                      = 'Warning: Invalid file type. Please upload a valid file.';
-$_['error_upload']                        = 'Warning: The file could not be uploaded.';
-$_['error_download']                      = 'Warning: Could not download sitemap file "%s"';
-$_['error_invalid_url']                   = 'Warning: The URL is invalid. Please provide a valid URL.';
-$_['error_invalid_url_host']              = 'Warning: The URL host is invalid. The URL host must be the same as the current URL host.';
-$_['error_no_services_enabled']           = 'Warning: No services are enabled. Please enable at least one service.';
-$_['error_submit_url_list_empty']         = 'Warning: The submitted URL list is empty.';
-$_['error_submit_url_list_invalid']       = 'Warning: The submitted URL list contains invalid URLs or URLs with a host that does not match the active store.';
-$_['error_empty_queue']                   = 'Warning: The queue is empty.';
-$_['error_file_upload_limit']             = 'Warning: The file size exceeds the 50MB limit. Please upload a smaller file.';
-$_['error_service_key']                   = 'The service key is invalid. Please provide a valid service key.';
-$_['error_service_key_location']          = 'The service key location is invalid. Please provide a valid service key location.';
+$_['error_permission']                        = 'Προειδοποίηση: Δεν έχετε άδεια να τροποποιήσετε την επέκταση IndexNow!';
+$_['error_generate_service_key']              = 'Προειδοποίηση: Αδυναμία δημιουργίας νέου κλειδιού υπηρεσίας!';
+$_['error_remove_queue']                      = 'Προειδοποίηση: Αδυναμία αφαίρεσης των URLs από την ουρά!';
+$_['error_not_configured']                    = 'Προειδοποίηση: Η επέκταση IndexNow δεν έχει ρυθμιστεί!';
+$_['error_filetype']                          = 'Προειδοποίηση: Μη έγκυρος τύπος αρχείου. Παρακαλούμε μεταφορτώστε ένα έγκυρο αρχείο.';
+$_['error_upload']                            = 'Προειδοποίηση: Το αρχείο δεν μπόρεσε να μεταφορτωθεί.';
+$_['error_download']                          = 'Προειδοποίηση: Αδυναμία λήψης του αρχείου sitemap "%s"';
+$_['error_invalid_url']                       = 'Προειδοποίηση: Η διεύθυνση URL είναι μη έγκυρη. Παρακαλούμε δώστε μια έγκυρη διεύθυνση URL.';
+$_['error_invalid_url_host']                  = 'Προειδοποίηση: Ο κεντρικός υπολογιστής (host) της διεύθυνσης URL είναι μη έγκυρος. Πρέπει να είναι ίδιος με τον κεντρικό υπολογιστή της τρέχουσας διεύθυνσης URL.';
+$_['error_no_services_enabled']               = 'Προειδοποίηση: Δεν έχουν ενεργοποιηθεί υπηρεσίες. Παρακαλούμε ενεργοποιήστε τουλάχιστον μία υπηρεσία.';
+$_['error_submit_url_list_empty']             = 'Προειδοποίηση: Η λίστα URL που υποβλήθηκε είναι κενή.';
+$_['error_submit_url_list_invalid']           = 'Προειδοποίηση: Η λίστα URL που υποβλήθηκε περιέχει μη έγκυρα URLs ή URLs με κεντρικό υπολογιστή που δεν ταιριάζει με το ενεργό κατάστημα.';
+$_['error_empty_queue']                       = 'Προειδοποίηση: Η ουρά αναμονής είναι κενή.';
+$_['error_file_upload_limit']                 = 'Προειδοποίηση: Το μέγεθος του αρχείου υπερβαίνει το όριο των 50MB. Παρακαλούμε μεταφορτώστε ένα μικρότερο αρχείο.';
+$_['error_service_key']                       = 'Το κλειδί υπηρεσίας είναι μη έγκυρο. Παρακαλούμε δώστε ένα έγκυρο κλειδί υπηρεσίας.';
+$_['error_service_key_location']              = 'Η τοποθεσία του κλειδιού υπηρεσίας είναι μη έγκυρη. Παρακαλούμε δώστε μια έγκυρη τοποθεσία κλειδιού υπηρεσίας.';

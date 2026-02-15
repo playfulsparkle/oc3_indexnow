@@ -29,20 +29,15 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
 
-        $services = $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
+        $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
 
-        /**
-         * @var array $services
-         */
-        $services = json_decode((string) $services, true);
-
-        $services = json_last_error() === JSON_ERROR_NONE ? $this->model_extension_feed_ps_indexnow->getServiceEndpoints($services) : array();
+        $service = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($serviceId);
 
         $service_key = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key', $store['store_id']);
         $service_key_location = (string) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_key_location', $store['store_id']);
 
         if (empty($services)) {
-            $this->log->write('Playful Sparkle - IndexNow: No IndexNow services are enabled for store ID "' . $store['store_id'] . '"');
+            $this->log->write('Playful Sparkle - IndexNow: No IndexNow service is configured for store ID "' . $store['store_id'] . '"');
 
             return;
         }
@@ -62,33 +57,29 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $url_list = $result ? array_column($result, 'url') : array();
 
 
-        foreach ($services as $service) {
-            $batches = array_chunk($url_list, 10000);
+        $batches = array_chunk($url_list, 10000);
 
-            foreach ($batches as $batch) {
-                $status_code = $this->submitUrls(
-                    $service['endpoint_url'],
-                    $server_host,
-                    $service_key,
-                    $server . $service_key_location,
-                    $batch
+        foreach ($batches as $batch) {
+            $status_code = $this->submitUrls(
+                $service['endpoint_url'],
+                $server_host,
+                $service_key,
+                $server . $service_key_location,
+                $batch
+            );
+
+            $log_data = array();
+
+            foreach ($batch as $batch_url) {
+                $log_data[] = array(
+                    'service_id' => $service['service_id'],
+                    'url' => $batch_url,
+                    'status_code' => (int) $status_code,
+                    'store_id' => $store['store_id'],
                 );
-
-                $log_data = array();
-
-                foreach ($batch as $batch_url) {
-                    $log_data[] = array(
-                        'service_id' => $service['service_id'],
-                        'url' => $batch_url,
-                        'status_code' => (int) $status_code,
-                        'store_id' => $store['store_id'],
-                    );
-                }
-
-                $this->model_extension_feed_ps_indexnow->addLog($log_data);
-
-                sleep(1);
             }
+
+            $this->model_extension_feed_ps_indexnow->addLog($log_data);
         }
 
         if ($result && $services) {
@@ -131,7 +122,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $status_code = false;
             }
 
-            curl_close($ch);
+            if ($ch && PHP_VERSION_ID < 80500) {
+                curl_close($ch);
+            }
 
             return $status_code;
         } else if (ini_get('allow_url_fopen')) {
