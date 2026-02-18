@@ -29,7 +29,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
 
-        $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store['store_id']);
+        $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service', $store['store_id']);
 
         $service = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($serviceId);
 

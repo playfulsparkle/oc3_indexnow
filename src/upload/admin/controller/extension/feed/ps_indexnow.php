@@ -96,10 +96,10 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['feed_ps_indexnow_status'] = (bool) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_status', $store_id);
         }
 
-        if (isset($this->request->post['feed_ps_indexnow_service_status'])) {
-            $data['feed_ps_indexnow_service_status'] = (int) $this->request->post['feed_ps_indexnow_service_status'];
+        if (isset($this->request->post['feed_ps_indexnow_service'])) {
+            $data['feed_ps_indexnow_service'] = (int) $this->request->post['feed_ps_indexnow_service'];
         } else {
-            $data['feed_ps_indexnow_service_status'] = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+            $data['feed_ps_indexnow_service'] = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service', $store_id);
         }
 
         if (isset($this->request->post['feed_ps_indexnow_service_key'])) {
@@ -228,20 +228,26 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->load->model('setting/store');
         $this->load->model('setting/setting');
 
+        $data = array(
+            'feed_ps_indexnow_content_category' => [],
+            'feed_ps_indexnow_service_key_location' => '',
+            'feed_ps_indexnow_service_key' => '',
+            'feed_ps_indexnow_service' => 1, // IndexNow (global)
+            'feed_ps_indexnow_status' => 0,
+        );
+
         $stores = array_merge(array(0), array_column($this->model_setting_store->getStores(), 'store_id'));
 
         foreach ($stores as $store_id) {
             $service_key = $this->save_service_key();
 
             if ($service_key) {
-                $data = array(
-                    'feed_ps_indexnow_service_key' => $service_key,
-                    'feed_ps_indexnow_service_key_location' => $service_key . '.txt',
-                );
-
-                $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
+                $data['feed_ps_indexnow_service_key'] = $service_key;
+                $data['feed_ps_indexnow_service_key_location'] = $service_key . '.txt';
             }
         }
+
+        $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
 
         $this->load->model('extension/feed/ps_indexnow');
 
@@ -668,7 +674,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         }
 
         if (!$json) {
-            $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service_status', $store_id);
+            $serviceId = (int) $this->model_setting_setting->getSettingValue('feed_ps_indexnow_service', $store_id);
 
             $service = $this->model_extension_feed_ps_indexnow->getServiceEndpoints($serviceId);
 
