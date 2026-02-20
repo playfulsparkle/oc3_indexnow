@@ -1,10 +1,6 @@
 <?php
 // Heading
 $_['heading_title']                       = 'Playful Sparkle - IndexNow';
-$_['heading_getting_started']             = 'Začínáme';
-$_['heading_setup']                       = 'Nastavení IndexNow';
-$_['heading_troubleshot']                 = 'Řešení běžných problémů';
-$_['heading_faq']                         = 'Často kladené dotazy';
 $_['heading_contact']                     = 'Kontaktujte podporu';
 $_['entry_indexnow_services']                    = 'Služby IndexNow';
 
@@ -18,21 +14,6 @@ $_['text_success_clear_queue']            = 'Úspěch: Fronta byla úspěšně v
 $_['text_success_submit_queue']           = 'Úspěch: URL ve frontě byly úspěšně odeslány!';
 $_['text_success_submit_url_list']        = 'Úspěch: Seznam URL byl úspěšně odeslán!';
 $_['text_edit']                           = 'Upravit IndexNow';
-$_['text_getting_started']                = '<p><strong>Přehled:</strong> Rozšíření <strong>Playful Sparkle - IndexNow</strong> pro OpenCart 4.x+ umožňuje vašemu obchodu automaticky informovat vyhledávače, jako jsou Bing a Yandex, o změnách obsahu obchodu, včetně přidání, aktualizace nebo odstranění obsahu. To zajišťuje rychlejší indexování změn, což zlepšuje viditelnost a výkon vyhledávání vašeho obchodu. Rozšíření zahrnuje funkce manuálního odeslání URL, fronty URL, přizpůsobitelná nastavení a podporu Cron.</p><p><strong>Požadavky:</strong> OpenCart 3.x+, PHP 7.3 nebo vyšší.</p>';
-$_['text_setup']                          = '<ul><li><strong>Krok 1: Instalace rozšíření</strong> - Nahrajte a nainstalujte rozšíření v administračním panelu OpenCart. Po instalaci se automaticky vygeneruje servisní klíč pro každý obchod.</li><li><strong>Krok 2: Aktualizace modifikací</strong> - Přejděte do <strong>Rozšíření &gt; Modifikace</strong> a klikněte na tlačítko <strong>Aktualizovat</strong> pro obnovení mezipaměti modifikací.</li><li><strong>Krok 3: Povolení rozšíření pro jednotlivé obchody</strong> - Otevřete nastavení rozšíření a povolte jej pro každý obchod, kde chcete IndexNow používat.</li><li><strong>Krok 4: Výběr služby IndexNow</strong> - Vyberte koncový bod IndexNow, do kterého chcete data odesílat.</li><li><strong>Krok 5: Konfigurace automatického upozornění</strong> - Povolte možnosti automatického upozornění pro odesílání URL adres při přidání, aktualizaci nebo odstranění kategorií, produktů, výrobců nebo článků.</li><li><strong>Krok 6: Opětovné vygenerování servisního klíče (volitelné)</strong> - V případě potřeby můžete v nastavení rozšíření znovu vygenerovat servisní klíč samostatně pro každý obchod.</li><li><strong>Krok 7: Odeslání URL adres</strong> - URL adresy odešlete zpracováním fronty, importem sitemapy XML, nahráním souboru sitemapy nebo ručním zadáním URL adres.</li><li><strong>Krok 8: Sledování protokolů</strong> - Po odeslání zkontrolujte výsledky v záložce <strong>Log</strong>. V případě potřeby můžete protokol také vymazat.</li></ul>';
-$_['text_troubleshot']                    = '<details><summary><strong>Seznam odeslaných URL obsahuje neplatné URL nebo URL s hostem, který neodpovídá aktivnímu obchodu</strong></summary> Ujistěte se, že textové pole seznamu URL obsahuje platné URL a že hostitel (doména) URL odpovídá doméně aktivního obchodu.</details>
-<details><summary><strong>Nelze stáhnout soubor sitemap xyz</strong></summary> Ověřte, že je URL sitemapy zadána správně.</details>
-<details><summary><strong>Neplatný typ souboru. Nahrajte platný soubor</strong></summary> Ověřte, že nahráváte platný XML soubor sitemapy.</details>
-<details><summary><strong>Fronta není naplněna</strong></summary> Ujistěte se, že jsou povoleny možnosti upozorňování vyhledávačů. Tyto možnosti umožňují systému přidávat URL do fronty při přidávání, aktualizaci nebo odstranění kategorií, produktů, výrobců nebo článků.</details>
-<details><summary><strong>Žádné služby nejsou aktivní. Aktivujte alespoň jednu službu</strong></summary> Než kliknete na tlačítko "Odeslat URL ve frontě", musíte aktivovat alespoň jednu službu IndexNow.</details>';
-$_['text_faq']                            = '<details><summary><strong>Jak mohu aktivovat nebo deaktivovat rozšíření pro každý obchod?</strong></summary><p>Rozšíření můžete aktivovat nebo deaktivovat pro každý obchod samostatně prostřednictvím nastavení rozšíření.</p></details>
-<details><summary><strong>Mohu aktivovat nebo deaktivovat služby IndexNow pro každý obchod?</strong></summary><p>Ano, služby IndexNow můžete aktivovat nebo deaktivovat pro každý obchod samostatně v nastavení rozšíření.</p></details>
-<details><summary><strong>Jak mohu vygenerovat klíč služby pro každý obchod?</strong></summary><p>Klíč služby je automaticky generován při instalaci a je unikátní pro každý obchod. Není potřeba jej generovat ručně.</p></details>
-<details><summary><strong>Mohu regenerovat klíč služby pro každý obchod?</strong></summary><p>Ano, můžete regenerovat klíč služby pro každý obchod samostatně prostřednictvím nastavení rozšíření.</p></details>
-<details><summary><strong>Mohu použít vlastní Cron URL pro odesílání URL na služby IndexNow?</strong></summary><p>Ano, můžete použít buď Cron URL poskytovanou rozšířením, nebo URL Cron stránky OpenCart. Obě možnosti fungují bez problémů.</p></details>
-<details><summary><strong>Jaké jsou velikostní limity a limity URL pro sitemap?</strong></summary><p>Soubor sitemap může mít až 50 MB a obsahovat až 50 000 URL. Ujistěte se, že vaše sitemap tyto limity nepřesahuje.</p></details>
-<details><summary><strong>Jak mohu odeslat URL na služby IndexNow?</strong></summary><p>URL na služby IndexNow můžete odesílat importem sitemap, nahráním XML souboru sitemap nebo manuálním zadáním URL sitemapy. Také můžete odesílat jednotlivé URL z fronty nebo odeslat všechny URL ve frontě najednou.</p></details>
-<details><summary><strong>Jak mohu vymazat záznamy odeslaných URL?</strong></summary><p>Záznamy můžete vymazat v záložce Záznamy. Při vymazání se záznamy odstraní bez chyb.</p></details>';
 $_['text_contact']                        = '<p>Pro další pomoc se prosím obraťte na náš tým podpory:</p><ul><li><strong>Kontakt:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentace:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Dokumentace pro uživatele</a></li></ul>';
 $_['text_log_no_results']                 = 'V tuto chvíli nejsou k dispozici žádné záznamy v logu.';
 $_['text_queue_no_results']               = 'V tuto chvíli nejsou ve frontě žádné URL adresy.';

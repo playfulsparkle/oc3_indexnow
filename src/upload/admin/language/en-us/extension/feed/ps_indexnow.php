@@ -1,10 +1,6 @@
 <?php
 // Heading
 $_['heading_title']                       = 'Playful Sparkle - IndexNow';
-$_['heading_getting_started']             = 'Getting Started';
-$_['heading_setup']                       = 'Setting Up IndexNow';
-$_['heading_troubleshot']                 = 'Common Troubleshooting';
-$_['heading_faq']                         = 'FAQ';
 $_['heading_contact']                     = 'Contact Support';
 $_['entry_indexnow_services']                    = 'IndexNow Services';
 
@@ -18,21 +14,6 @@ $_['text_success_clear_queue']            = 'Success: Queue has been successfull
 $_['text_success_submit_queue']           = 'Success: Queued URLs have been successfully submitted!';
 $_['text_success_submit_url_list']        = 'Success: URL list has been successfully submitted!';
 $_['text_edit']                           = 'Edit IndexNow';
-$_['text_getting_started']                = '<p><strong>Overview:</strong> The <strong>Playful Sparkle - IndexNow</strong> extension for OpenCart 3.x+ enables your store to automatically notify search engines like Bing and Yandex when your store’s content is added, updated, or deleted. This ensures faster indexing of changes, improving your store’s visibility and search performance. It offers features like manual URL submission, queued URL submission, customizable settings, and Cron support.</p><p><strong>Requirements:</strong> OpenCart 3.x+, PHP 7.3 or higher.</p>';
-$_['text_setup']                          = '<ul><li><strong>Step 1: Install the extension</strong> - Upload and install the extension in your OpenCart admin panel. After installation, a service key is generated automatically for each store.</li><li><strong>Step 2: Refresh modifications</strong> - Go to <strong>Extensions &gt; Modifications</strong> and click <strong>Refresh</strong> to rebuild the modification cache.</li><li><strong>Step 3: Enable the extension per store</strong> - Open the extension settings and enable it for each store where you want to use IndexNow.</li><li><strong>Step 4: Select an IndexNow service</strong> - Select the IndexNow endpoint you want to submit to.</li><li><strong>Step 5: Configure auto-notify</strong> - Enable auto-notify options to submit URLs when categories, products, manufacturers, or articles are added, updated, or deleted.</li><li><strong>Step 6: Re-generate the service key (optional)</strong> - If needed, you can re-generate the service key separately for each store in the extension settings.</li><li><strong>Step 7: Submit URLs</strong> - Submit URLs by processing the queue, importing your XML sitemap, uploading a sitemap file, or manually entering URLs.</li><li><strong>Step 8: Monitor logs</strong> - After submission, check the <strong>Log</strong> tab for results. You can also clear the log if needed.</li></ul>';
-$_['text_troubleshot']                    = '<details><summary><strong>The submitted URL list contains invalid URLs or URLs with a host that does not match the active store</strong></summary> Ensure that the URL list text field contains valid URLs and that the host (domain) of the URLs matches the active store’s domain.</details>
-<details><summary><strong>Could not download sitemap file xyz</strong></summary> Ensure that the sitemap URL is entered correctly.</details>
-<details><summary><strong>Invalid file type. Please upload a valid file</strong></summary> Ensure you are uploading a valid XML sitemap file.</details>
-<details><summary><strong>Queue list is not populated</strong></summary> Ensure that the options to notify search engines are enabled. These options allow the system to queue URLs for categories, products, manufacturers, or articles whenever they are added, updated, or deleted.</details>
-<details><summary><strong>No services are enabled. Please enable at least one service</strong></summary> You must enable at least one IndexNow service before clicking the "Submit Queued URLs" button.</details>';
-$_['text_faq']                            = '<details><summary><strong>How can I enable or disable the extension for each store?</strong></summary><p>You can enable or disable the extension for each store separately through the extension settings.</p></details>
-<details><summary><strong>Can I enable or disable IndexNow services for each store?</strong></summary><p>Yes, you can enable or disable IndexNow services for each store individually in the extension settings.</p></details>
-<details><summary><strong>How do I generate a service key for each store?</strong></summary><p>The service key is automatically generated upon installation and is unique to each store. You do not need to generate it manually.</p></details>
-<details><summary><strong>Can I re-generate the service key for each store?</strong></summary><p>Yes, you can re-generate the service key for each store separately through the extension settings. This allows you to refresh or change the key as needed.</p></details>
-<details><summary><strong>Can I use a custom Cron URL for sending URLs to IndexNow services?</strong></summary><p>Yes, you can choose to use either the extension-provided Cron URL or the OpenCart Cron page URL to send the queued URLs. Both options work without any issues.</p></details>
-<details><summary><strong>What are the size and URL limits for the sitemap?</strong></summary><p>The sitemap file can be up to 50MB in size and contain up to 50,000 URLs. Ensure that your sitemap does not exceed these limits.</p></details>
-<details><summary><strong>How can I submit URLs to IndexNow services?</strong></summary><p>You can submit URLs to IndexNow services by importing a sitemap, uploading an XML sitemap file, or typing the sitemap URL manually. Additionally, you can submit individual URLs from the queue or send all queued URLs at once for the selected store.</p></details>
-<details><summary><strong>How do I clear the URL submission log?</strong></summary><p>You can clear the log in the Log tab. The log is cleared without errors whenever you choose to clear it.</p></details>';
 $_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
 $_['text_log_no_results']                 = 'No log entries available at this time.';
 $_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
