@@ -15,7 +15,7 @@ $_['text_success_clear_queue']            = 'Éxito: ¡La cola se ha borrado cor
 $_['text_success_submit_queue']           = 'Éxito: ¡Las URLs en cola se han enviado correctamente!';
 $_['text_success_submit_url_list']        = 'Éxito: ¡La lista de URLs se ha enviado correctamente!';
 $_['text_edit']                           = 'Editar IndexNow';
-$_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
+$_['text_contact']                        = '<p>Para obtener más ayuda, por favor contacta a nuestro equipo de soporte:</p><ul><li><strong>Contacto:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentación:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Documentación para el Usuario</a></li></ul>';
 $_['text_log_no_results']                 = 'No hay entradas en el registro disponibles en este momento.';
 $_['text_queue_no_results']               = 'No hay URLs en la cola actualmente.';
 $_['text_categories']                     = 'Las categorías de su sitio han sido añadidas, actualizadas o eliminadas';

@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Sukces: Kolejka została pomyślnie
 $_['text_success_submit_queue']           = 'Sukces: Adresy URL w kolejce zostały pomyślnie przesłane!';
 $_['text_success_submit_url_list']        = 'Sukces: Lista adresów URL została pomyślnie przesłana!';
 $_['text_edit']                           = 'Edytuj IndexNow';
-$_['text_contact']                        = '<p>Aby uzyskać dalszą pomoc, skontaktuj się z naszym zespołem wsparcia:</p><ul><li><strong>Kontakt:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentacja:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Dokumentacja użytkownika</a></li></ul>';
+$_['text_contact']                        = '<p>W celu uzyskania dodatkowej pomocy prosimy o kontakt z zespołem wsparcia:</p><ul><li><strong>Kontakt:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentacja:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Dokumentacja użytkownika</a></li></ul>';
 $_['text_log_no_results']                 = 'Brak wpisów w dzienniku.';
 $_['text_queue_no_results']               = 'Aktualnie w kolejce nie ma żadnych adresów URL.';
 $_['text_categories']                     = 'Kategorie na Twojej stronie są dodawane, aktualizowane lub usuwane';
