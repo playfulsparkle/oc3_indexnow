@@ -33,19 +33,25 @@ class ControllerExtensionFeedPsIndexNow extends Controller
         $this->load->model('localisation/language');
         $this->load->model('extension/feed/ps_indexnow');
 
+        if (isset($this->request->get['store_id'])) {
+            $store_id = (int) $this->request->get['store_id'];
+        } else {
+            $store_id = 0;
+        }
+
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-            $this->model_setting_setting->editSetting('feed_ps_indexnow', $this->request->post, $this->request->get['store_id']);
+            $this->model_setting_setting->editSetting('feed_ps_indexnow', $this->request->post, $store_id);
 
             $this->session->data['success'] = $this->language->get('text_success');
 
             $this->response->redirect($this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=feed', true));
         }
 
-        if (isset($this->error['warning'])) {
-            $data['error_warning'] = $this->error['warning'];
-        } else {
-            $data['error_warning'] = '';
-        }
+		if (isset($this->error['warning'])) {
+			$data['error_warning'] = $this->error['warning'];
+		} else {
+			$data['error_warning'] = '';
+		}
 
         if (isset($this->error['service_key'])) {
             $data['error_service_key'] = $this->error['service_key'];
@@ -59,11 +65,6 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             $data['error_service_key_location'] = '';
         }
 
-        if (isset($this->request->get['store_id'])) {
-            $store_id = (int) $this->request->get['store_id'];
-        } else {
-            $store_id = 0;
-        }
 
         $data['breadcrumbs'] = array();
 
