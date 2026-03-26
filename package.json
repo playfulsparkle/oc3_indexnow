@@ -1,6 +1,6 @@
 {
   "name": "oc3_indexnow",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Playful Sparkle - IndexNow for OpenCart 3",
   "main": "index.js",
   "scripts": {

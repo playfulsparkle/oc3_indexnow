@@ -61,9 +61,11 @@ class ps_indexnow
                 continue;
             }
 
+            $store_url_normalized = rtrim($store_url, '/') . '/';
+
             if ($this->config->get('config_seo_url')) {
                 foreach ($languages as $language) {
-                    $url = $this->rewrite($store_url . $item_link, $store_id, $language['language_id']);
+                    $url = $this->rewrite($store_url_normalized . $item_link, $store_id, $language['language_id']);
 
                     if (strpos($url, 'index.php?route') !== false) {
                         continue;
@@ -80,7 +82,7 @@ class ps_indexnow
                 }
             } else {
                 $data = array(
-                    'url' => $store_url . $item_link,
+                    'url' => $store_url_normalized . $item_link,
                     'content_hash' => $content_hash,
                     'store_id' => $store_id,
                     'language_id' => 0,

@@ -246,9 +246,9 @@ class ControllerExtensionFeedPsIndexNow extends Controller
                 $data['feed_ps_indexnow_service_key'] = $service_key;
                 $data['feed_ps_indexnow_service_key_location'] = $service_key . '.txt';
             }
-        }
 
-        $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
+            $this->model_setting_setting->editSetting('feed_ps_indexnow', $data, $store_id);
+        }
 
         $this->load->model('extension/feed/ps_indexnow');
 
