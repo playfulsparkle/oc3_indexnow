@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = '成功: キューをクリアしま
 $_['text_success_submit_queue']           = '成功: キュー内の URL を送信しました。';
 $_['text_success_submit_url_list']        = '成功: URL リストを送信しました。';
 $_['text_edit']                           = 'IndexNow の編集';
-$_['text_contact']                        = '<p>さらにサポートが必要な場合は、サポートチームにお問い合わせください：</p><ul><li><strong>連絡先:</strong> <a href="mailto:%s">%s</a></li><li><strong>ドキュメント:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">ユーザーマニュアル</a></li></ul>';
+$_['text_contact']                        = '<p>さらなるサポートが必要な場合は、弊社のサポートチームまでお問い合わせください。</p><ul><li><strong>サポートウェブサイト:</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub リポジトリ:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>サポートへの連絡:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = '現在、ログエントリーはありません。';
 $_['text_queue_no_results']               = '現在、キュー内に送信待ちの URL はありません。';
 $_['text_categories']                     = 'サイトのカテゴリーが追加、更新、または削除されたとき';

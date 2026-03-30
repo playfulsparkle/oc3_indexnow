@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Başarılı: Kuyruk başarıyla tem
 $_['text_success_submit_queue']           = 'Başarılı: Kuyruktaki URL\'ler başarıyla gönderildi!';
 $_['text_success_submit_url_list']        = 'Başarılı: URL listesi başarıyla gönderildi!';
 $_['text_edit']                           = 'IndexNow Düzenle';
-$_['text_contact']                        = '<p>Daha fazla yardım için lütfen destek ekibimize ulaşın:</p><ul><li><strong>İletişim:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokümantasyon:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Kullanıcı Dokümantasyonu</a></li></ul>';
+$_['text_contact']                        = '<p>Daha fazla yardım için lütfen destek ekibimizle iletişime geçin:</p><ul><li><strong>Destek Web Sitesi:</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub Deposu:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Destekle İletişime Geçin:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'Şu anda kayıtlı günlük bulunmamaktadır.';
 $_['text_queue_no_results']               = 'Şu anda kuyrukta bekleyen URL bulunmamaktadır.';
 $_['text_categories']                     = 'Sitenizdeki kategoriler eklendiğinde, güncellendiğinde veya silindiğinde';

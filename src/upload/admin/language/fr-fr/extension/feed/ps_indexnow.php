@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Succès : La file d\'attente a ét�
 $_['text_success_submit_queue']           = 'Succès : Les URL mises en file d\'attente ont été soumises avec succès !';
 $_['text_success_submit_url_list']        = 'Succès : La liste des URL a été soumise avec succès !';
 $_['text_edit']                           = 'Modifier IndexNow';
-$_['text_contact']                        = '<p>Pour toute assistance supplémentaire, veuillez contacter notre équipe de support :</p><ul><li><strong>Contact :</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation :</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Documentation utilisateur</a></li></ul>';
+$_['text_contact']                        = '<p>Pour toute assistance complémentaire, veuillez contacter notre équipe d’assistance :</p><ul><li><strong>Site Web d’assistance :</strong> <a href="%1$s">%1$s</a></li><li><strong>Dépôt GitHub :</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Contacter l’assistance :</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'Aucune entrée dans le journal disponible pour le moment.';
 $_['text_queue_no_results']               = 'Aucune URL en file d\'attente actuellement.';
 $_['text_categories']                     = 'Les catégories sur votre site sont ajoutées, mises à jour ou supprimées.';

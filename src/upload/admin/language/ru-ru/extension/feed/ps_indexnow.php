@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Успех: Очередь была
 $_['text_success_submit_queue']           = 'Успех: URL в очереди успешно отправлены!';
 $_['text_success_submit_url_list']        = 'Успех: Список URL успешно отправлен!';
 $_['text_edit']                           = 'Редактировать IndexNow';
-$_['text_contact']                        = '<p>Для получения дополнительной помощи, пожалуйста, свяжитесь с нашей службой поддержки:</p><ul><li><strong>Контакт:</strong> <a href="mailto:%s">%s</a></li><li><strong>Документация:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Руководство пользователя</a></li></ul>';
+$_['text_contact']                        = '<p>Для получения дополнительной помощи, пожалуйста, свяжитесь с нашей службой поддержки:</p><ul><li><strong>Сайт поддержки:</strong> <a href="%1$s">%1$s</a></li><li><strong>Репозиторий GitHub:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Связаться с поддержкой:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'На данный момент нет записей в журнале.';
 $_['text_queue_no_results']               = 'В очереди нет ожидающих URL-адресов.';
 $_['text_categories']                     = 'Категории на вашем сайте добавлены, обновлены или удалены.';

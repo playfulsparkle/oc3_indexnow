@@ -7,9 +7,14 @@ class ControllerExtensionFeedPsIndexNow extends Controller
     const EXTENSION_EMAIL = 'support@playfulsparkle.com';
 
     /**
-     * @var string The documentation URL for the extension.
+     * @var string The URL to the support website.
      */
-    const EXTENSION_DOC = 'https://github.com/playfulsparkle/oc4_indexnow.git';
+    const SUPPORT_URL = 'https://support.playfulsparkle.com';
+
+    /**
+     * @var string The GitHub repository URL of the extension.
+     */
+    const GITHUB_REPO_URL = 'https://github.com/playfulsparkle/oc3_indexnow';
 
     private $error = array();
 
@@ -169,7 +174,7 @@ class ControllerExtensionFeedPsIndexNow extends Controller
             'information' => $this->language->get('text_information'),
         );
 
-        $data['text_contact'] = sprintf($this->language->get('text_contact'), self::EXTENSION_EMAIL, self::EXTENSION_EMAIL, self::EXTENSION_DOC);
+        $data['text_contact'] = sprintf($this->language->get('text_contact'), self::SUPPORT_URL, self::GITHUB_REPO_URL, self::EXTENSION_EMAIL);
 
         $data['text_url_list_warning'] = sprintf($this->language->get('text_url_list_warning'), parse_url($server, PHP_URL_HOST));
 

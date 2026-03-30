@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = '成功：已成功清除队列！';
 $_['text_success_submit_queue']           = '成功：已成功提交队列中的 URL！';
 $_['text_success_submit_url_list']        = '成功：已成功提交 URL 列表！';
 $_['text_edit']                           = '编辑 IndexNow';
-$_['text_contact']                        = '<p>如需进一步帮助，请联系我们的支持团队：</p><ul><li><strong>联系方式：</strong> <a href="mailto:%s">%s</a></li><li><strong>文档：</strong> <a href="%s" target="_blank" rel="noopener noreferrer">用户文档</a></li></ul>';
+$_['text_contact']                        = '<p>如需进一步协助，请联系我们的支持团队：</p><ul><li><strong>支持网站：</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub 仓库：</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>联系支持：</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = '当前没有日志条目。';
 $_['text_queue_no_results']               = '当前队列中没有 URL。';
 $_['text_categories']                     = '您网站上的分类被添加、更新或删除';

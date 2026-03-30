@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Success: Queue has been successfull
 $_['text_success_submit_queue']           = 'Success: Queued URLs have been successfully submitted!';
 $_['text_success_submit_url_list']        = 'Success: URL list has been successfully submitted!';
 $_['text_edit']                           = 'Edit IndexNow';
-$_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Contact:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">User Documentation</a></li></ul>';
+$_['text_contact']                        = '<p>For further assistance, please reach out to our support team:</p><ul><li><strong>Support Website:</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub Repository:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Contact Support:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'No log entries available at this time.';
 $_['text_queue_no_results']               = 'No queued URLs are currently in the queue.';
 $_['text_categories']                     = 'Categories on your site are added, updated, or deleted';

@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'نجاح: تم مسح قائمة ا
 $_['text_success_submit_queue']           = 'نجاح: تم إرسال عناوين URL الموجودة في قائمة الانتظار بنجاح!';
 $_['text_success_submit_url_list']        = 'نجاح: تم إرسال قائمة عناوين URL بنجاح!';
 $_['text_edit']                           = 'تحرير IndexNow';
-$_['text_contact']                        = '<p>للحصول على مزيد من المساعدة، يرجى التواصل مع فريق الدعم لدينا:</p><ul><li><strong>الاتصال:</strong> <a href="mailto:%s">%s</a></li><li><strong>التوثيق:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">توثيق المستخدم</a></li></ul>';
+$_['text_contact']                        = '<p>للمزيد من المساعدة، يرجى التواصل مع فريق الدعم لدينا:</p><ul><li><strong>موقع الدعم:</strong> <a href="%1$s">%1$s</a></li><li><strong>مستودع GitHub:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>الاتصال بالدعم:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'لا توجد إدخالات سجل متاحة في هذا الوقت.';
 $_['text_queue_no_results']               = 'لا توجد عناوين URL في قائمة الانتظار حاليًا.';
 $_['text_categories']                     = 'تمت إضافة أو تحديث أو حذف الفئات الموجودة على موقعك';

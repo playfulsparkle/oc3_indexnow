@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Erfolg: Die Warteschlange wurde erf
 $_['text_success_submit_queue']           = 'Erfolg: Die wartenden URLs wurden erfolgreich übermittelt!';
 $_['text_success_submit_url_list']        = 'Erfolg: Die URL-Liste wurde erfolgreich übermittelt!';
 $_['text_edit']                           = 'IndexNow bearbeiten';
-$_['text_contact']                        = '<p>Für weitere Unterstützung wenden Sie sich bitte an unser Support-Team:</p><ul><li><strong>Kontakt:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentation:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Benutzerdokumentation</a></li></ul>';
+$_['text_contact']                        = '<p>Für weitere Unterstützung wenden Sie sich bitte an unser Support-Team:</p><ul><li><strong>Support-Webseite:</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub-Repository:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Support kontaktieren:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'Derzeit sind keine Logeinträge verfügbar.';
 $_['text_queue_no_results']               = 'Aktuell sind keine URLs in der Warteschlange.';
 $_['text_categories']                     = 'Kategorien auf Ihrer Seite wurden hinzugefügt, aktualisiert oder gelöscht.';

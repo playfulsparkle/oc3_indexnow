@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Siker: A várólista sikeresen tör
 $_['text_success_submit_queue']           = 'Siker: A várólistán szereplő URL-ek sikeresen benyújtva!';
 $_['text_success_submit_url_list']        = 'Siker: Az URL lista sikeresen benyújtva!';
 $_['text_edit']                           = 'IndexNow szerkesztése';
-$_['text_contact']                        = '<p>További segítségért kérjük, lépjen kapcsolatba támogatási csapatunkkal:</p><ul><li><strong>Kapcsolat:</strong> <a href="mailto:%s">%s</a></li><li><strong>Dokumentáció:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Felhasználói dokumentáció</a></li></ul>';
+$_['text_contact']                        = '<p>További segítségért forduljon bizalommal ügyfélszolgálatunkhoz:</p><ul><li><strong>Támogatási weboldal:</strong> <a href="%1$s">%1$s</a></li><li><strong>GitHub tárhely:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Kapcsolatfelvétel:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'Jelenleg nincsenek naplórészletek elérhetőek.';
 $_['text_queue_no_results']               = 'Jelenleg nincsenek URL-ek a várólistán.';
 $_['text_categories']                     = 'Webhelyén a kategóriák hozzáadása, frissítése vagy törlése.';

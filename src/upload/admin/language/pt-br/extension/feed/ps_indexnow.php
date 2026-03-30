@@ -14,7 +14,7 @@ $_['text_success_clear_queue']            = 'Sucesso: A fila foi limpa com suces
 $_['text_success_submit_queue']           = 'Sucesso: As URLs na fila foram enviadas com sucesso!';
 $_['text_success_submit_url_list']        = 'Sucesso: A lista de URLs foi enviada com sucesso!';
 $_['text_edit']                           = 'Editar IndexNow';
-$_['text_contact']                        = '<p>Para mais assistência, entre em contato com nossa equipe de suporte:</p><ul><li><strong>Contato:</strong> <a href="mailto:%s">%s</a></li><li><strong>Documentação:</strong> <a href="%s" target="_blank" rel="noopener noreferrer">Documentação do Usuário</a></li></ul>';
+$_['text_contact']                        = '<p>Para obter mais assistência, entre em contato com nossa equipe de suporte:</p><ul><li><strong>Site de suporte:</strong> <a href="%1$s">%1$s</a></li><li><strong>Repositório GitHub:</strong> <a href="%2$s" target="_blank" rel="noopener noreferrer">%2$s</a></li><li><strong>Contatar suporte:</strong> <a href="mailto:%3$s">%3$s</a></li></ul>';
 $_['text_log_no_results']                 = 'Nenhuma entrada de log disponível no momento.';
 $_['text_queue_no_results']               = 'Nenhuma URL na fila no momento.';
 $_['text_categories']                     = 'As categorias no seu site são adicionadas, atualizadas ou excluídas';
