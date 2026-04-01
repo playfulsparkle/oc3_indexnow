@@ -9,13 +9,19 @@
   "keywords": [
     "opencart",
     "opencart3",
+    "opencart-extension",
     "playfulsparkle",
+    "indexnow",
+    "indexnow-protocol",
     "yandex",
     "bing",
     "naver",
     "yep",
-    "indexnow",
-    "seznamcz"
+    "seznamcz",
+    "url-submission",
+    "sitemap",
+    "cron",
+    "search-engine-indexing"
   ],
   "author": "zsoltoroszlany82 <zsolt.oroszlany@playfulsparkle.com>",
   "license": "GPL",
